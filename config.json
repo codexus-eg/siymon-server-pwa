@@ -1,0 +1,31 @@
+{
+  "restaurantName": "siymon",
+  "supportPhone": "+212617139424",
+  "adminWhatsappNumber": "212617139424",
+  "adminPassword": "siymon1234",
+  "couriers": [
+    "212600000000"
+  ],
+  "wifiPrinter": {
+    "ip": "192.168.1.50",
+    "port": 9100
+  },
+  "currency": "MAD",
+  "wifiPrintEnabled": true,
+  "bankAccountName": "",
+  "bankAccount": "",
+  "driverWalletEnabled": true,
+  "driverCommissionPerOrder": 0,
+  "driverWalletChargeMode": "subtotal",
+  "offersBanners": [
+    "/uploads/banners/banner_MND9WG1Q-4BCFAD.jpg"
+  ],
+  "printLogoEnabled": true,
+  "restaurantMode": "open",
+  "companyPolicyRequireAccept": true,
+  "companyPolicy": {
+    "ar": "",
+    "en": "",
+    "fr": ""
+  }
+}

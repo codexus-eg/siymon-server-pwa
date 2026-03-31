@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>siymon | سياسة الشركة</title>
+
+  <!-- ✅ PWA -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#ff5722">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="siymon">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/policy/policy.css">
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topbar auth-topbar">
+        <div class="brand">
+          <img class="logo-img" src="/icons/icon-192.png" alt="siymon logo" />
+          <div>
+            <h1 id="brandTitle">siymon</h1>
+            <p id="brandSub">سياسة الشركة</p>
+          </div>
+        </div>
+
+        <div class="center-actions">
+          <span class="pill" id="policyPill">سياسة الشركة</span>
+        </div>
+
+        <div class="actions">
+          <button class="btn ghost" id="langToggle" type="button">EN</button>
+          <button class="btn ghost icon-btn" id="themeToggle" type="button" title="Theme" aria-label="Theme"></button>
+          <a class="btn" id="goBack" href="/">الرجوع</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <h3 id="policyTitle" style="margin:0 0 8px 0">سياسة الشركة</h3>
+      <div class="muted" id="policyMeta" style="margin-bottom:10px"></div>
+      <div id="policyText" class="policy-text"></div>
+      <div class="hint" id="policyHint" style="margin-top:10px"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span id="footerText">© siymon</span>
+    </div>
+  </footer>
+
+  <script src="/policy/policy.js"></script>
+</body>
+</html>

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+  <link rel="stylesheet" href="/pw-toggle.css">
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <img class="logo-img" src="/icons/icon-192.png" alt="logo" />
+          <div>
+            <h1 id="adminBrand">siymon Admin</h1>
+            <p id="adminSubtitle">إدارة الطلبات والطباعة</p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn ghost" id="adminLangToggle" type="button">EN</button>
+          <button class="btn ghost" id="soundToggle" type="button">Sound ON</button>
+<button class="btn ghost" id="restToggleBtn" type="button">Restaurant</button>
+          <button class="btn ghost icon-btn" id="themeToggle" type="button" title="Theme" aria-label="Theme"></button>
+          <button class="btn" id="logoutBtn" type="button">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-wrap">
+    <div class="admin-header">
+      <div class="kpi">
+        <span class="badge" id="kpiAll"><span class="dot"></span><span id="kpiAllText">All</span>: <b id="allCount">0</b></span>
+        <span class="badge" id="kpiNew"><span class="dot"></span><span id="kpiNewText">New</span>: <b id="newCount">0</b></span>
+      </div>
+      <div class="admin-actions">
+        <div class="admin-actions-main" aria-label="Navigation">
+          <button class="btn nav" id="driversBtn" type="button" title="Drivers"><span id="driversText">Drivers</span></button>
+          <button class="btn nav" id="customersBtn" type="button" title="Customers"><span id="customersText">Customers</span></button>
+          <button class="btn nav" id="supportBtn" type="button" title="Support"><span id="supportText">Support</span></button>
+          <button class="btn nav" id="notificationsBtn" type="button" title="Notifications"><span id="notificationsText">Notifications</span></button>
+          <button class="btn nav" id="topupsBtn" type="button" title="Topups"><span id="topupsText">Topups</span></button>
+          <a class="btn nav" id="restaurantPortalBtn" href="/restaurant/" target="_blank" rel="noopener" title="Restaurant Portal"><span id="restaurantPortalText">Restaurant Portal</span></a>
+          <button class="btn nav" id="menuManageBtn" type="button" title="Menu"><span id="menuManageText">Menu</span></button>
+          <button class="btn nav primary" id="settingsBtn" type="button" title="Settings"><span id="settingsText">Settings</span></button>
+        </div>
+        <div class="admin-actions-tools" aria-label="Tools">
+          <button class="btn ghost" id="refreshBtn" type="button" title="Refresh"><span id="refreshText">Refresh</span></button>
+          <button class="btn ghost" id="btConnectBtn" type="button" title="Bluetooth"><span id="btText">Connect BT</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-like filters">
+      <div class="filter-row">
+        <div class="input-row">
+          <label id="filterDayLabel" for="filterDate">Filter day</label>
+          <input type="date" id="filterDate" />
+        </div>
+
+        <div class="btn-row">
+          <button class="btn ghost small" id="todayBtn" type="button">Today</button>
+          <button class="btn ghost small" id="allBtn" type="button">All</button>
+        </div>
+
+        <div class="search-wrap">
+          <input type="text" id="searchInput" placeholder="Search by name / phone / address / ID" />
+        </div>
+      </div>
+      <div class="hint muted" id="filterHint"></div>
+    </div>
+
+    <div class="split" style="margin-top:14px">
+      <div class="table-wrap" aria-label="Orders list">
+        <table class="table" id="ordersTable">
+          <thead>
+            <tr>
+              <th id="thId">ID</th>
+              <th id="thTime">Time</th>
+              <th id="thCustomer">Customer</th>
+              <th id="thTotal">Total</th>
+              <th id="thStatus">Status</th>
+              <th id="thActions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
+
+      <div class="panel-like details-panel">
+        <h3 id="detailsTitle">Order details</h3>
+        <div id="detailsBox" class="muted">Select an order to view details.</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Auth modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-card">
+      <h3 id="authTitle">Admin access</h3>
+
+      <div class="tabs">
+        <button class="tab active" id="tabLogin" type="button">Login</button>
+        <button class="tab" id="tabSignup" type="button">Sign up</button>
+      </div>
+
+      <div id="loginForm" class="grid2">
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="loginIdLabel" for="loginId">Email أو Phone</label>
+          <input id="loginId" type="text" placeholder="admin@email.com أو 06..." />
+        </div>
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="loginPassLabel" for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" placeholder="••••••••" />
+        </div>
+        <button class="btn primary" id="loginBtn" type="button" style="grid-column:1/-1"><span id="loginText">Login</span></button>
+      </div>
+
+      <div id="signupForm" class="grid2" style="display:none">
+        <div class="input-row">
+          <label id="signupEmailLabel" for="signupEmail">Email</label>
+          <input id="signupEmail" type="email" placeholder="admin@email.com" />
+        </div>
+        <div class="input-row">
+          <label id="signupPhoneLabel" for="signupPhone">Phone</label>
+          <input id="signupPhone" type="tel" placeholder="06..." />
+        </div>
+        <div class="input-row">
+          <label id="signupPassLabel" for="signupPassword">Password</label>
+          <input id="signupPassword" type="password" placeholder="••••••••" />
+        </div>
+        <div class="input-row">
+          <label id="signupPass2Label" for="signupPassword2">Confirm Password</label>
+          <input id="signupPassword2" type="password" placeholder="••••••••" />
+        </div>
+        <button class="btn good" id="signupBtn" type="button"><span id="signupText">Create account</span></button>
+        <div class="hint muted" id="signupHint">If this is the first admin, signup is open. Otherwise it requires an admin login.</div>
+      </div>
+
+      <div class="hint" id="authHint"></div>
+    </div>
+  </div>
+
+  <!-- Settings modal -->
+  <div class="modal" id="settingsModal">
+    <div class="modal-card">
+      <h3 id="settingsTitle">Settings</h3>
+
+      <div class="grid2">
+        <div class="input-row">
+          <label id="wifiEnabledLabel" for="wifiEnabled">Wi‑Fi printing</label>
+          <select id="wifiEnabled">
+            <option value="on">Enabled</option>
+            <option value="off">Disabled</option>
+          </select>
+        </div>
+
+        <div class="input-row">
+          <label id="restaurantModeLabel" for="restaurantMode">Restaurant</label>
+          <select id="restaurantMode">
+            <option value="auto">Auto</option>
+            <option value="open">Force open</option>
+            <option value="closed">Force closed</option>
+          </select>
+        </div>
+
+        <div class="input-row">
+          <label id="printerIpLabel" for="printerIp">Printer IP</label>
+          <input id="printerIp" type="text" placeholder="192.168.1.50" />
+        </div>
+
+        <div class="input-row">
+          <label id="printerPortLabel" for="printerPort">Printer Port</label>
+          <input id="printerPort" type="number" placeholder="9100" />
+        </div>
+
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="couriersLabel" for="couriersInput">Couriers (WhatsApp numbers, one per line)</label>
+          <textarea id="couriersInput" rows="4"></textarea>
+        </div>
+
+        <div class="input-row">
+          <label id="bankAccountNameLabel" for="bankAccountName">Account name</label>
+          <input id="bankAccountName" type="text" placeholder="siymon" />
+        </div>
+
+        <div class="input-row">
+          <label id="driverWalletEnabledLabel" for="driverWalletEnabled">Driver wallet</label>
+          <select id="driverWalletEnabled">
+            <option value="on">Enabled</option>
+            <option value="off">Disabled</option>
+          </select>
+        </div>
+
+        <div class="input-row">
+          <label id="driverWalletChargeModeLabel" for="driverWalletChargeMode">Wallet deduction</label>
+          <select id="driverWalletChargeMode">
+            <option value="subtotal">Subtract order subtotal (no delivery)</option>
+            <option value="commission">Subtract fixed commission</option>
+            <option value="total">Subtract total (includes delivery)</option>
+          </select>
+        </div>
+
+        <div class="input-row">
+          <label id="driverCommissionLabel" for="driverCommissionPerOrder">Commission per order</label>
+          <input id="driverCommissionPerOrder" type="number" step="0.01" placeholder="0" />
+        </div>
+
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="bankAccountLabel" for="bankAccount">Bank account (RIB/IBAN)</label>
+          <textarea id="bankAccount" rows="3" placeholder="RIB / IBAN ..."></textarea>
+        </div>
+        <div class="input-row" style="grid-column:1/-1; margin-top:6px">
+          <label id="policyRequireLabel" for="policyRequire">Require policy acceptance</label>
+          <select id="policyRequire">
+            <option value="on">Required</option>
+            <option value="off">Optional</option>
+          </select>
+        </div>
+
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="policyArLabel" for="policyAr">Company policy (AR)</label>
+          <textarea id="policyAr" rows="5" placeholder="..."></textarea>
+        </div>
+
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="policyFrLabel" for="policyFr">Company policy (FR)</label>
+          <textarea id="policyFr" rows="5" placeholder="..."></textarea>
+        </div>
+
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="policyEnLabel" for="policyEn">Company policy (EN)</label>
+          <textarea id="policyEn" rows="5" placeholder="..."></textarea>
+        </div>
+
+        <!-- Offers banner -->
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="bannersLabel" for="bannerUpload">Offers banner images</label>
+          <input id="bannerUpload" type="file" accept="image/*" multiple />
+          <div class="hint muted" id="bannerHint"></div>
+          <div class="banner-list" id="bannerList"></div>
+        </div>
+
+      </div>
+
+      <div class="row-actions" style="margin-top:12px">
+        <button class="btn good" id="saveCfgBtn" type="button"><span id="saveCfgText">Save</span></button>
+        <button class="btn ghost" id="closeCfgBtn" type="button"><span id="closeCfgText">Close</span></button>
+      </div>
+
+      <div class="hint" id="cfgHint"></div>
+
+      <div class="hint muted" style="margin-top:10px">
+        <b id="btHintTitle">Bluetooth printing:</b>
+        <span id="btHintText">Use Chrome/Edge on Android/Desktop. HTTPS is required for Web Bluetooth.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu management modal -->
+  <div class="modal" id="menuModal">
+    <div class="modal-card" style="max-width:980px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="menuTitle" style="margin:0">Restaurants & Menu</h3>
+        <button class="btn ghost" id="closeMenuBtn" type="button">✕</button>
+      </div>
+
+      <div class="tabs" style="margin-top:10px">
+        <button class="tab active" id="menuTabRestaurants" type="button">Restaurants</button>
+        <button class="tab" id="menuTabItems" type="button">Meals</button>
+      </div>
+
+      <!-- Restaurants tab -->
+      <div id="menuPanelRestaurants" style="margin-top:12px">
+        <div class="panel-like" style="margin-bottom:12px">
+          <h4 id="restAddTitle" style="margin:0 0 10px 0">Add restaurant</h4>
+          <div class="grid2">
+            <div class="input-row">
+              <label for="restNameAr" id="restNameArLabel">Name (AR)</label>
+              <input id="restNameAr" type="text" placeholder="مطعم..." />
+            </div>
+            <div class="input-row">
+              <label for="restNameEn" id="restNameEnLabel">Name (EN)</label>
+              <input id="restNameEn" type="text" placeholder="Restaurant..." />
+            </div>
+            <div class="input-row">
+              <label for="restNameFr" id="restNameFrLabel">Name (FR)</label>
+              <input id="restNameFr" type="text" placeholder="Restaurant..." />
+            </div>
+            <div class="input-row">
+              <label for="restPhone" id="restPhoneLabel">Phone</label>
+              <input id="restPhone" type="tel" placeholder="06..." />
+            </div>
+            <div class="input-row" style="grid-column:1/-1">
+              <label for="restAddress" id="restAddressLabel">Address</label>
+              <input id="restAddress" type="text" placeholder="City, street..." />
+            </div>
+            <div class="input-row">
+              <label for="restActive" id="restActiveLabel">Active</label>
+              <select id="restActive">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+            <div class="input-row" style="align-self:end">
+              <button class="btn good" id="addRestBtn" type="button"><span id="addRestText">Add</span></button>
+            </div>
+          </div>
+          <div class="hint" id="restHint"></div>
+        </div>
+
+        <div class="panel-like">
+          <h4 id="restListTitle" style="margin:0 0 10px 0">Restaurants</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th id="restThName">Name</th>
+                <th id="restThPhone">Phone</th>
+                <th id="restThLogin">Login</th>
+                <th id="restThPass">Password</th>
+                <th id="restThStatus">Status</th>
+                <th id="restThAct">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="restaurantsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Meals tab -->
+      <div id="menuPanelItems" style="margin-top:12px;display:none">
+        <div class="panel-like" style="margin-bottom:12px">
+          <h4 id="itemAddTitle" style="margin:0 0 10px 0">Add meal</h4>
+          <div class="grid2">
+            <div class="input-row">
+              <label for="itemRestaurant" id="itemRestaurantLabel">Restaurant</label>
+              <select id="itemRestaurant"></select>
+            </div>
+            <div class="input-row">
+              <label for="itemPrice" id="itemPriceLabel">Price</label>
+              <input id="itemPrice" type="number" step="0.01" placeholder="0" />
+            </div>
+
+            <div class="input-row">
+              <label for="itemCat" id="itemCatLabel">Category key</label>
+              <input id="itemCat" type="text" placeholder="moroccan / italian ..." />
+            </div>
+            <div class="input-row">
+              <label for="itemImgFile" id="itemImgLabel">Meal image</label>
+              <input id="itemImgFile" type="file" accept="image/*" />
+              <img id="itemImgPrev" class="img-preview" alt="preview" style="display:none" />
+              <input id="itemImg" type="hidden" />
+              <div class="hint muted" id="itemImgHint"></div>
+            </div>
+
+            <div class="input-row">
+              <label for="itemCatAr" id="itemCatArLabel">Category (AR)</label>
+              <input id="itemCatAr" type="text" placeholder="مغربي..." />
+            </div>
+            <div class="input-row">
+              <label for="itemCatEn" id="itemCatEnLabel">Category (EN)</label>
+              <input id="itemCatEn" type="text" placeholder="Moroccan..." />
+            </div>
+            <div class="input-row">
+              <label for="itemCatFr" id="itemCatFrLabel">Category (FR)</label>
+              <input id="itemCatFr" type="text" placeholder="Marocain..." />
+            </div>
+
+            <div class="input-row">
+              <label for="itemNameAr" id="itemNameArLabel">Name (AR)</label>
+              <input id="itemNameAr" type="text" placeholder="اسم الوجبة..." />
+            </div>
+            <div class="input-row">
+              <label for="itemNameEn" id="itemNameEnLabel">Name (EN)</label>
+              <input id="itemNameEn" type="text" placeholder="Meal name..." />
+            </div>
+            <div class="input-row">
+              <label for="itemNameFr" id="itemNameFrLabel">Name (FR)</label>
+              <input id="itemNameFr" type="text" placeholder="Nom du plat..." />
+            </div>
+
+            <div class="input-row">
+              <label for="itemDescAr" id="itemDescArLabel">Description (AR)</label>
+              <input id="itemDescAr" type="text" placeholder="وصف..." />
+            </div>
+            <div class="input-row">
+              <label for="itemDescEn" id="itemDescEnLabel">Description (EN)</label>
+              <input id="itemDescEn" type="text" placeholder="Description..." />
+            </div>
+            <div class="input-row">
+              <label for="itemDescFr" id="itemDescFrLabel">Description (FR)</label>
+              <input id="itemDescFr" type="text" placeholder="Description..." />
+            </div>
+
+            <div class="input-row">
+              <label for="itemAvail" id="itemAvailLabel">Available</label>
+              <select id="itemAvail">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+            <div class="input-row" style="align-self:end">
+              <button class="btn good" id="addItemBtn" type="button"><span id="addItemText">Add</span></button>
+            </div>
+          </div>
+          <div class="hint" id="itemHint"></div>
+        </div>
+
+        <div class="panel-like">
+          <h4 id="itemListTitle" style="margin:0 0 10px 0">Meals</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th id="itemThName">Name</th>
+                <th id="itemThRestaurant">Restaurant</th>
+                <th id="itemThPrice">Price</th>
+                <th id="itemThStatus">Status</th>
+                <th id="itemThAct">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="itemsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drivers management modal -->
+  <div class="modal" id="driversModal">
+    <div class="modal-card" style="max-width:980px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="driversTitle" style="margin:0">Drivers</h3>
+        <div class="row" style="gap:10px">
+          <a class="btn ghost small" href="/driver/" target="_blank" rel="noopener" id="openDriverPortalLink">Driver Portal</a>
+          <button class="btn ghost" id="closeDriversBtn" type="button">✕</button>
+        </div>
+      </div>
+
+      <div class="tabs" style="margin-top:10px">
+        <button class="tab active" id="driversTabPending" type="button">Pending</button>
+        <button class="tab" id="driversTabApproved" type="button">Approved</button>
+      </div>
+
+      <div class="panel-like" style="margin-top:12px">
+        <div class="hint muted" id="driversHint"></div>
+        <div style="overflow:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th id="dThEmail">Email</th>
+                <th id="dThName">Name</th>
+                <th id="dThPhone">Phone</th>
+                <th id="dThCard">Card</th>
+                <th id="dThStatus">Status</th>
+                <th id="dThCreated">Created</th>
+                <th id="dThActions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="driversBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Driver details modal -->
+  <div class="modal" id="driverViewModal">
+    <div class="modal-card" style="max-width:980px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="driverViewTitle" style="margin:0">Driver details</h3>
+        <button class="btn ghost" id="closeDriverViewBtn" type="button">✕</button>
+      </div>
+      <div id="driverViewBox" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <!-- Image zoom modal (driver images) -->
+  <div class="modal" id="imgZoomModal">
+    <div class="modal-card" style="max-width:1100px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="imgZoomTitle" style="margin:0">تكبير الصورة</h3>
+        <button class="btn ghost" id="closeImgZoomBtn" type="button">✕</button>
+      </div>
+      <div class="zoom-toolbar" style="margin-top:10px">
+        <div class="row" style="gap:8px;flex-wrap:wrap">
+          <button class="btn ghost small" id="zoomOutBtn" type="button">−</button>
+          <button class="btn ghost small" id="zoomInBtn" type="button">+</button>
+          <button class="btn ghost small" id="zoomResetBtn" type="button">100%</button>
+          <span class="muted" id="zoomPct" style="font-size:12px">100%</span>
+        </div>
+        <a class="btn ghost small" id="zoomOpenBtn" href="#" target="_blank" rel="noopener">فتح</a>
+      </div>
+      <div class="zoom-stage" style="margin-top:12px">
+        <img id="imgZoomImg" alt="zoom" />
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Customers modal -->
+  <div class="modal" id="customersModal">
+    <div class="modal-card" style="max-width:980px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="customersTitle" style="margin:0">Customers</h3>
+        <button class="btn ghost" id="closeCustomersBtn" type="button">✕</button>
+      </div>
+      <div class="panel-like" style="margin-top:12px">
+        <div class="hint muted" id="customersHint"></div>
+        <div style="overflow:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th id="cThName">Full name</th>
+                <th id="cThEmail">Email</th>
+                <th id="cThPhone">Phone</th>
+                <th id="cThCreated">Created</th>
+              </tr>
+            </thead>
+            <tbody id="customersBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Restaurant auth modal -->
+  <div class="modal" id="restAuthModal">
+    <div class="modal-card" style="max-width:720px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="restAuthTitle" style="margin:0">Restaurant Login</h3>
+        <button class="btn ghost" id="closeRestAuthBtn" type="button">✕</button>
+      </div>
+
+      <div class="panel-like" style="margin-top:12px">
+        <div class="hint" id="restAuthHint"></div>
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
+          <div class="field">
+            <label id="restAuthEmailLabel" for="restAuthEmail">Email</label>
+            <input id="restAuthEmail" type="email" placeholder="restaurant@example.com" />
+          </div>
+          <div class="field">
+            <label id="restAuthPhoneLabel" for="restAuthPhone">Phone</label>
+            <input id="restAuthPhone" type="tel" placeholder="06/07xxxxxxxx" />
+          </div>
+          <div class="field">
+            <label id="restAuthPassLabel" for="restAuthPass">Password</label>
+            <input id="restAuthPass" type="password" placeholder="••••••••" />
+          </div>
+          <div class="field">
+            <label id="restAuthPass2Label" for="restAuthPass2">Confirm password</label>
+            <input id="restAuthPass2" type="password" placeholder="••••••••" />
+          </div>
+        </div>
+        <div class="row" style="margin-top:12px;gap:10px;justify-content:flex-end">
+          <button class="btn" id="clearRestPassBtn" type="button">Clear Password</button>
+          <button class="btn good" id="saveRestAuthBtn" type="button">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Restaurant edit modal -->
+  <div class="modal" id="restEditModal">
+    <div class="modal-card" style="max-width:760px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="restEditTitle" style="margin:0">Edit restaurant</h3>
+        <button class="btn ghost" id="closeRestEditBtn" type="button">✕</button>
+      </div>
+
+      <div class="panel-like" style="margin-top:12px">
+        <div class="grid2">
+          <div class="input-row">
+            <label for="restEditNameAr" id="restEditNameArLabel">Name (AR)</label>
+            <input id="restEditNameAr" type="text" placeholder="مطعم..." />
+          </div>
+          <div class="input-row">
+            <label for="restEditNameEn" id="restEditNameEnLabel">Name (EN)</label>
+            <input id="restEditNameEn" type="text" placeholder="Restaurant..." />
+          </div>
+          <div class="input-row">
+            <label for="restEditNameFr" id="restEditNameFrLabel">Name (FR)</label>
+            <input id="restEditNameFr" type="text" placeholder="Restaurant..." />
+          </div>
+          <div class="input-row">
+            <label for="restEditPhone" id="restEditPhoneLabel">Phone</label>
+            <input id="restEditPhone" type="tel" placeholder="06..." />
+          </div>
+          <div class="input-row" style="grid-column:1/-1">
+            <label for="restEditAddress" id="restEditAddressLabel">Address</label>
+            <input id="restEditAddress" type="text" placeholder="City, street..." />
+          </div>
+          <div class="input-row">
+            <label for="restEditActive" id="restEditActiveLabel">Active</label>
+            <select id="restEditActive">
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:12px;gap:10px;justify-content:flex-end">
+          <button class="btn good" id="saveRestEditBtn" type="button"><span id="saveRestEditText">Save</span></button>
+        </div>
+        <div class="hint" id="restEditHint"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meal edit modal -->
+  <div class="modal" id="itemEditModal">
+    <div class="modal-card" style="max-width:980px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="itemEditTitle" style="margin:0">Edit meal</h3>
+        <button class="btn ghost" id="closeItemEditBtn" type="button">✕</button>
+      </div>
+
+      <div class="panel-like" style="margin-top:12px">
+        <div class="grid2">
+          <div class="input-row">
+            <label for="itemEditRestaurant" id="itemEditRestaurantLabel">Restaurant</label>
+            <select id="itemEditRestaurant"></select>
+          </div>
+          <div class="input-row">
+            <label for="itemEditPrice" id="itemEditPriceLabel">Price</label>
+            <input id="itemEditPrice" type="number" step="0.01" placeholder="0" />
+          </div>
+
+          <div class="input-row">
+            <label for="itemEditCat" id="itemEditCatLabel">Category key</label>
+            <input id="itemEditCat" type="text" placeholder="moroccan / italian ..." />
+          </div>
+          <div class="input-row">
+            <label for="itemEditImgFile" id="itemEditImgLabel">Meal image</label>
+            <input id="itemEditImgFile" type="file" accept="image/*" />
+            <img id="itemEditImgPrev" class="img-preview" alt="preview" style="display:none" />
+            <input id="itemEditImg" type="hidden" />
+            <div class="hint muted" id="itemEditImgHint"></div>
+          </div>
+
+          <div class="input-row">
+            <label for="itemEditCatAr" id="itemEditCatArLabel">Category (AR)</label>
+            <input id="itemEditCatAr" type="text" placeholder="مغربي..." />
+          </div>
+          <div class="input-row">
+            <label for="itemEditCatEn" id="itemEditCatEnLabel">Category (EN)</label>
+            <input id="itemEditCatEn" type="text" placeholder="Moroccan..." />
+          </div>
+          <div class="input-row">
+            <label for="itemEditCatFr" id="itemEditCatFrLabel">Category (FR)</label>
+            <input id="itemEditCatFr" type="text" placeholder="Marocain..." />
+          </div>
+
+          <div class="input-row">
+            <label for="itemEditNameAr" id="itemEditNameArLabel">Name (AR)</label>
+            <input id="itemEditNameAr" type="text" placeholder="اسم الوجبة..." />
+          </div>
+          <div class="input-row">
+            <label for="itemEditNameEn" id="itemEditNameEnLabel">Name (EN)</label>
+            <input id="itemEditNameEn" type="text" placeholder="Meal name..." />
+          </div>
+          <div class="input-row">
+            <label for="itemEditNameFr" id="itemEditNameFrLabel">Name (FR)</label>
+            <input id="itemEditNameFr" type="text" placeholder="Nom du plat..." />
+          </div>
+
+          <div class="input-row">
+            <label for="itemEditDescAr" id="itemEditDescArLabel">Description (AR)</label>
+            <input id="itemEditDescAr" type="text" placeholder="وصف..." />
+          </div>
+          <div class="input-row">
+            <label for="itemEditDescEn" id="itemEditDescEnLabel">Description (EN)</label>
+            <input id="itemEditDescEn" type="text" placeholder="Description..." />
+          </div>
+          <div class="input-row">
+            <label for="itemEditDescFr" id="itemEditDescFrLabel">Description (FR)</label>
+            <input id="itemEditDescFr" type="text" placeholder="Description..." />
+          </div>
+
+          <div class="input-row">
+            <label for="itemEditAvail" id="itemEditAvailLabel">Available</label>
+            <select id="itemEditAvail">
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:12px;gap:10px;justify-content:flex-end">
+          <button class="btn good" id="saveItemEditBtn" type="button"><span id="saveItemEditText">Save</span></button>
+        </div>
+        <div class="hint" id="itemEditHint"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Support chat modal -->
+  <div class="modal" id="supportModal">
+    <div class="modal-card" style="max-width:980px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="supportTitle" style="margin:0">Support</h3>
+        <button class="btn ghost" id="closeSupportBtn" type="button">✕</button>
+      </div>
+
+      <div class="split" style="margin-top:12px">
+        <div class="panel-like" style="min-width:320px">
+          <div class="row" style="justify-content:space-between;align-items:center">
+            <b id="supportConvosTitle">Conversations</b>
+            <button class="btn ghost small" id="refreshSupportBtn" type="button">Refresh</button>
+          </div>
+          <div style="height:10px"></div>
+          <div style="overflow:auto; max-height:60vh">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th id="sThCustomer">Customer</th>
+                  <th id="sThUnread">New</th>
+                </tr>
+              </thead>
+              <tbody id="supportConvosBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel-like" style="flex:1">
+          <div class="row" style="justify-content:space-between;align-items:center">
+            <b id="supportChatWith">—</b>
+            <span class="muted" id="supportChatMeta"></span>
+          </div>
+          <div class="chat-box" id="supportChatBox" style="margin-top:10px"></div>
+          <div class="row" style="margin-top:10px;gap:8px">
+            <input id="supportMsgInput" type="text" placeholder="Type a message..." style="flex:1" />
+            <button class="btn primary" id="supportSendBtn" type="button">Send</button>
+          </div>
+          <div class="hint" id="supportHint"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Topups modal -->
+  <div class="modal" id="topupsModal">
+    <div class="modal-card" style="max-width:980px">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+        <h3 id="topupsTitle" style="margin:0">Topups</h3>
+        <button class="btn ghost" id="closeTopupsBtn" type="button">✕</button>
+      </div>
+
+      <div class="panel-like" style="margin-top:12px">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <div class="row" style="gap:8px;align-items:center">
+            <b id="topupsListTitle">Topup requests</b>
+            <select id="topupsFilter">
+              <option value="all">All</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+          <button class="btn" id="refreshTopupsBtn" type="button">Refresh</button>
+        </div>
+        <div style="height:10px"></div>
+        <div style="overflow:auto; max-height:70vh">
+          <table class="table">
+            <thead>
+              <tr>
+                <th id="tThTime">Time</th>
+                <th id="tThDriver">Driver</th>
+                <th id="tThAmount">Amount</th>
+                <th id="tThStatus">Status</th>
+                <th id="tThReceipt">Receipt</th>
+                <th id="tThActions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="topupsBody"></tbody>
+          </table>
+        </div>
+        <div class="hint" id="topupsHint"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+
+
+<!-- Order chat modal (Driver ↔ Customer) -->
+<div class="modal" id="orderChatModal">
+  <div class="modal-card" style="max-width:980px">
+    <div class="row" style="justify-content:space-between;align-items:center;gap:10px">
+      <h3 id="orderChatModalTitle" style="margin:0">Order Chat</h3>
+      <button class="btn ghost" id="closeOrderChatModalBtn" type="button">✕</button>
+    </div>
+
+    <div class="panel-like" style="margin-top:10px">
+      <div class="muted" id="orderChatParties"></div>
+    </div>
+
+    <div class="chat-box" id="orderChatModalBox" style="margin-top:12px"></div>
+
+    <div class="row" style="justify-content:space-between;align-items:center;gap:10px;margin-top:10px">
+      <button class="btn ghost small" id="refreshOrderChatBtn" type="button">Refresh</button>
+      <div class="hint muted" id="orderChatModalHint"></div>
+    </div>
+  </div>
+</div>
+
+  <!-- Notifications modal -->
+  <div class="modal" id="notificationsModal">
+    <div class="modal-card" style="max-width:980px">
+      <h3 id="notificationsTitle">Notifications</h3>
+
+      <div class="grid2">
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="notifTitleLabel" for="notifTitle">Title</label>
+          <input id="notifTitle" type="text" maxlength="120" placeholder="..." />
+        </div>
+
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="notifMsgLabel" for="notifMsg">Message</label>
+          <textarea id="notifMsg" rows="4" placeholder="..."></textarea>
+        </div>
+
+        <div class="input-row" style="grid-column:1/-1">
+          <label id="notifImgLabel" for="notifImg">Image (optional)</label>
+          <input id="notifImg" type="file" accept="image/*" />
+          <img id="notifImgPrev" alt="preview" style="display:none; max-width:100%; border-radius:14px; margin-top:10px; border:1px solid rgba(0,0,0,.10)" />
+          <div class="hint muted" id="notifImgHint"></div>
+        </div>
+
+        <button class="btn good" id="sendNotifBtn" type="button" style="grid-column:1/-1"><span id="sendNotifText">Send</span></button>
+        <button class="btn" id="closeNotifBtn" type="button" style="grid-column:1/-1"><span id="closeNotifText">Close</span></button>
+        <div class="hint" id="notifHint" style="grid-column:1/-1"></div>
+      </div>
+
+      <hr style="margin:14px 0; opacity:.2" />
+      <div class="hint muted" id="notifListTitle">Sent notifications</div>
+      <div id="notifList" class="notif-list" style="margin-top:10px"></div>
+    </div>
+  </div>
+  <script src="/pw-toggle.js"></script>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

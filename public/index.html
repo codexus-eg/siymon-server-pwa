@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>siymon</title>
+
+  <!-- ✅ PWA -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#ff5722">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="siymon">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <img class="logo-img" src="/icons/icon-192.png" alt="siymon logo" />
+          <div>
+            <h1 id="brandTitle">siymon</h1>
+            <p id="subtitle">اطلب أكلك المفضل بسرعة</p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn ghost" id="langToggle" type="button">EN</button>
+          <a class="btn ghost" id="myOrdersLink" href="/orders/">طلباتي</a>
+          <button class="btn ghost icon-btn" id="installBtn" type="button" title="Install" aria-label="Install" style="display:none"></button>
+          <button class="btn ghost icon-btn" id="themeToggle" type="button" title="Theme" aria-label="Theme"></button>
+          <a class="btn ghost icon-btn" id="supportCall" href="#" title="Support" aria-label="Support"></a>
+          <button class="btn" id="clearCart" type="button">
+            <span id="clearIcon"></span><span id="clearText">تفريغ السلة</span>
+          </button>
+          <button class="btn primary" id="goCart" type="button">
+            <span id="cartIcon"></span><span id="cartCount">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Moved status + chips outside the sticky header so they scroll with the page (fix: category bar stays fixed) -->
+    <div class="statusbar">
+      <span id="openBadge" class="badge">
+        <span class="dot"></span>
+        <span id="openText">...</span>
+      </span>
+      <span id="hoursText" class="status-text"></span>
+    </div>
+
+    <div class="chips" id="restaurantChips" aria-label="Restaurants"></div>
+    <div class="chips" id="categoryChips" aria-label="Categories"></div>
+
+    <section class="layout">
+      <div>
+        <!-- Offers banner (scrolls with products) -->
+        <div id="offersBanner" class="offers-banner" style="display:none">
+          <img id="offersBannerImg" class="offers-banner-img" alt="offer" />
+        </div>
+        <div class="grid" id="productsGrid"></div>
+      </div>
+
+      <aside class="side">
+        <div class="panel" id="cartPanel">
+          <h3 id="cartTitle">السلة</h3>
+          <div id="cartItems" class="cart-items"></div>
+
+          <div class="totals-row">
+            <span id="subTotalLabel">المجموع الفرعي</span>
+            <span id="subTotalValue">0.00</span>
+          </div>
+
+          <!-- ✅ الزبون مايشوفش التوصيل -->
+          <div class="totals">
+            <span id="totalLabel">الإجمالي</span>
+            <span id="totalValue">0.00</span>
+          </div>
+
+          <div class="form">
+            <div class="login-gate" id="loginGate" style="display:none">
+              <b id="loginGateTitle">مرحباً بكم في siymon</b>
+              <div class="hint" id="loginGateText">يجب تسجيل الدخول أو إنشاء حساب لإرسال الطلب.</div>
+              <a class="btn" id="loginGateBtn" href="/orders/">تسجيل الدخول / إنشاء حساب</a>
+            </div>
+
+            <div class="field">
+              <label id="nameLabel" for="custName">الاسم</label>
+              <input id="custName" type="text" placeholder="مثال: محمد" />
+            </div>
+
+            <div class="field">
+              <label id="phoneLabel" for="custPhone">رقم الهاتف</label>
+              <input id="custPhone" type="tel" placeholder="06/07xxxxxxxx" />
+            </div>
+
+            <div class="field">
+              <label id="addrLabel" for="custAddr">العنوان</label>
+              <input id="custAddr" type="text" placeholder="المدينة، الحي..." />
+            </div>
+
+            <div class="field">
+              <label id="notesLabel" for="custNotes">ملاحظات (اختياري)</label>
+              <textarea id="custNotes" placeholder="بدون بصل، حار، ..."></textarea>
+            </div>
+
+            <button class="btn ghost" id="getAddrBtn" type="button">
+              <span id="locIcon"></span><span id="getAddrText">جلب العنوان تلقائياً</span>
+            </button>
+            <div class="hint" id="locHint">قد يطلب المتصفح الإذن للوصول للموقع.</div>
+
+            <button class="btn good" id="placeOrder" type="button">
+              <span id="sendIcon"></span><span id="placeText">تأكيد الطلب</span>
+            </button>
+
+            <div class="hint" id="orderHint"></div>
+
+            <div class="hint" id="closedHint" style="display:none;color:#b00;font-weight:900">
+              المتجر مغلق حالياً. لا يمكن إرسال الطلب الآن.
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Customer ratings & opinions (after delivery) -->
+    <section class="panel ratings-panel" id="ratingsSection" aria-label="Ratings">
+      <div class="ratings-head">
+        <h3 id="ratingsTitle" style="margin:0">آراء الزبائن</h3>
+        <span class="muted" id="ratingsSubtitle"></span>
+      </div>
+      <div class="ratings-list" id="ratingsList"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span id="footerText">© siymon</span>
+      <a id="policyLink" href="/policy/" style="margin-inline-start:10px; display:none">سياسة الشركة</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

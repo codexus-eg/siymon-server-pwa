@@ -1,0 +1,19 @@
+# Node modules
+node_modules/
+
+# Environment variables (مهم جداً محدش يشوفه)
+.env
+
+# Database JSON files (عشان منرفعش داتا التجربة)
+data/*.json
+data/**/*.json
+
+# Uploaded images (عشان منرفعش صور التجربة الخاصة بالسائقين والمنيو)
+public/uploads/
+uploads/
+data/private_uploads/
+
+# Logs and temporary files
+*.log
+*.lock
+.DS_Store

@@ -1,0 +1,250 @@
+/* Orders / Auth page tweaks (reuses global styles.css) */
+
+.auth-topbar{
+  grid-template-columns: 1fr auto 1fr;
+}
+
+.center-actions{ justify-self:center; }
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:var(--card);
+  border:1px solid rgba(0,0,0,.10);
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  font-weight:1000;
+}
+
+.auth-shell{ padding:18px 0 40px; }
+
+.auth-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:18px;
+  align-items:start;
+  margin-top:18px;
+}
+
+.hero{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:18px;
+  border:1px solid rgba(0,0,0,.05);
+}
+
+.hero h2{ margin:0 0 6px 0; font-size:26px; }
+.hero p{ margin:0; color:var(--muted); }
+
+.hero-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+
+.auth-card{ padding:18px; }
+
+.two{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+
+.hint{ color:var(--muted); font-size:12px; }
+
+.muted{ color:var(--muted); }
+
+.orders-top{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center; }
+.orders-top-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+.profile{
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.65);
+  border:1px solid rgba(0,0,0,.06);
+}
+html[data-theme="dark"] .profile{ background:var(--card); }
+.profile b{ display:block; }
+.profile small{ color:var(--muted); }
+
+.orders-actions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px; }
+
+.orders-list{ display:grid; gap:12px; margin-top:14px; }
+
+.order-card{
+  background:var(--card);
+  border-radius:16px;
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  padding:12px;
+}
+
+.order-head{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:center; }
+
+.order-meta{ display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:12px; }
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 10px;
+  border-radius:999px;
+  font-weight:1000;
+  border:1px solid rgba(0,0,0,.08);
+  background:rgba(255,87,34,.10);
+  color:var(--brand);
+}
+
+.tag.ok{ background:rgba(31,138,112,.12); color:var(--brand2); }
+.tag.bad{ background:rgba(176,0,32,.10); color:#b00020; }
+
+.order-items{ margin-top:10px; display:grid; gap:6px; }
+.order-item{ display:flex; justify-content:space-between; gap:10px; font-size:13px; }
+
+@media (max-width: 900px){
+  .auth-grid{ grid-template-columns: 1fr; }
+  .two{ grid-template-columns: 1fr; }
+  .auth-topbar{ grid-template-columns: 1fr; }
+  .center-actions{ justify-self:start; }
+}
+
+
+.tag.warn{ background:rgba(255,87,34,.12); color:var(--brand); }
+
+/* Order stages (admin -> restaurant -> driver -> customer) */
+.stages{
+  margin-top:12px;
+  padding:10px 10px;
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.stage{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  text-align:center;
+}
+.stage-ico{
+  width:34px;
+  height:34px;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(0,0,0,.12);
+  background:rgba(0,0,0,.03);
+}
+.stage-ico svg{
+  width:18px;
+  height:18px;
+  fill:currentColor;
+  opacity:.9;
+}
+.stage-txt{
+  font-size:12px;
+  color:var(--muted);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.stage-line{
+  flex:0 0 26px;
+  height:2px;
+  background:rgba(0,0,0,.10);
+  border-radius:999px;
+}
+.stage.todo{ color:#999; }
+.stage.active{ color:var(--brand); }
+.stage.done{ color:var(--brand2); }
+.stage.done .stage-ico{ background:rgba(31,138,112,.12); border-color:rgba(31,138,112,.35); }
+.stage.active .stage-ico{ background:rgba(255,87,34,.12); border-color:rgba(255,87,34,.35); }
+.stages.canceled .stage{ color:#999; }
+
+
+/* Order card action buttons */
+.btn.small{ padding:8px 10px; border-radius:12px; font-weight:900; font-size:13px; }
+.order-card-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+
+
+/* Modal + support chat */
+.modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(0,0,0,.35); z-index:9999; }
+.modal.show{ display:flex; }
+.modal-card{ width:min(720px, 96vw); background:rgba(255,255,255,.92); border:1px solid rgba(0,0,0,.10); border-radius:18px; padding:16px; box-shadow:0 16px 40px rgba(0,0,0,.18); }
+.chat-box{
+  background: rgba(255,255,255,.6);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 14px;
+  padding: 10px;
+  height: 55vh;
+  overflow: auto;
+}
+.chat-msg{ display:flex; flex-direction:column; margin:8px 0; gap:4px; }
+.chat-msg.me{ align-items:flex-end; }
+.chat-bubble{
+  max-width: 85%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.08);
+  background:#fff;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.chat-msg.me .chat-bubble{ background: rgba(17,17,17,.06); }
+.chat-meta{ font-size:11px; opacity:.7; }
+
+
+/* Company policy checkbox */
+.checkbox{display:flex; gap:10px; align-items:flex-start;}
+.checkbox input{margin-top:4px;}
+
+
+/* Rating */
+.stars{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:flex-start;
+  margin:6px 0 10px;
+}
+.star-btn{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,.12);
+  background:rgba(0,0,0,.02);
+  cursor:pointer;
+  font-size:22px;
+  line-height:1;
+}
+.star-btn.active{
+  border-color: rgba(0,0,0,.35);
+  background: rgba(0,0,0,.06);
+}
+.textarea{
+  width:100%;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,.12);
+  outline:none;
+  resize:vertical;
+  font-family: inherit;
+}
+
+/* Notifications */
+.notif-list{
+  display:grid;
+  gap:10px;
+  max-height: 60vh;
+  overflow:auto;
+}
+.notif-item{
+  background: rgba(255,255,255,.70);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 14px;
+  padding: 12px;
+}
+html[data-theme="dark"] .notif-item{ background: rgba(0,0,0,.12); }
+.notif-title{ font-weight: 1000; margin:0 0 4px 0; }
+.notif-msg{ margin:0; white-space: pre-wrap; word-break: break-word; }
+.notif-img{ width:100%; max-height: 280px; object-fit: cover; border-radius: 12px; margin-top:10px; border:1px solid rgba(0,0,0,.08); }
+.notif-meta{ margin-top:8px; font-size:11px; color: var(--muted); }

@@ -3602,22 +3602,39 @@ function printHtmlTicket(order) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>${tx.order} #${escapeHtml(order.id)}</title>
     <style>
-      @page { size: 80mm auto; margin: 0; }
-      body{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; padding:10px; }
-      .ticket{ width:80mm; }
-      .center{text-align:center}
-      .muted{color:#555}
-      .hr{border-top:1px dashed #999; margin:10px 0}
-      table{width:100%; border-collapse:collapse; font-size:12px}
-      td{padding:4px 0}
-      .totals td{padding:2px 0}
-      .big{font-size:16px; font-weight:800}
-      .logo{width:34mm; height:auto; display:block; margin:0 auto 6px auto}
+      @page { size: 58mm auto; margin: 0; }
+      body { 
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
+        margin: 0; 
+        padding: 5px; 
+        color: #000;
+        background: #fff;
+      }
+      .ticket { 
+        width: 100%; 
+        max-width: 58mm; 
+        margin: 0 auto; 
+        font-size: 11px;
+      }
+      .center { text-align: center; }
+      .muted { color: #000; font-weight: bold; }
+      .hr { border-top: 1px dashed #000; margin: 8px 0; }
+      table { width: 100%; border-collapse: collapse; font-size: 11px; color: #000; }
+      td { padding: 3px 0; border-bottom: 1px solid #eee; }
+      .totals td { padding: 4px 0; border-bottom: none; }
+      .big { font-size: 14px; font-weight: 900; }
+      .logo { 
+        width: 30mm; 
+        height: auto; 
+        display: block; 
+        margin: 0 auto 6px auto;
+        filter: grayscale(100%) contrast(200%);
+      }
     </style>
   </head>
   <body>
     <div class="ticket">
-      <img class="logo" src="/icons/icon-192.png" alt="siymon"/>
+      <img class="logo" src="/icons/icon-192.png" alt="siymon" onload="window.logoLoaded=true;"/>
       <div class="center big">${escapeHtml(restName || "siymon")}</div>
       <div class="center muted">${tx.order} #${escapeHtml(order.id)}</div>
       <div class="center muted">${escapeHtml(fmtTime(order.createdAt))}</div>
@@ -3634,10 +3651,10 @@ function printHtmlTicket(order) {
       <table>
         <thead>
           <tr class="muted">
-            <td style="text-align:start">${escapeHtml(t.itemName)}</td>
-            <td style="text-align:center">${escapeHtml(t.qty)}</td>
-            <td style="text-align:end">${escapeHtml(t.unitPrice)}</td>
-            <td style="text-align:end">${escapeHtml(t.total)}</td>
+            <td style="text-align:start; font-weight:bold;">${escapeHtml(t.itemName)}</td>
+            <td style="text-align:center; font-weight:bold;">${escapeHtml(t.qty)}</td>
+            <td style="text-align:end; font-weight:bold;">${escapeHtml(t.unitPrice)}</td>
+            <td style="text-align:end; font-weight:bold;">${escapeHtml(t.total)}</td>
           </tr>
         </thead>
         <tbody>${rows}</tbody>
@@ -3656,7 +3673,14 @@ function printHtmlTicket(order) {
     </div>
 
     <script>
-      window.onload = () => { window.print(); setTimeout(()=>window.close(), 300); };
+      function doPrint() {
+        window.print();
+        setTimeout(() => window.close(), 500);
+      }
+      window.onload = () => {
+        if(window.logoLoaded) doPrint();
+        else setTimeout(doPrint, 500);
+      };
     </script>
   </body>
   </html>`;

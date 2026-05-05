@@ -10,12 +10,9 @@ const ICONS = {
   lock: `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9V7a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1ZM9 7a3 3 0 1 1 6 0v2H9V7Zm3 6a2 2 0 0 1 1 3.7V18a1 1 0 1 1-2 0v-1.3A2 2 0 0 1 12 13Z"/></svg>`,
   unlock: `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9h-8V7a3 3 0 1 1 6 0 1 1 0 1 0 2 0 5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h11a3 3 0 0 0 3-3v-8a2 2 0 0 0-2-2Zm-5 4a2 2 0 0 1 1 3.7V18a1 1 0 1 1-2 0v-1.3A2 2 0 0 1 12 13Z"/></svg>`,
   install: `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.6l2.3-2.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L11 13.6V4a1 1 0 0 1 1-1ZM5 20a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1Z"/></svg>`,
-}; /***********************
- * Public config from server
- ***********************/
-let PUBLIC = null;
+};
 
-// Offers banner carousel
+let PUBLIC = null;
 let offersTimer = null;
 let offersIndex = 0;
 
@@ -40,27 +37,21 @@ const i18n = {
     needLoginToOrder: "يجب تسجيل الدخول أو إنشاء حساب أولاً لإرسال الطلب.",
     cartTitle: "السلة",
     emptyCart: "السلة فارغة. أضف منتجات من القائمة 👇",
-
     openNow: "مفتوح الآن",
     closedNow: "مغلق الآن",
     hoursText: "ساعات العمل: 12:00 إلى 00:00 — طيلة أيام الأسبوع",
-
     subTotalLabel: "المجموع الفرعي",
     totalLabel: "الإجمالي",
-
     nameLabel: "الاسم",
     phoneLabel: "رقم الهاتف",
     addrLabel: "العنوان",
     notesLabel: "ملاحظات (اختياري)",
-
     placeText: "تأكيد الطلب",
     placeSuccess: "تم استلام طلبك ✅ رقم الطلب:",
     placeFail: "تعذر إرسال الطلب. أعد المحاولة.",
-
     clearText: "تفريغ السلة",
     addBtn: "أضف للسلة",
     categoryAll: "الكل",
-
     getAddrText: "جلب العنوان تلقائياً",
     locHint: "قد يطلب المتصفح الإذن للوصول للموقع.",
     geo: {
@@ -72,7 +63,6 @@ const i18n = {
     },
     orderSentToast: "تم إرسال الطلب ✅",
     iosAddToHome: "في iPhone: اضغط زر المشاركة ثم (Add to Home Screen).",
-
     validations: {
       needItems: "أضف منتجات للسلة أولاً.",
       needName: "اكتب اسمك من فضلك.",
@@ -80,44 +70,34 @@ const i18n = {
       needAddress: "اكتب العنوان من فضلك.",
       closed: "المتجر مغلق حالياً. لا يمكن إرسال الطلب الآن.",
     },
-
     footer: "© siymon",
     policyLink: "سياسة الشركة",
-
     myOrders: "طلباتي",
-
     ratingsTitle: "آراء الزبائن",
     ratingsSubtitle: "آخر التقييمات",
     ratingsEmpty: "لا توجد تقييمات بعد.",
   },
-
   en: {
     dir: "ltr",
     title: "siymon | Food Ordering",
     subtitle: "Order your favorite food fast",
     cartTitle: "Cart",
     emptyCart: "Cart is empty. Add items from the list 👇",
-
     openNow: "Open now",
     closedNow: "Closed now",
     hoursText: "Working hours: 12:00 → 00:00 — Every day",
-
     subTotalLabel: "Subtotal",
     totalLabel: "Total",
-
     nameLabel: "Name",
     phoneLabel: "Phone",
     addrLabel: "Address",
     notesLabel: "Notes (optional)",
-
     placeText: "Place order",
     placeSuccess: "Order received ✅ Order ID:",
     placeFail: "Couldn't send order. Try again.",
-
     clearText: "Clear cart",
     addBtn: "Add to cart",
     categoryAll: "All",
-
     getAddrText: "Auto-fill address",
     locHint: "Your browser may ask for location permission.",
     geo: {
@@ -129,7 +109,6 @@ const i18n = {
     },
     orderSentToast: "Order sent ✅",
     iosAddToHome: "On iPhone: tap Share then Add to Home Screen.",
-
     validations: {
       needItems: "Please add items to the cart first.",
       needName: "Please enter your name.",
@@ -137,17 +116,13 @@ const i18n = {
       needAddress: "Please enter your address.",
       closed: "We are currently closed. You can't place an order now.",
     },
-
     footer: "© siymon",
     policyLink: "Company policy",
-
     myOrders: "My orders",
-
     ratingsTitle: "Customer reviews",
     ratingsSubtitle: "Latest ratings",
     ratingsEmpty: "No ratings yet.",
   },
-
   fr: {
     dir: "ltr",
     title: "siymon | Commande",
@@ -155,30 +130,24 @@ const i18n = {
     loginGateTitle: "Bienvenue sur siymon",
     loginGateText: "Connectez-vous ou créez un compte pour passer commande.",
     loginGateBtn: "Connexion / Inscription",
-    needLoginToOrder: "Connectez-vous ou créez un compte d’abord.",
+    needLoginToOrder: "Connectez-vous ou créeز un compte d’abord.",
     cartTitle: "Panier",
     emptyCart: "Le panier est vide. Ajoutez des produits depuis la liste 👇",
-
     openNow: "Ouvert",
     closedNow: "Fermé",
     hoursText: "Horaires : 12:00 → 00:00 — Tous les jours",
-
     subTotalLabel: "Sous-total",
     totalLabel: "Total",
-
     nameLabel: "Nom",
     phoneLabel: "Téléphone",
     addrLabel: "Adresse",
     notesLabel: "Remarques (optionnel)",
-
     placeText: "Valider la commande",
     placeSuccess: "Commande reçue ✅ ID de commande :",
     placeFail: "Impossible d'envoyer la commande. Réessayez.",
-
     clearText: "Vider le panier",
     addBtn: "Ajouter",
     categoryAll: "Tout",
-
     getAddrText: "Remplir l’adresse automatiquement",
     locHint: "Le navigateur peut demander l’autorisation de localisation.",
     geo: {
@@ -192,7 +161,6 @@ const i18n = {
     orderSentToast: "Commande envoyée ✅",
     iosAddToHome:
       "Sur iPhone : touchez Partager puis Ajouter à l\'écran d\'accueil.",
-
     validations: {
       needItems: "Ajoutez d'abord des produits au panier.",
       needName: "Veuillez saisir votre nom.",
@@ -200,216 +168,52 @@ const i18n = {
       needAddress: "Veuillez saisir votre adresse.",
       closed: "Nous sommes fermés. Vous ne pouvez pas commander maintenant.",
     },
-
     footer: "© siymon",
     policyLink: "Politique de l’entreprise",
-
     myOrders: "Mes commandes",
-
     ratingsTitle: "Avis des clients",
     ratingsSubtitle: "Derniers avis",
     ratingsEmpty: "Aucun avis pour le moment.",
   },
 };
 
-/***********************
- * products
- ***********************/
-const FALLBACK_PRODUCTS = [
-  {
-    id: "m1",
-    cat: "moroccan",
-    catLabel: { ar: "مغربي", en: "Moroccan", fr: "Marocain" },
-    price: 40,
-    img: "https://uploads.onecompiler.io/44avb35xn/44azkc7wy/Photoroom-20260120_003048_5.png",
-    name: { ar: "طاجين دجاج", en: "Chicken Tagine", fr: "Tajine de poulet" },
-    desc: {
-      ar: "طاجين دجاج بالليمون والزيتون",
-      en: "Chicken tagine with lemon & olives",
-      fr: "Tajine de poulet au citron & olives",
-    },
-  },
-  {
-    id: "m2",
-    cat: "moroccan",
-    price: 45,
-    img: "https://uploads.onecompiler.io/44avb35xn/44azkc7wy/Photoroom-20260120_003048_7.png",
-    name: { ar: "كسكس", en: "Couscous", fr: "Couscous" },
-    desc: {
-      ar: "كسكس بالخضر والمرق",
-      en: "Couscous with vegetables",
-      fr: "Couscous aux légumes",
-    },
-  },
-
-  {
-    id: "i1",
-    cat: "italian",
-    catLabel: { ar: "إيطالي", en: "Italian", fr: "Italien" },
-    price: 45,
-    img: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8ff7?auto=format&fit=crop&w=900&q=70",
-    name: {
-      ar: "بيتزا مارغريتا",
-      en: "Margherita Pizza",
-      fr: "Pizza Margherita",
-    },
-    desc: {
-      ar: "طماطم + جبن + ريحان",
-      en: "Tomato + cheese + basil",
-      fr: "Tomate + fromage + basilic",
-    },
-  },
-  {
-    id: "i2",
-    cat: "italian",
-    price: 40,
-    img: "https://images.unsplash.com/photo-1604908554085-2c0a82b1f345?auto=format&fit=crop&w=900&q=70",
-    name: { ar: "باستا ألفريدو", en: "Alfredo Pasta", fr: "Pâtes Alfredo" },
-    desc: {
-      ar: "صلصة كريمية وجبن",
-      en: "Creamy sauce & cheese",
-      fr: "Sauce crémeuse & fromage",
-    },
-  },
-
-  {
-    id: "a1",
-    cat: "american",
-    catLabel: { ar: "أمريكي", en: "American", fr: "Américain" },
-    price: 50,
-    img: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=900&q=70",
-    name: { ar: "برغر لحم", en: "Beef Burger", fr: "Burger de bœuf" },
-    desc: {
-      ar: "برغر مع بطاطس",
-      en: "Burger with fries",
-      fr: "Burger avec frites",
-    },
-  },
-  {
-    id: "a2",
-    cat: "american",
-    price: 30,
-    img: "https://images.unsplash.com/photo-1604908176997-125f25cc5002?auto=format&fit=crop&w=900&q=70",
-    name: { ar: "دجاج مقرمش", en: "Crispy Chicken", fr: "Poulet croustillant" },
-    desc: {
-      ar: "قطع دجاج مقرمشة",
-      en: "Crispy chicken bites",
-      fr: "Bouchées de poulet croustillantes",
-    },
-  },
-
-  {
-    id: "h1",
-    cat: "indian",
-    catLabel: { ar: "هندي", en: "Indian", fr: "Indien" },
-    price: 55,
-    img: "https://uploads.onecompiler.io/44avb35xn/44azkc7wy/Photoroom-20260120_003048_2.png",
-    name: {
-      ar: "دجاج تيكا ماسالا",
-      en: "Chicken Tikka Masala",
-      fr: "Poulet Tikka Masala",
-    },
-    desc: {
-      ar: "صلصة متبلة وكريمية",
-      en: "Spiced creamy sauce",
-      fr: "Sauce épicée et crémeuse",
-    },
-  },
-  {
-    id: "h2",
-    cat: "indian",
-    price: 20,
-    img: "https://images.unsplash.com/photo-1625944522862-37c4f97e3b16?auto=format&fit=crop&w=900&q=70",
-    name: { ar: "برياني دجاج", en: "Chicken biryani", fr: "Biryani au poulet" },
-    desc: {
-      ar: "أرز هندي طري",
-      en: "Soft Indian rice",
-      fr: "Riz indien parfumé",
-    },
-  },
-
-  {
-    id: "j1",
-    cat: "water",
-    price: 3,
-    img: "https://images.unsplash.com/photo-1542444459-db63c3c0e3b4?auto=format&fit=crop&w=900&q=70",
-    name: { ar: "عصير برتقال", en: "Orange Juice", fr: "Jus d'orange" },
-    desc: {
-      ar: "كأس عصير طبيعي",
-      en: "Fresh orange juice",
-      fr: "Jus d’orange frais",
-    },
-  },
-
-  {
-    id: "s1",
-    cat: "soda",
-    catLabel: { ar: "مشروبات غازية", en: "Soda", fr: "Soda" },
-    price: 8,
-    img: "https://uploads.onecompiler.io/44avb35xn/44azkc7wy/lkj%5Ehj%20(8).png",
-    name: { ar: "كوكا كولا", en: "Coca Cola", fr: "Coca-Cola" },
-    desc: { ar: "علبة 330ml", en: "Can 330ml", fr: "Canette 330ml" },
-  },
-
-  {
-    id: "w1",
-    cat: "water",
-    catLabel: { ar: "مياه", en: "Water", fr: "Eau" },
-    price: 6,
-    img: "https://uploads.onecompiler.io/44avb35xn/44azkc7wy/Photoroom-20260120_003048_1.png",
-    name: { ar: "ماء معدني", en: "Mineral Water", fr: "Eau minérale" },
-    desc: { ar: "قارورة 500ml", en: "Bottle 500ml", fr: "Bouteille 500ml" },
-  },
-];
-
 let RESTAURANTS = [];
 let products = [];
 let selectedRestaurantId = "";
 let RATINGS = [];
 
-/***********************
- * State + Elements
- ***********************/
 const LANG_KEY = "siymon_lang_v1";
 let lang = localStorage.getItem(LANG_KEY) || "ar";
 let activeCat = "all";
 const cart = new Map();
 
 const el = (id) => document.getElementById(id);
-
 const productsGrid = el("productsGrid");
 const cartItems = el("cartItems");
 const restaurantChips = el("restaurantChips");
 const categoryChips = el("categoryChips");
-
 const subTotalValue = el("subTotalValue");
 const totalValue = el("totalValue");
 const cartCount = el("cartCount");
-
 const openBadge = el("openBadge");
 let isOpenNow = true;
 const openText = el("openText");
 const hoursText = el("hoursText");
-
 const langToggle = el("langToggle");
 const themeToggle = el("themeToggle");
 const installBtn = el("installBtn");
 const supportCall = el("supportCall");
-
 const clearCartBtn = el("clearCart");
 const goCartBtn = el("goCart");
 const placeBtn = el("placeOrder");
-
 const getAddrBtn = el("getAddrBtn");
 const locHint = el("locHint");
 const orderHint = el("orderHint");
 const toastEl = el("toast");
-
 const custName = el("custName");
 const custPhone = el("custPhone");
 const custAddr = el("custAddr");
 const custNotes = el("custNotes");
-
 const closedHint = el("closedHint");
 
 const REST_KEY = "siymon_selected_rest_v1";
@@ -419,9 +223,8 @@ const CUSTOMER_PROFILE_KEY = "siymon_customer_profile_v1";
 function textForLang(v) {
   if (!v) return "";
   if (typeof v === "string") return v;
-  if (typeof v === "object") {
+  if (typeof v === "object")
     return String(v[lang] || v.en || v.ar || v.fr || "");
-  }
   return String(v);
 }
 
@@ -452,7 +255,6 @@ function prefillCustomerFields() {
 }
 
 async function loadCatalog() {
-  // try server data first, fallback to built-in list
   try {
     const [rr, mm] = await Promise.all([
       fetch("/api/restaurants").then((r) => r.json()),
@@ -465,7 +267,6 @@ async function loadCatalog() {
     products = [];
   }
 
-  // If restaurants list is empty BUT products exist, build a minimal restaurants list from products.
   const prodRestIds = Array.from(
     new Set(
       (products || [])
@@ -480,8 +281,6 @@ async function loadCatalog() {
       isActive: true,
     }));
   }
-
-  // If we have restaurants, but some product restaurantIds are missing from the list, add placeholders.
   if (RESTAURANTS.length > 0 && prodRestIds.length > 0) {
     const set = new Set(RESTAURANTS.map((r) => String(r.id)));
     for (const id of prodRestIds) {
@@ -493,9 +292,7 @@ async function loadCatalog() {
         });
     }
   }
-
-  // If still empty, fallback to a single default restaurant
-  if (RESTAURANTS.length === 0) {
+  if (RESTAURANTS.length === 0)
     RESTAURANTS = [
       {
         id: "REST-1",
@@ -503,41 +300,22 @@ async function loadCatalog() {
         isActive: true,
       },
     ];
-  }
 
-  // If no products at all, use local fallback demo products
-  if ((products || []).length === 0) {
-    products = FALLBACK_PRODUCTS.map((p) => ({
-      ...p,
-      restaurantId: RESTAURANTS[0].id,
-      isAvailable: true,
-    }));
-  }
-
-  // Restore selection (prefer saved id if valid; otherwise choose a restaurant that actually has products)
   const saved = localStorage.getItem(REST_KEY);
   const exists = (id) => RESTAURANTS.some((r) => String(r.id) === String(id));
-
   let nextId = "";
   if (saved && exists(saved)) nextId = String(saved);
-
-  // pick first restaurantId from products
   if (!nextId) {
     const prodId = (products || [])
       .map((p) => String(p?.restaurantId || ""))
       .find((id) => id && exists(id));
     if (prodId) nextId = String(prodId);
   }
-
   if (!nextId) nextId = String(RESTAURANTS[0]?.id || "");
-
   selectedRestaurantId = nextId;
   localStorage.setItem(REST_KEY, selectedRestaurantId);
 }
 
-/***********************
- * Ratings (testimonials)
- ***********************/
 async function loadRatings() {
   try {
     const res = await fetch("/api/ratings?limit=12");
@@ -552,11 +330,8 @@ function renderRatings() {
   const section = el("ratingsSection");
   const listEl = el("ratingsList");
   if (!section || !listEl) return;
-
-  // Always show the section (even if empty) to make the feature visible.
   section.style.display = "";
   listEl.innerHTML = "";
-
   const list = Array.isArray(RATINGS) ? RATINGS : [];
   if (!list.length) {
     const empty = document.createElement("div");
@@ -571,17 +346,14 @@ function renderRatings() {
     listEl.appendChild(empty);
     return;
   }
-
   for (const r of list) {
     const card = document.createElement("div");
     card.className = "rating-card";
-
     const starsEl = document.createElement("div");
     starsEl.className = "rating-stars";
     const n = Math.max(1, Math.min(5, Number(r?.stars || 0)));
     starsEl.textContent = "★".repeat(n) + "☆".repeat(5 - n);
     card.appendChild(starsEl);
-
     const comment = String(r?.comment || "").trim();
     if (comment) {
       const c = document.createElement("div");
@@ -589,7 +361,6 @@ function renderRatings() {
       c.textContent = comment;
       card.appendChild(c);
     }
-
     const meta = document.createElement("div");
     meta.className = "rating-meta";
     const who = document.createElement("span");
@@ -607,28 +378,20 @@ function renderRatings() {
     meta.appendChild(who);
     meta.appendChild(where);
     card.appendChild(meta);
-
     listEl.appendChild(card);
   }
 }
 
-/***********************
- * UI icons
- ***********************/
 function mountIcons() {
   el("cartIcon").innerHTML = ICONS.cart;
   el("clearIcon").innerHTML = ICONS.trash;
   el("sendIcon").innerHTML = ICONS.send;
   el("locIcon").innerHTML = ICONS.locate;
-
   installBtn.innerHTML = ICONS.install;
   themeToggle.innerHTML = ICONS.moon;
   supportCall.innerHTML = ICONS.phone;
 }
 
-/***********************
- * Theme
- ***********************/
 const THEME_KEY = "siymon_theme_v3";
 function applyTheme(theme) {
   if (theme === "dark") {
@@ -657,9 +420,6 @@ function toggleTheme() {
   applyTheme(next);
 }
 
-/***********************
- * LocalStorage
- ***********************/
 const LS_KEY = "siymon_cart_v5";
 function saveCart() {
   const obj = {
@@ -680,10 +440,8 @@ function loadCart() {
     const raw = localStorage.getItem(LS_KEY);
     if (!raw) return;
     const obj = JSON.parse(raw);
-
     if (obj?.lang) lang = obj.lang;
     if (obj?.activeCat) activeCat = obj.activeCat;
-
     if (Array.isArray(obj?.items)) {
       cart.clear();
       obj.items.forEach(([id, qty]) => {
@@ -691,7 +449,6 @@ function loadCart() {
           cart.set(id, qty);
       });
     }
-
     if (obj?.customer) {
       custName.value = obj.customer.name || "";
       custPhone.value = obj.customer.phone || "";
@@ -701,9 +458,6 @@ function loadCart() {
   } catch (e) {}
 }
 
-/***********************
- * Helpers
- ***********************/
 function money(v) {
   const num = Number(v || 0);
   return (
@@ -732,24 +486,17 @@ function cartItemsCount() {
   return c;
 }
 
-/***********************
- * Business hours
- ***********************/
 function isBusinessOpen(now = new Date()) {
   const day = now.getDay();
   const minutesNow = now.getHours() * 60 + now.getMinutes();
   const isDayAllowed = (d) => BUSINESS.days.includes(d);
   const openMin = BUSINESS.open.h * 60 + BUSINESS.open.m;
   let closeMin = BUSINESS.close.h * 60 + BUSINESS.close.m;
-
   if (closeMin === 0 && openMin > 0) closeMin = 24 * 60;
-
   if (closeMin === openMin) return isDayAllowed(day);
-
   const overnight = closeMin < openMin;
-  if (!overnight) {
+  if (!overnight)
     return isDayAllowed(day) && minutesNow >= openMin && minutesNow < closeMin;
-  }
   if (minutesNow < closeMin) {
     const prevDay = (day + 6) % 7;
     return isDayAllowed(prevDay);
@@ -764,102 +511,83 @@ function updateOpenStatus() {
       : mode === "closed"
         ? false
         : isBusinessOpen(new Date());
-
   openBadge.classList.toggle("open", open);
   openBadge.classList.toggle("closed", !open);
-
   openText.textContent = open ? i18n[lang].openNow : i18n[lang].closedNow;
   hoursText.textContent = i18n[lang].hoursText;
-
   isOpenNow = !!open;
-  // button state is controlled by open status + login gate
   closedHint.style.display = open ? "none" : "block";
   updateLoginGate();
 }
 
-/***********************
- * i18n apply
- ***********************/
 function applyI18n() {
   document.documentElement.lang = lang;
   document.documentElement.dir = i18n[lang].dir;
   document.title = i18n[lang].title;
-
   el("subtitle").textContent = i18n[lang].subtitle;
   el("cartTitle").textContent = i18n[lang].cartTitle;
-
   el("subTotalLabel").textContent = i18n[lang].subTotalLabel;
   el("totalLabel").textContent = i18n[lang].totalLabel;
-
   el("nameLabel").textContent = i18n[lang].nameLabel;
   el("phoneLabel").textContent = i18n[lang].phoneLabel;
   el("addrLabel").textContent = i18n[lang].addrLabel;
   el("notesLabel").textContent = i18n[lang].notesLabel;
-
   el("placeText").textContent = i18n[lang].placeText;
-
   el("getAddrText").textContent = i18n[lang].getAddrText;
   locHint.textContent = i18n[lang].locHint;
-
   el("clearText").textContent = i18n[lang].clearText;
   el("footerText").textContent = i18n[lang].footer;
-  const policyLinkEl = el("policyLink");
-  if (policyLinkEl) {
-    policyLinkEl.textContent =
+  const pl = el("policyLink");
+  if (pl) {
+    pl.textContent =
       i18n[lang].policyLink ||
-      (lang === "ar"
-        ? "سياسة الشركة"
-        : lang === "fr"
-          ? "Politique de l’entreprise"
-          : "Company policy");
-    // Always show the link (policy may be optional/empty depending on admin settings)
-    policyLinkEl.style.display = "inline";
+      (lang === "ar" ? "سياسة الشركة" : "Company policy");
+    pl.style.display = "inline";
   }
-  const myOrdersLink = el("myOrdersLink");
-  if (myOrdersLink) myOrdersLink.textContent = i18n[lang].myOrders;
-
-  // Ratings section
+  const mol = el("myOrdersLink");
+  if (mol) mol.textContent = i18n[lang].myOrders;
   const rt = el("ratingsTitle");
   if (rt)
     rt.textContent =
       i18n[lang].ratingsTitle ||
-      (lang === "ar"
-        ? "آراء الزبائن"
-        : lang === "fr"
-          ? "Avis des clients"
-          : "Customer reviews");
+      (lang === "ar" ? "آراء الزبائن" : "Customer reviews");
   const rs = el("ratingsSubtitle");
   if (rs) rs.textContent = i18n[lang].ratingsSubtitle || "";
-
   langToggle.textContent = lang === "ar" ? "EN" : lang === "en" ? "FR" : "AR";
-
-  custName.placeholder =
-    lang === "ar" ? "مثال: محمد" : lang === "fr" ? "ex : Jean" : "e.g. John";
-  custPhone.placeholder =
-    lang === "ar"
-      ? "06/07xxxxxxxx"
-      : lang === "fr"
-        ? "Numéro de téléphone"
-        : "Phone number";
-  custAddr.placeholder =
-    lang === "ar"
-      ? "المدينة، الحي..."
-      : lang === "fr"
-        ? "Ville, rue..."
-        : "City, street...";
+  custName.placeholder = lang === "ar" ? "مثال: محمد" : "e.g. John";
+  custPhone.placeholder = lang === "ar" ? "06/07xxxxxxxx" : "Phone number";
+  custAddr.placeholder = lang === "ar" ? "المدينة، الحي..." : "City, street...";
   custNotes.placeholder =
-    lang === "ar"
-      ? "بدون بصل، حار، ..."
-      : lang === "fr"
-        ? "Sans oignons, épicé, ..."
-        : "No onions, spicy, ...";
-
+    lang === "ar" ? "بدون بصل، حار، ..." : "No onions, spicy, ...";
   supportCall.setAttribute(
     "href",
     "tel:" + (PUBLIC?.supportPhone || "+212000000000"),
   );
 }
 
+// ✅ مدمج: دالة تسجيل الدخول بجوجل
+async function handleGoogleLogin(response) {
+  try {
+    const res = await fetch("/api/auth/google/callback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: response.credential }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "فشل التسجيل بجوجل");
+    localStorage.setItem(CUSTOMER_TOKEN_KEY, data.token);
+    if (data.customer)
+      localStorage.setItem(CUSTOMER_PROFILE_KEY, JSON.stringify(data.customer));
+    toast("تم تسجيل الدخول بنجاح ✅");
+    updateLoginGate();
+    prefillCustomerFields();
+  } catch (err) {
+    console.error(err);
+    toast("حدث خطأ أثناء تسجيل الدخول بجوجل");
+  }
+}
+
+// ✅ مدمج: تحديث منطق البوابة لتشغيل زرار جوجل
 function updateLoginGate() {
   const gate = el("loginGate");
   const loggedIn = !!getCustomerToken();
@@ -873,15 +601,27 @@ function updateLoginGate() {
       location.pathname + location.search + location.hash,
     );
     btn.setAttribute("href", `/orders/?next=${next}`);
+
+    // تشغيل زرار جوجل لو موجود في الإعدادات
+    if (!loggedIn && window.google && PUBLIC?.googleClientId) {
+      google.accounts.id.initialize({
+        client_id: PUBLIC.googleClientId,
+        callback: handleGoogleLogin,
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("googleSignInContainer"),
+        {
+          theme: "outline",
+          size: "large",
+          type: "standard",
+          text: "continue_with",
+        },
+      );
+    }
   }
-  // Place button is disabled only when the shop is closed.
-  // If user is not logged-in, clicking will redirect to login/signup.
   placeBtn.disabled = !isOpenNow;
 }
 
-/***********************
- * Restaurants
- ***********************/
 function renderRestaurants() {
   if (!restaurantChips) return;
   const list = (RESTAURANTS || []).filter((r) => r && r.isActive !== false);
@@ -899,7 +639,6 @@ function renderRestaurants() {
     btn.addEventListener("click", () => {
       selectedRestaurantId = String(r.id);
       localStorage.setItem(REST_KEY, selectedRestaurantId);
-      // reset category if it becomes invalid
       normalizeActiveCat();
       renderAll();
       saveCart();
@@ -908,9 +647,6 @@ function renderRestaurants() {
   });
 }
 
-/***********************
- * Categories
- ***********************/
 function buildCategoriesFromProducts() {
   const map = new Map();
   for (const p of products) {
@@ -938,7 +674,6 @@ function renderCategories() {
   normalizeActiveCat();
   const cats = buildCategoriesFromProducts();
   const list = [{ key: "all", label: i18n[lang].categoryAll }, ...cats];
-
   categoryChips.innerHTML = "";
   list.forEach((c) => {
     const btn = document.createElement("div");
@@ -953,107 +688,70 @@ function renderCategories() {
   });
 }
 
-/***********************
- * Render
- ***********************/
-// CSP-safe image fallback (no inline onerror handlers)
 const FALLBACK_IMG_DATA =
   "data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23eee%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-family=%22Arial%22 font-size=%2220%22>Image</text></svg>";
 
 function renderProducts() {
   let filtered = products.filter((p) => p && p.isAvailable !== false);
-  if (selectedRestaurantId) {
+  if (selectedRestaurantId)
     filtered = filtered.filter(
       (p) => String(p.restaurantId || "") === String(selectedRestaurantId),
     );
-  }
   filtered =
     activeCat === "all"
       ? filtered
       : filtered.filter((p) => p.cat === activeCat);
   productsGrid.innerHTML = "";
-
   filtered.forEach((p) => {
     const card = document.createElement("div");
     card.className = "card";
-    card.innerHTML = `
-      <div class="img">
-        <img src="${p.img}" alt="${textForLang(p.name)}" loading="lazy" />
-      </div>
-      <h3>${textForLang(p.name)}</h3>
-      <p>${textForLang(p.desc)}</p>
-      <div class="row">
-        <span class="price">${money(p.price)}</span>
-      </div>
-      <button class="btn primary addBtn" data-id="${p.id}" type="button">${i18n[lang].addBtn}</button>
-    `;
+    card.innerHTML = `<div class="img"><img src="${p.img}" alt="${textForLang(p.name)}" loading="lazy" /></div><h3>${textForLang(p.name)}</h3><p>${textForLang(p.desc)}</p><div class="row"><span class="price">${money(p.price)}</span></div><button class="btn primary addBtn" data-id="${p.id}" type="button">${i18n[lang].addBtn}</button>`;
     productsGrid.appendChild(card);
-
-    // If the image fails, swap to a safe inline SVG (CSP-friendly)
     const imgEl = card.querySelector("img");
-    if (imgEl) {
+    if (imgEl)
       imgEl.addEventListener(
         "error",
         () => {
-          // prevent infinite loop
           imgEl.onerror = null;
           imgEl.src = FALLBACK_IMG_DATA;
         },
         { once: true },
       );
-    }
   });
-
-  document.querySelectorAll(".addBtn").forEach((b) => {
-    b.addEventListener("click", () => {
-      const id = b.getAttribute("data-id");
-      addToCart(id, 1);
-    });
-  });
+  document
+    .querySelectorAll(".addBtn")
+    .forEach((b) =>
+      b.addEventListener("click", () =>
+        addToCart(b.getAttribute("data-id"), 1),
+      ),
+    );
 }
 
 function renderCart() {
   cartItems.innerHTML = "";
-
-  if (cart.size === 0) {
+  if (cart.size === 0)
     cartItems.innerHTML = `<div class="empty">${i18n[lang].emptyCart}</div>`;
-  } else {
+  else {
     for (const [id, qty] of cart.entries()) {
       const p = getProduct(id);
       if (!p) continue;
       const subtotal = p.price * qty;
       const item = document.createElement("div");
       item.className = "cart-item";
-      item.innerHTML = `
-        <div>
-          <b>${textForLang(p.name)}</b>
-          <small>${money(p.price)} • <span class="muted">${money(subtotal)}</span></small>
-        </div>
-        <div class="qty">
-          <button type="button" data-act="minus" data-id="${id}">−</button>
-          <span>${qty}</span>
-          <button type="button" data-act="plus" data-id="${id}">+</button>
-        </div>
-      `;
+      item.innerHTML = `<div><b>${textForLang(p.name)}</b><small>${money(p.price)} • <span class="muted">${money(subtotal)}</span></small></div><div class="qty"><button type="button" data-act="minus" data-id="${id}">−</button><span>${qty}</span><button type="button" data-act="plus" data-id="${id}">+</button></div>`;
       cartItems.appendChild(item);
     }
-
-    cartItems.querySelectorAll("button").forEach((btn) => {
+    cartItems.querySelectorAll("button").forEach((btn) =>
       btn.addEventListener("click", () => {
         const act = btn.getAttribute("data-act");
         const id = btn.getAttribute("data-id");
         if (act === "plus") addToCart(id, 1);
         if (act === "minus") addToCart(id, -1);
-      });
-    });
+      }),
+    );
   }
-
-  const sub = cartSubTotal();
-  const grand = cartGrandTotal();
-
-  subTotalValue.textContent = money(sub);
-  totalValue.textContent = money(grand);
-
+  subTotalValue.textContent = money(cartSubTotal());
+  totalValue.textContent = money(cartGrandTotal());
   cartCount.textContent = String(cartItemsCount());
   updateLoginGate();
 }
@@ -1061,16 +759,11 @@ function renderCart() {
 function renderOffersBanner() {
   const wrap = document.getElementById("offersBanner");
   if (!wrap) return;
-
-  // جلب كل المنتجات المتاحة من المطعم لعرضها في البانر (بدون أي قص)
   let featured = products.filter((p) => p && p.isAvailable !== false);
-  if (selectedRestaurantId) {
+  if (selectedRestaurantId)
     featured = featured.filter(
       (p) => String(p.restaurantId || "") === String(selectedRestaurantId),
     );
-  }
-
-  // لو مفيش منتجات، هنخفي البانر
   if (featured.length === 0) {
     wrap.style.display = "none";
     if (offersTimer) {
@@ -1079,36 +772,13 @@ function renderOffersBanner() {
     }
     return;
   }
-
   wrap.style.display = "block";
   offersIndex = (offersIndex || 0) % featured.length;
   const p = featured[offersIndex];
-
-  // تجهيز اسم المنتج عشان ميضربش الكود لما نضغط عليه
   const safeName = textForLang(p.name)
     .replace(/'/g, "\\'")
     .replace(/"/g, "&quot;");
-
-  // تصميم البانر العريض والحديث (بيضيف المنتج للسلة فوراً عند الضغط)
-  wrap.innerHTML = `
-    <div style="display:flex; background:var(--surface, #fff); border-radius:16px; overflow:hidden; margin-bottom:20px; cursor:pointer; min-height:130px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.05); transition:transform 0.2s;" 
-         onclick="addToCart('${p.id}', 1); toast('تم إضافة ${safeName} للسلة ✅');">
-       <div style="flex:1; padding:16px; display:flex; flex-direction:column; justify-content:center;">
-         <span style="background:var(--primary); color:#fff; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:20px; align-self:flex-start; margin-bottom:8px;">🔥 عرض مميز</span>
-         <h3 style="margin:0 0 4px 0; font-size:16px;">${textForLang(p.name)}</h3>
-         <p style="margin:0 0 10px 0; font-size:13px; color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${textForLang(p.desc)}</p>
-         <div style="margin-top:auto; display:flex; align-items:center; gap:10px;">
-           <b style="font-size:16px;">${money(p.price)}</b>
-           <span style="color:var(--primary); font-weight:bold; font-size:13px; background:rgba(255,87,34,0.1); padding:4px 8px; border-radius:8px;">+ ${i18n[lang].addBtn}</span>
-         </div>
-       </div>
-       <div style="width:40%; max-width:160px; position:relative;">
-         <img src="${p.img}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%25%22 height=%22100%25%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23eee%22/></svg>'" />
-       </div>
-    </div>
-  `;
-
-  // تقليب البانر تلقائياً كل 3 ثواني ونصف
+  wrap.innerHTML = `<div style="display:flex; background:var(--surface, #fff); border-radius:16px; overflow:hidden; margin-bottom:20px; cursor:pointer; min-height:130px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.05); transition:transform 0.2s;" onclick="addToCart('${p.id}', 1); toast('تم إضافة ${safeName} للسلة ✅');"><div style="flex:1; padding:16px; display:flex; flex-direction:column; justify-content:center;"><span style="background:var(--primary); color:#fff; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:20px; align-self:flex-start; margin-bottom:8px;">🔥 عرض مميز</span><h3 style="margin:0 0 4px 0; font-size:16px;">${textForLang(p.name)}</h3><p style="margin:0 0 10px 0; font-size:13px; color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${textForLang(p.desc)}</p><div style="margin-top:auto; display:flex; align-items:center; gap:10px;"><b style="font-size:16px;">${money(p.price)}</b><span style="color:var(--primary); font-weight:bold; font-size:13px; background:rgba(255,87,34,0.1); padding:4px 8px; border-radius:8px;">+ ${i18n[lang].addBtn}</span></div></div><div style="width:40%; max-width:160px; position:relative;"><img src="${p.img}" style="width:100%; height:100%; object-fit:cover;" /></div></div>`;
   if (!offersTimer) {
     offersTimer = setInterval(() => {
       offersIndex = (offersIndex + 1) % featured.length;
@@ -1128,9 +798,6 @@ function renderAll() {
   updateOpenStatus();
 }
 
-/***********************
- * Cart actions
- ***********************/
 function addToCart(id, delta) {
   const p = getProduct(id);
   if (!p) return;
@@ -1147,9 +814,6 @@ function clearCart() {
   saveCart();
 }
 
-/***********************
- * Toast
- ***********************/
 let toastTimer = null;
 function toast(msg) {
   toastEl.textContent = msg;
@@ -1158,78 +822,38 @@ function toast(msg) {
   toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
 }
 
-/***********************
- * Geolocation
- ***********************/
 async function getLocation() {
   if (!navigator.geolocation) {
     alert(i18n[lang].geo?.unsupported || "Geolocation unsupported");
     return;
   }
-
   getAddrBtn.disabled = true;
   const oldText = el("getAddrText").textContent;
-  el("getAddrText").textContent =
-    i18n[lang].geo?.locating ||
-    (lang === "ar"
-      ? "جارٍ تحديد موقعك..."
-      : lang === "fr"
-        ? "Localisation..."
-        : "Locating...");
-
+  el("getAddrText").textContent = i18n[lang].geo?.locating || "Locating...";
   navigator.geolocation.getCurrentPosition(
     async (pos) => {
       const lat = pos.coords.latitude;
       const lng = pos.coords.longitude;
-
       try {
-        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
-        const res = await fetch(url, {
-          headers: {
-            Accept: "application/json",
-            "Accept-Language":
-              lang === "ar" ? "ar" : lang === "fr" ? "fr" : "en",
-          },
-        });
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
+          { headers: { Accept: "application/json", "Accept-Language": lang } },
+        );
         const data = await res.json();
-        const display =
-          data && data.display_name
-            ? data.display_name
-            : `Lat: ${lat}, Lng: ${lng}`;
-
-        custAddr.value = display;
+        custAddr.value = data?.display_name || `Lat: ${lat}, Lng: ${lng}`;
         custAddr.dispatchEvent(new Event("input", { bubbles: true }));
-        locHint.textContent =
-          i18n[lang].geo?.filled ||
-          (lang === "ar"
-            ? "تم ملء العنوان تلقائياً ✅"
-            : lang === "fr"
-              ? "Adresse remplie ✅"
-              : "Address filled ✅");
+        locHint.textContent = i18n[lang].geo?.filled || "Address filled ✅";
       } catch (e) {
         custAddr.value = `Lat: ${lat}, Lng: ${lng}`;
         custAddr.dispatchEvent(new Event("input", { bubbles: true }));
-        locHint.textContent =
-          i18n[lang].geo?.fallback ||
-          (lang === "ar"
-            ? "تعذر جلب العنوان، تم وضع الإحداثيات."
-            : lang === "fr"
-              ? "Impossible de récupérer l\'adresse ; coordonnées utilisées."
-              : "Couldn\'t fetch address; used coordinates.");
+        locHint.textContent = i18n[lang].geo?.fallback || "Used coordinates.";
       } finally {
         getAddrBtn.disabled = false;
         el("getAddrText").textContent = oldText;
       }
     },
     () => {
-      alert(
-        i18n[lang].geo?.denied ||
-          (lang === "ar"
-            ? "تعذر تحديد موقعك، المرجو السماح بالوصول للموقع"
-            : lang === "fr"
-              ? "Impossible d\'obtenir votre position. Autorisez l\'accès à la localisation."
-              : "Couldn\'t get your location. Please allow access."),
-      );
+      alert(i18n[lang].geo?.denied || "Please allow access.");
       getAddrBtn.disabled = false;
       el("getAddrText").textContent = oldText;
     },
@@ -1237,9 +861,6 @@ async function getLocation() {
   );
 }
 
-/***********************
- * Place order (save to server)
- ***********************/
 function buildOrderPayload() {
   const mode = String(PUBLIC?.restaurantMode || "auto");
   const open =
@@ -1249,31 +870,23 @@ function buildOrderPayload() {
         ? false
         : isBusinessOpen(new Date());
   if (!open) return { error: i18n[lang].validations.closed };
-
   const name = custName.value.trim();
   const phone = custPhone.value.trim();
   const addr = custAddr.value.trim();
   const notes = custNotes.value.trim();
-
   if (cart.size === 0) return { error: i18n[lang].validations.needItems };
   if (!name) return { error: i18n[lang].validations.needName };
   if (!phone) return { error: i18n[lang].validations.needPhone };
   if (!addr) return { error: i18n[lang].validations.needAddress };
-
   const items = [];
-  for (const [id, qty] of cart.entries()) {
-    // Server computes price/subtotal from its own menu (anti-tampering)
-    items.push({ id, qty });
-  }
-
+  for (const [id, qty] of cart.entries()) items.push({ id, qty });
   return {
     payload: {
       lang,
       restaurantId: selectedRestaurantId,
       customer: { name, phone, addr, notes },
       items,
-      currency:
-        lang === "ar" ? CURRENCY_AR : lang === "fr" ? CURRENCY_FR : CURRENCY_EN,
+      currency: lang === "ar" ? CURRENCY_AR : CURRENCY_EN,
     },
   };
 }
@@ -1282,10 +895,7 @@ async function placeOrder() {
   orderHint.textContent = "";
   if (!getCustomerToken()) {
     toast(i18n[lang].needLoginToOrder);
-    const next = encodeURIComponent(
-      location.pathname + location.search + location.hash,
-    );
-    window.location.href = `/orders/?next=${next}`;
+    window.location.href = `/orders/?next=${encodeURIComponent(location.pathname + location.search + location.hash)}`;
     return;
   }
   const { error, payload } = buildOrderPayload();
@@ -1293,7 +903,6 @@ async function placeOrder() {
     alert(error);
     return;
   }
-
   placeBtn.disabled = true;
   try {
     const custToken = getCustomerToken();
@@ -1306,18 +915,8 @@ async function placeOrder() {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data?.error || "failed");
-
-    toast(
-      i18n[lang].orderSentToast ||
-        (lang === "ar"
-          ? "تم إرسال الطلب ✅"
-          : lang === "fr"
-            ? "Commande envoyée ✅"
-            : "Order sent ✅"),
-    );
+    toast(i18n[lang].orderSentToast || "Order sent ✅");
     orderHint.innerHTML = `<b>${i18n[lang].placeSuccess}</b> <code>${data.id}</code>`;
-
-    // keep cart (optional). Here we clear after success:
     clearCart();
   } catch (e) {
     console.error(e);
@@ -1327,30 +926,21 @@ async function placeOrder() {
   }
 }
 
-/***********************
- * PWA Install
- ***********************/
 let deferredPrompt = null;
 function isIOS() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent);
 }
-
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
   installBtn.style.display = "inline-flex";
 });
-
 installBtn.addEventListener("click", async () => {
   if (!deferredPrompt) {
     if (isIOS())
       alert(
         i18n[lang].iosAddToHome ||
-          (lang === "ar"
-            ? "في iPhone: اضغط زر المشاركة ثم (Add to Home Screen)."
-            : lang === "fr"
-              ? "Sur iPhone : touchez Partager puis Ajouter à l\'écran d\'accueil."
-              : "On iPhone: tap Share then Add to Home Screen."),
+          "On iPhone: tap Share then Add to Home Screen.",
       );
     return;
   }
@@ -1359,16 +949,11 @@ installBtn.addEventListener("click", async () => {
   deferredPrompt = null;
   installBtn.style.display = "none";
 });
+if ("serviceWorker" in navigator)
+  window.addEventListener("load", () =>
+    navigator.serviceWorker.register("/sw.js").catch(() => {}),
+  );
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
-  });
-}
-
-/***********************
- * Init
- ***********************/
 async function loadPublicConfig() {
   try {
     const res = await fetch("/api/public-config");
@@ -1386,17 +971,16 @@ langToggle.addEventListener("click", () => {
 });
 themeToggle.addEventListener("click", toggleTheme);
 clearCartBtn.addEventListener("click", clearCart);
-goCartBtn.addEventListener("click", () => {
+goCartBtn.addEventListener("click", () =>
   document
     .getElementById("cartPanel")
-    .scrollIntoView({ behavior: "smooth", block: "start" });
-});
+    .scrollIntoView({ behavior: "smooth", block: "start" }),
+);
 getAddrBtn.addEventListener("click", getLocation);
 placeBtn.addEventListener("click", placeOrder);
-
-[custName, custPhone, custAddr, custNotes].forEach((input) => {
-  input.addEventListener("input", () => saveCart());
-});
+[custName, custPhone, custAddr, custNotes].forEach((input) =>
+  input.addEventListener("input", () => saveCart()),
+);
 
 (async function init() {
   await loadPublicConfig();

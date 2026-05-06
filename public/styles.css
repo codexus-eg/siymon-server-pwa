@@ -484,6 +484,24 @@ html[data-theme="dark"] .cart-item {
   background: var(--card);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 }
+
+/* --- التعديل الجديد لحل مشكلة البانر والمنتجات المميزة في الدارك مود --- */
+html[data-theme="dark"] .offers-banner,
+html[data-theme="dark"] .offers-banner > div,
+html[data-theme="dark"] [style*="background: #fff"],
+html[data-theme="dark"] [style*="background:#fff"],
+html[data-theme="dark"] [style*="background: white"],
+html[data-theme="dark"] [style*="background-color: #fff"],
+html[data-theme="dark"] [style*="background-color: white"] {
+  background-color: var(--card) !important;
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] .offers-banner .muted {
+  color: var(--muted) !important;
+}
+/* ----------------------------------------------------------------------- */
+
 .offers-banner-img {
   width: 100%;
   height: 170px;

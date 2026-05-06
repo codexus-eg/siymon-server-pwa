@@ -1318,7 +1318,7 @@ function printHtmlTicket(order) {
   <body>
     <div class="ticket">
       <div class="logo-wrap">
-        <img class="logo" src="/icons/icon-192.png" alt="siymon" onload="window.logoLoaded=true;"/>
+        <img class="logo" src="/icons/invoice-logo.png" alt="siymon" onload="window.logoLoaded=true;"/>
       </div>
       <div class="center big">${escapeHtml(restName || "siymon")}</div>
       <div class="center muted">${tx.order} #${escapeHtml(order.id)}</div>

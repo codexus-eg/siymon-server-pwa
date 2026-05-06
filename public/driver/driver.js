@@ -795,16 +795,22 @@ function escapeHtml(s) {
   );
 }
 
-// دالة فتح الخرائط (تم تعديلها لدعم الإحداثيات)
+// دالة فتح الخرائط (تم تعديلها لدعم الروابط المباشرة لـ GPS)
 function openMaps(addr, lat, lng) {
   if (lat && lng) {
-    // لو الإحداثيات الدقيقة موجودة، افتحها مباشرة
+    // لو الإحداثيات الدقيقة موجودة للزبون
     window.open(
       `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
       "_blank",
     );
+  } else if (
+    addr &&
+    (addr.startsWith("http://") || addr.startsWith("https://"))
+  ) {
+    // لو الأدمن حاطط لينك مباشر للمطعم، افتح اللينك علطول
+    window.open(addr, "_blank");
   } else {
-    // لو مفيش إحداثيات، ابحث بالنص (العنوان القديم)
+    // لو مفيش إحداثيات ولا لينك، ابحث بالنص
     const q = encodeURIComponent(addr || "");
     window.open(
       `https://www.google.com/maps/search/?api=1&query=${q}`,
@@ -980,7 +986,10 @@ function renderOrders() {
             rest.name.fr ||
             "المطعم"
         : "المطعم";
-      const restAddr = rest.address || "";
+
+      // هنا خلينا اللينك ثابت زي ما طلبت لكل المطاعم (GPS Link)
+      const restAddr =
+        "https://www.google.com/maps?q=33.2643604,-7.5717029&z=17&hl=en";
 
       return `
       <div class="order-card" data-oid="${escapeHtml(o.id)}">

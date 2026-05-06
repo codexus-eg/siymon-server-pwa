@@ -3581,14 +3581,15 @@ function printHtmlTicket(order) {
   const t = I18N[lang] || I18N.en;
   const tx = ticketTexts(order.lang || lang);
   const items = Array.isArray(order.items) ? order.items : [];
+
+  // شلنا عمود "سعر الوحدة" عشان الورقة الـ 58 ضيقة، وهنعرض (الاسم، الكمية، المجموع) بس
   const rows = items
     .map((it) => {
       const lt = Number(it.price || 0) * Number(it.qty || 0);
       return `<tr>
-      <td style="text-align:start">${escapeHtml(it.name || it.id)}</td>
-      <td style="text-align:center">${Number(it.qty || 0)}</td>
-      <td style="text-align:end">${Number(it.price || 0).toFixed(2)}</td>
-      <td style="text-align:end"><b>${Number(lt || 0).toFixed(2)}</b></td>
+      <td class="col-name">${escapeHtml(it.name || it.id)}</td>
+      <td class="col-qty">${Number(it.qty || 0)}</td>
+      <td class="col-total"><b>${Number(lt || 0).toFixed(2)}</b></td>
     </tr>`;
     })
     .join("");
@@ -3602,47 +3603,58 @@ function printHtmlTicket(order) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>${tx.order} #${escapeHtml(order.id)}</title>
     <style>
-      @page { size: 58mm auto; margin: 0; }
+      * { box-sizing: border-box; }
+      @page { margin: 0; }
       body { 
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
+        font-family: Tahoma, Arial, sans-serif; 
         margin: 0; 
-        padding: 5px; 
+        padding: 0; 
         color: #000;
         background: #fff;
       }
       .ticket { 
-        width: 100%; 
-        max-width: 58mm; 
+        width: 48mm; /* مساحة الطباعة الفعلية للورق الـ 58 مللي */
         margin: 0 auto; 
-        font-size: 11px;
+        padding: 5mm 0;
+        font-size: 12px;
+        overflow: hidden;
       }
       .center { text-align: center; }
-      .muted { color: #000; font-weight: bold; }
-      .hr { border-top: 1px dashed #000; margin: 8px 0; }
-      table { width: 100%; border-collapse: collapse; font-size: 11px; color: #000; }
-      td { padding: 3px 0; border-bottom: 1px solid #eee; }
-      .totals td { padding: 4px 0; border-bottom: none; }
-      .big { font-size: 14px; font-weight: 900; }
+      .logo-wrap { text-align: center; margin-bottom: 5px; width: 100%; }
       .logo { 
-        width: 30mm; 
+        max-width: 90px; /* مقاس ثابت بالبيكسل عشان ميكبرش ويضرب من المتصفح */
         height: auto; 
-        display: block; 
-        margin: 0 auto 6px auto;
         filter: grayscale(100%) contrast(200%);
       }
+      .hr { border-bottom: 1px dashed #000; margin: 8px 0; }
+      
+      table { width: 100%; border-collapse: collapse; font-size: 12px; color: #000; }
+      th { border-bottom: 1px solid #000; padding-bottom: 4px; font-weight: bold; }
+      td, th { padding: 4px 0; vertical-align: middle; }
+      
+      .col-name { text-align: start; width: 55%; padding-inline-end: 2px; }
+      .col-qty { text-align: center; width: 15%; }
+      .col-total { text-align: end; width: 30%; }
+      
+      .totals { width: 100%; font-size: 13px; font-weight: bold; margin-top: 5px; }
+      .totals td { padding: 3px 0; }
+      .big { font-size: 15px; font-weight: 900; }
+      .muted { font-weight: bold; }
     </style>
   </head>
   <body>
     <div class="ticket">
-      <img class="logo" src="/icons/icon-192.png" alt="siymon" onload="window.logoLoaded=true;"/>
+      <div class="logo-wrap">
+        <img class="logo" src="/icons/icon-192.png" alt="siymon" onload="window.logoLoaded=true;"/>
+      </div>
       <div class="center big">${escapeHtml(restName || "siymon")}</div>
       <div class="center muted">${tx.order} #${escapeHtml(order.id)}</div>
-      <div class="center muted">${escapeHtml(fmtTime(order.createdAt))}</div>
+      <div class="center muted" style="font-size: 11px;">${escapeHtml(fmtTime(order.createdAt))}</div>
 
       <div class="hr"></div>
 
       <div><b>${tx.name}:</b> ${escapeHtml(order.customer?.name || "")}</div>
-      <div><b>${tx.phone}:</b> ${escapeHtml(order.customer?.phone || "")}</div>
+      <div><b>${tx.phone}:</b> <span dir="ltr">${escapeHtml(order.customer?.phone || "")}</span></div>
       <div><b>${tx.address}:</b> ${escapeHtml(order.customer?.addr || "")}</div>
       ${order.customer?.notes ? `<div><b>${tx.notes}:</b> ${escapeHtml(order.customer?.notes || "")}</div>` : ""}
 
@@ -3650,11 +3662,10 @@ function printHtmlTicket(order) {
 
       <table>
         <thead>
-          <tr class="muted">
-            <td style="text-align:start; font-weight:bold;">${escapeHtml(t.itemName)}</td>
-            <td style="text-align:center; font-weight:bold;">${escapeHtml(t.qty)}</td>
-            <td style="text-align:end; font-weight:bold;">${escapeHtml(t.unitPrice)}</td>
-            <td style="text-align:end; font-weight:bold;">${escapeHtml(t.total)}</td>
+          <tr>
+            <th class="col-name">${escapeHtml(t.itemName)}</th>
+            <th class="col-qty">${escapeHtml(t.qty)}</th>
+            <th class="col-total">${escapeHtml(t.total)}</th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>
@@ -3663,9 +3674,18 @@ function printHtmlTicket(order) {
       <div class="hr"></div>
 
       <table class="totals">
-        <tr><td>${tx.subtotal}</td><td style="text-align:end"><b>${Number(order.subtotal || 0).toFixed(2)} ${escapeHtml(order.currency || "MAD")}</b></td></tr>
-        <tr><td>${tx.delivery}</td><td style="text-align:end"><b>${Number(order.deliveryFee || 0).toFixed(2)} ${escapeHtml(order.currency || "MAD")}</b></td></tr>
-        <tr><td class="big">${tx.total}</td><td style="text-align:end" class="big">${Number(order.total || 0).toFixed(2)} ${escapeHtml(order.currency || "MAD")}</td></tr>
+        <tr>
+          <td>${tx.subtotal}</td>
+          <td style="text-align:end"><b>${Number(order.subtotal || 0).toFixed(2)}</b></td>
+        </tr>
+        <tr>
+          <td>${tx.delivery}</td>
+          <td style="text-align:end"><b>${Number(order.deliveryFee || 0).toFixed(2)}</b></td>
+        </tr>
+        <tr>
+          <td class="big">${tx.total}</td>
+          <td style="text-align:end" class="big">${Number(order.total || 0).toFixed(2)} ${escapeHtml(order.currency || "MAD")}</td>
+        </tr>
       </table>
 
       <div class="hr"></div>

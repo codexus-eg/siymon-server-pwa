@@ -778,7 +778,31 @@ function renderOffersBanner() {
   const safeName = textForLang(p.name)
     .replace(/'/g, "\\'")
     .replace(/"/g, "&quot;");
-  wrap.innerHTML = `<div style="display:flex; background:var(--surface, #fff); border-radius:16px; overflow:hidden; margin-bottom:20px; cursor:pointer; min-height:130px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.05); transition:transform 0.2s;" onclick="addToCart('${p.id}', 1); toast('تم إضافة ${safeName} للسلة ✅');"><div style="flex:1; padding:16px; display:flex; flex-direction:column; justify-content:center;"><span style="background:var(--primary); color:#fff; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:20px; align-self:flex-start; margin-bottom:8px;">🔥 عرض مميز</span><h3 style="margin:0 0 4px 0; font-size:16px;">${textForLang(p.name)}</h3><p style="margin:0 0 10px 0; font-size:13px; color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${textForLang(p.desc)}</p><div style="margin-top:auto; display:flex; align-items:center; gap:10px;"><b style="font-size:16px;">${money(p.price)}</b><span style="color:var(--primary); font-weight:bold; font-size:13px; background:rgba(255,87,34,0.1); padding:4px 8px; border-radius:8px;">+ ${i18n[lang].addBtn}</span></div></div><div style="width:40%; max-width:160px; position:relative;"><img src="${p.img}" style="width:100%; height:100%; object-fit:cover;" /></div></div>`;
+
+  wrap.innerHTML = `<div id="featuredBannerCard" style="display:flex; background:var(--surface, #fff); border-radius:16px; overflow:hidden; margin-bottom:20px; cursor:pointer; min-height:130px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.05); transition:transform 0.2s;">
+      <div style="flex:1; padding:16px; display:flex; flex-direction:column; justify-content:center;">
+          <span style="background:var(--primary); color:#fff; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:20px; align-self:flex-start; margin-bottom:8px;">🔥 عرض مميز</span>
+          <h3 style="margin:0 0 4px 0; font-size:16px;">${textForLang(p.name)}</h3>
+          <p style="margin:0 0 10px 0; font-size:13px; color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${textForLang(p.desc)}</p>
+          <div style="margin-top:auto; display:flex; align-items:center; gap:10px;">
+              <b style="font-size:16px;">${money(p.price)}</b>
+              <span class="btn primary addBtn" style="padding:4px 8px; border-radius:8px;">+ ${i18n[lang].addBtn}</span>
+          </div>
+      </div>
+      <div style="width:40%; max-width:160px; position:relative;">
+          <img src="${p.img}" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+  </div>`;
+
+  // ربط الايفينت بأمان لتفعيل الإضافة للسلة عند الضغط على البانر
+  const bannerCard = document.getElementById("featuredBannerCard");
+  if (bannerCard) {
+    bannerCard.addEventListener("click", () => {
+      addToCart(p.id, 1);
+      toast("تم إضافة " + safeName + " للسلة ✅");
+    });
+  }
+
   if (!offersTimer) {
     offersTimer = setInterval(() => {
       offersIndex = (offersIndex + 1) % featured.length;

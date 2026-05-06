@@ -848,6 +848,7 @@ function toast(msg) {
 }
 
 // ======== دالة جلب الموقع (معدلة لحفظ الإحداثيات) ========
+// ======== دالة جلب الموقع (معدلة لتوجيه العميل لفتح الـ GPS) ========
 async function getLocation() {
   if (!navigator.geolocation) {
     alert(i18n[lang].geo?.unsupported || "Geolocation unsupported");
@@ -856,6 +857,7 @@ async function getLocation() {
   getAddrBtn.disabled = true;
   const oldText = el("getAddrText").textContent;
   el("getAddrText").textContent = i18n[lang].geo?.locating || "Locating...";
+
   navigator.geolocation.getCurrentPosition(
     async (pos) => {
       const lat = pos.coords.latitude;
@@ -883,12 +885,28 @@ async function getLocation() {
         el("getAddrText").textContent = oldText;
       }
     },
-    () => {
-      alert(i18n[lang].geo?.denied || "Please allow access.");
+    (err) => {
+      // التفرقة بين رفض الإذن وبين قفل الـ GPS
+      let errorMsg = "";
+      if (err.code === 1) {
+        // PERMISSION_DENIED
+        errorMsg =
+          lang === "ar"
+            ? "لقد رفضت إذن الوصول للموقع. يرجى السماح للمتصفح بالوصول لموقعك من الإعدادات."
+            : "Permission denied. Please allow location access in your browser settings.";
+      } else {
+        // POSITION_UNAVAILABLE أو TIMEOUT
+        errorMsg =
+          lang === "ar"
+            ? "الرجاء سحب الشاشة لأسفل وتشغيل (الموقع / GPS) في هاتفك أولاً، ثم المحاولة مجدداً."
+            : "Please turn on (Location / GPS) from your phone settings and try again.";
+      }
+
+      alert(errorMsg);
       getAddrBtn.disabled = false;
       el("getAddrText").textContent = oldText;
     },
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 },
   );
 }
 

@@ -795,9 +795,22 @@ function escapeHtml(s) {
   );
 }
 
-function openMaps(addr) {
-  const q = encodeURIComponent(addr || "");
-  window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, "_blank");
+// دالة فتح الخرائط (تم تعديلها لدعم الإحداثيات)
+function openMaps(addr, lat, lng) {
+  if (lat && lng) {
+    // لو الإحداثيات الدقيقة موجودة، افتحها مباشرة
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+      "_blank",
+    );
+  } else {
+    // لو مفيش إحداثيات، ابحث بالنص (العنوان القديم)
+    const q = encodeURIComponent(addr || "");
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${q}`,
+      "_blank",
+    );
+  }
 }
 
 let lastOrders = { mine: [], available: [] };
@@ -1572,9 +1585,15 @@ function bindEvents() {
         (x) => String(x.id) === String(id),
       ) || null;
 
-    // 2. خريطة الزبون 📍
+    // 2. خريطة الزبون 📍 (معدلة لاستخدام الإحداثيات الدقيقة لو موجودة)
     if (action === "maps") {
-      if (order) openMaps(order.customer?.addr || "");
+      if (order && order.customer) {
+        openMaps(
+          order.customer.addr || "",
+          order.customer.lat,
+          order.customer.lng,
+        );
+      }
       return;
     }
 

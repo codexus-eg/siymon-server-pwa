@@ -182,6 +182,11 @@ let products = [];
 let selectedRestaurantId = "";
 let RATINGS = [];
 
+// ======= إضافة متغيرات لحفظ الإحداثيات الدقيقة ======
+let exactLat = null;
+let exactLng = null;
+// ====================================================
+
 const LANG_KEY = "siymon_lang_v1";
 let lang = localStorage.getItem(LANG_KEY) || "ar";
 let activeCat = "all";
@@ -565,7 +570,6 @@ function applyI18n() {
   );
 }
 
-// ✅ مدمج: دالة تسجيل الدخول بجوجل
 async function handleGoogleLogin(response) {
   try {
     const res = await fetch("/api/auth/google/callback", {
@@ -587,7 +591,6 @@ async function handleGoogleLogin(response) {
   }
 }
 
-// ✅ مدمج: تحديث منطق البوابة لتشغيل زرار جوجل
 function updateLoginGate() {
   const gate = el("loginGate");
   const loggedIn = !!getCustomerToken();
@@ -602,7 +605,6 @@ function updateLoginGate() {
     );
     btn.setAttribute("href", `/orders/?next=${next}`);
 
-    // تشغيل زرار جوجل لو موجود في الإعدادات
     if (!loggedIn && window.google && PUBLIC?.googleClientId) {
       google.accounts.id.initialize({
         client_id: PUBLIC.googleClientId,
@@ -794,7 +796,6 @@ function renderOffersBanner() {
       </div>
   </div>`;
 
-  // ربط الايفينت بأمان لتفعيل الإضافة للسلة عند الضغط على البانر
   const bannerCard = document.getElementById("featuredBannerCard");
   if (bannerCard) {
     bannerCard.addEventListener("click", () => {
@@ -846,6 +847,7 @@ function toast(msg) {
   toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
 }
 
+// ======== دالة جلب الموقع (معدلة لحفظ الإحداثيات) ========
 async function getLocation() {
   if (!navigator.geolocation) {
     alert(i18n[lang].geo?.unsupported || "Geolocation unsupported");
@@ -858,6 +860,11 @@ async function getLocation() {
     async (pos) => {
       const lat = pos.coords.latitude;
       const lng = pos.coords.longitude;
+
+      // حفظ الإحداثيات الدقيقة
+      exactLat = lat;
+      exactLng = lng;
+
       try {
         const res = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
@@ -885,6 +892,7 @@ async function getLocation() {
   );
 }
 
+// ======== دالة بناء الطلب (معدلة لإرفاق الإحداثيات ورابط الخريطة) ========
 function buildOrderPayload() {
   const mode = String(PUBLIC?.restaurantMode || "auto");
   const open =
@@ -894,21 +902,38 @@ function buildOrderPayload() {
         ? false
         : isBusinessOpen(new Date());
   if (!open) return { error: i18n[lang].validations.closed };
+
   const name = custName.value.trim();
   const phone = custPhone.value.trim();
   const addr = custAddr.value.trim();
-  const notes = custNotes.value.trim();
+  let notes = custNotes.value.trim();
+
   if (cart.size === 0) return { error: i18n[lang].validations.needItems };
   if (!name) return { error: i18n[lang].validations.needName };
   if (!phone) return { error: i18n[lang].validations.needPhone };
   if (!addr) return { error: i18n[lang].validations.needAddress };
+
   const items = [];
   for (const [id, qty] of cart.entries()) items.push({ id, qty });
+
+  const customerInfo = { name, phone, addr, notes };
+
+  // إذا تم سحب الموقع تلقائياً بنجاح، يتم إرفاقه بالطلب ورابط مباشر للملاحظات
+  if (exactLat && exactLng) {
+    customerInfo.lat = exactLat;
+    customerInfo.lng = exactLng;
+    const mapsLink = `https://maps.google.com/?q=${exactLat},${exactLng}`;
+    // وضع رابط الخريطة بشكل جميل في الملاحظات ليظهر للجميع (مطعم / أدمن / سواق)
+    customerInfo.notes = notes
+      ? `${notes}\n\n📍 الموقع الدقيق للعميل:\n${mapsLink}`
+      : `📍 الموقع الدقيق للعميل:\n${mapsLink}`;
+  }
+
   return {
     payload: {
       lang,
       restaurantId: selectedRestaurantId,
-      customer: { name, phone, addr, notes },
+      customer: customerInfo,
       items,
       currency: lang === "ar" ? CURRENCY_AR : CURRENCY_EN,
     },
@@ -942,6 +967,9 @@ async function placeOrder() {
     toast(i18n[lang].orderSentToast || "Order sent ✅");
     orderHint.innerHTML = `<b>${i18n[lang].placeSuccess}</b> <code>${data.id}</code>`;
     clearCart();
+    // تصفير الإحداثيات بعد نجاح الطلب
+    exactLat = null;
+    exactLng = null;
   } catch (e) {
     console.error(e);
     alert(i18n[lang].placeFail);

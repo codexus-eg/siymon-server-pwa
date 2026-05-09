@@ -2815,13 +2815,14 @@ app.post(
     const cfg = loadConfig();
     const body = req.body || {};
 
-    // Customer must be logged-in to place an order
-    const customerId = String(req.customerId || "");
+    // السماح للزوار بإنشاء طلب بدون تسجيل دخول
+    const token = getCustomerTokenFromReq(req);
+    const customerId = getCustomerIdFromToken(token) || null;
+
     const customersData = loadCustomers();
-    const custRec =
-      customersData.customers.find(
-        (c) => String(c.id) === String(customerId),
-      ) || null;
+    const custRec = customerId
+      ? customersData.customers.find((c) => String(c.id) === String(customerId))
+      : null;
 
     if (String(cfg.restaurantMode || "auto") === "closed") {
       return res.status(403).json({ error: "Restaurant is closed" });
@@ -3081,11 +3082,10 @@ app.post(
 );
 
 app.post(
-  "/api/customer/login",
-  loginSlowdown,
-  loginLimiter,
+  "/api/orders",
   validate([
-    body("email").optional().normalizeEmail(),
+    body("customer.name").optional().customSanitizer(stripDangerous),
+    // ... باقي الكود كما هو
     body("phone").optional().trim().isLength({ max: 25 }),
     body("password").optional().isLength({ max: 128 }),
   ]),

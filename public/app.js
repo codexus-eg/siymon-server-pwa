@@ -593,33 +593,8 @@ async function handleGoogleLogin(response) {
 
 function updateLoginGate() {
   const gate = el("loginGate");
-  const loggedIn = !!getCustomerToken();
   if (gate) {
-    gate.style.display = loggedIn ? "none" : "block";
-    el("loginGateTitle").textContent = i18n[lang].loginGateTitle;
-    el("loginGateText").textContent = i18n[lang].loginGateText;
-    const btn = el("loginGateBtn");
-    btn.textContent = i18n[lang].loginGateBtn;
-    const next = encodeURIComponent(
-      location.pathname + location.search + location.hash,
-    );
-    btn.setAttribute("href", `/orders/?next=${next}`);
-
-    if (!loggedIn && window.google && PUBLIC?.googleClientId) {
-      google.accounts.id.initialize({
-        client_id: PUBLIC.googleClientId,
-        callback: handleGoogleLogin,
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("googleSignInContainer"),
-        {
-          theme: "outline",
-          size: "large",
-          type: "standard",
-          text: "continue_with",
-        },
-      );
-    }
+    gate.style.display = "none"; // إخفاء البوابة نهائياً للسماح للزوار بالطلب
   }
   placeBtn.disabled = !isOpenNow;
 }
@@ -960,11 +935,7 @@ function buildOrderPayload() {
 
 async function placeOrder() {
   orderHint.textContent = "";
-  if (!getCustomerToken()) {
-    toast(i18n[lang].needLoginToOrder);
-    window.location.href = `/orders/?next=${encodeURIComponent(location.pathname + location.search + location.hash)}`;
-    return;
-  }
+
   const { error, payload } = buildOrderPayload();
   if (error) {
     alert(error);
@@ -974,6 +945,7 @@ async function placeOrder() {
   try {
     const custToken = getCustomerToken();
     const headers = { "Content-Type": "application/json" };
+    // لو مسجل دخول هيبعت التوكن، لو مش مسجل هيبعت الطلب عادي كزائر
     if (custToken) headers.Authorization = `Bearer ${custToken}`;
     const res = await fetch("/api/orders", {
       method: "POST",

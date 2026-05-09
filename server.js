@@ -2782,7 +2782,6 @@ app.get("/api/menu", (req, res) => {
 
 app.post(
   "/api/orders",
-  requireCustomer,
   validate([
     body("customer.name").optional().customSanitizer(stripDangerous),
     body("customer.phone").optional().trim().isLength({ max: 25 }),

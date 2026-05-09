@@ -2970,7 +2970,7 @@ app.post(
     body("lastName").optional().customSanitizer(stripDangerous),
     body("surname").optional().customSanitizer(stripDangerous),
     body("familyName").optional().customSanitizer(stripDangerous),
-    body("email").optional().isEmail().normalizeEmail(),
+    body("email").isEmail().normalizeEmail(),
     body("phone").optional().trim().isLength({ max: 25 }),
     body("password").optional().isLength({ max: 128 }),
     body("password2").optional().isLength({ max: 128 }),
@@ -2992,8 +2992,8 @@ app.post(
 
     if (!firstName) return res.status(400).json({ error: "Missing firstName" });
     if (!lastName) return res.status(400).json({ error: "Missing lastName" });
-    if (!email && !phone)
-      return res.status(400).json({ error: "Missing email or phone" });
+    if (!email || !email.includes("@"))
+      return res.status(400).json({ error: "Invalid email" });
     if (email && !email.includes("@"))
       return res.status(400).json({ error: "Invalid email" });
     if (phone && phone.length < 8)

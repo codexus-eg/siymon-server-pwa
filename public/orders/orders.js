@@ -18,9 +18,6 @@ let NOTIF_POLL = null;
 let soundEnabled = localStorage.getItem(SOUND_KEY) !== "0";
 let lastUnreadCount = null;
 
-let GSI_LOADING = null;
-let GSI_INITED = false;
-
 async function loadPublicConfig() {
   try {
     const res = await fetch("/api/public-config");
@@ -28,103 +25,6 @@ async function loadPublicConfig() {
     if (data && typeof data === "object") PUBLIC = data;
   } catch (_e) {
     PUBLIC = { supportPhone: "+212000000000" };
-  }
-}
-
-function loadScriptOnce(src) {
-  if (GSI_LOADING) return GSI_LOADING;
-  GSI_LOADING = new Promise((resolve) => {
-    try {
-      if (document.querySelector(`script[src="${src}"]`)) return resolve(true);
-      const s = document.createElement("script");
-      s.src = src;
-      s.async = true;
-      s.defer = true;
-      s.onload = () => resolve(true);
-      s.onerror = () => resolve(false);
-      document.head.appendChild(s);
-    } catch (_e) {
-      resolve(false);
-    }
-  });
-  return GSI_LOADING;
-}
-
-async function initGoogleAuth() {
-  const wrapLogin = el("googleLoginSection");
-  const wrapSignup = el("googleSignupSection");
-
-  const enabled = !!(
-    PUBLIC &&
-    PUBLIC.googleAuthEnabled &&
-    PUBLIC.googleClientId
-  );
-  if (!enabled) {
-    if (wrapLogin) wrapLogin.style.display = "none";
-    if (wrapSignup) wrapSignup.style.display = "none";
-    return;
-  }
-
-  const ok = await loadScriptOnce("https://accounts.google.com/gsi/client");
-  if (!ok) return;
-
-  if (!window.google || !window.google.accounts || !window.google.accounts.id)
-    return;
-  if (GSI_INITED) return;
-  GSI_INITED = true;
-
-  window.google.accounts.id.initialize({
-    client_id: String(PUBLIC.googleClientId || "").trim(),
-    callback: (resp) => onGoogleCredential(resp).catch(() => {}),
-    auto_select: false,
-    cancel_on_tap_outside: true,
-  });
-
-  const opts = {
-    theme: "outline",
-    size: "large",
-    shape: "pill",
-    text: "continue_with",
-  };
-  const btn1 = el("googleBtnLogin");
-  const btn2 = el("googleBtnSignup");
-  if (btn1) window.google.accounts.id.renderButton(btn1, opts);
-  if (btn2) window.google.accounts.id.renderButton(btn2, opts);
-
-  if (wrapLogin) wrapLogin.style.display = "block";
-  if (wrapSignup) wrapSignup.style.display = "block";
-}
-
-async function onGoogleCredential(resp) {
-  const cred = String(resp?.credential || "").trim();
-  if (!cred) return;
-
-  const isSignupTab =
-    el("signupForm") && el("signupForm").style.display !== "none";
-  const hintEl = isSignupTab ? el("googleHintSignup") : el("googleHintLogin");
-  if (hintEl) hintEl.textContent = "";
-
-  try {
-    const acceptPolicy = !!el("acceptPolicy")?.checked;
-    const out = await api("/api/customer/google", {
-      method: "POST",
-      body: JSON.stringify({ idToken: cred, acceptPolicy }),
-    });
-    saveSession(out.token, out.customer);
-    const nxt = safeNextUrl();
-    if (nxt) {
-      window.location.href = nxt;
-      return;
-    }
-    showOrders();
-    await loadMeAndOrders();
-  } catch (err) {
-    const msg = String(err?.message || err || "");
-    if (hintEl) hintEl.textContent = msg;
-    // If policy is required on first signup, guide the user
-    if (msg.toLowerCase().includes("policy") && el("policyField")) {
-      el("policyField").style.display = "block";
-    }
   }
 }
 
@@ -146,13 +46,13 @@ const i18n = {
 
     guestBtn: "الدخول كزائر",
 
-    loginIdLabel: "الجمايل أو رقم الهاتف",
+    loginIdLabel: "البريد الإلكتروني أو رقم الهاتف",
     loginPassLabel: "كلمة السر",
     loginBtn: "دخول",
 
     firstNameLabel: "الاسم",
     lastNameLabel: "النسب",
-    emailLabel: "الجمايل (اختياري)",
+    emailLabel: "البريد الإلكتروني (إجباري)",
     phoneLabel: "رقم الهاتف (اختياري)",
     passLabel: "كلمة السر",
     pass2Label: "تأكيد كلمة السر",
@@ -192,11 +92,11 @@ const i18n = {
     ratingSaved: "تم حفظ التقييم ✅",
 
     errors: {
-      needLoginId: "أدخل الجمايل أو رقم الهاتف.",
+      needLoginId: "أدخل البريد الإلكتروني أو رقم الهاتف.",
       needPassword: "أدخل كلمة السر.",
       needFirst: "اكتب الاسم.",
       needLast: "اكتب النسب.",
-      needEmailOrPhone: "أدخل الجمايل أو رقم الهاتف.",
+      needEmail: "المرجو إدخال بريد إلكتروني صحيح.",
       needPass2: "أعد كتابة كلمة السر للتأكيد.",
       passMismatch: "كلمتا السر غير متطابقتين.",
       shortPass: "كلمة السر قصيرة (على الأقل 6 أحرف).",
@@ -236,7 +136,7 @@ const i18n = {
 
     firstNameLabel: "First name",
     lastNameLabel: "Last name",
-    emailLabel: "Email (optional)",
+    emailLabel: "Email (Required)",
     phoneLabel: "Phone (optional)",
     passLabel: "Password",
     pass2Label: "Confirm password",
@@ -273,7 +173,7 @@ const i18n = {
       needPassword: "Enter your password.",
       needFirst: "Enter first name.",
       needLast: "Enter last name.",
-      needEmailOrPhone: "Enter email or phone.",
+      needEmail: "Please enter a valid email.",
       needPass2: "Confirm your password.",
       passMismatch: "Passwords do not match.",
       shortPass: "Password too short (min 6).",
@@ -313,7 +213,7 @@ const i18n = {
 
     firstNameLabel: "Prénom",
     lastNameLabel: "Nom",
-    emailLabel: "Email (optionnel)",
+    emailLabel: "Email (Obligatoire)",
     phoneLabel: "Téléphone (optionnel)",
     passLabel: "Mot de passe",
     pass2Label: "Confirmer le mot de passe",
@@ -348,7 +248,7 @@ const i18n = {
       needPassword: "Entrez le mot de passe.",
       needFirst: "Entrez le prénom.",
       needLast: "Entrez le nom.",
-      needEmailOrPhone: "Entrez l’email ou le téléphone.",
+      needEmail: "Veuillez entrer un email valide.",
       needPass2: "Confirmez le mot de passe.",
       passMismatch: "Les mots de passe ne correspondent pas.",
       shortPass: "Mot de passe trop court (min 6).",
@@ -602,21 +502,18 @@ function unlockAudio() {
 function beep() {
   if (!soundEnabled) return;
 
-  // التأكد من وجود عنصر الصوت أو إنشاؤه
   if (!notifAudio) {
     notifAudio = new Audio("/sounds/order.mp3");
   }
 
-  // إعادة ضبط الصوت للبداية وتشغيله بأقصى قوة
   notifAudio.currentTime = 0;
-  notifAudio.volume = 1.0; // أعلى درجة صوت
+  notifAudio.volume = 1.0;
 
   const playPromise = notifAudio.play();
 
   if (playPromise !== undefined) {
     playPromise.catch((error) => {
       console.log("Autoplay prevented or audio error:", error);
-      // محاولة تشغيل بديلة لو المتصفح عمل بلوك
       try {
         if (!audioCtx)
           audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -634,7 +531,6 @@ function beep() {
     });
   }
 
-  // اهتزاز الموبايل لو مدعوم
   if (navigator.vibrate) {
     navigator.vibrate([200, 100, 200]);
   }
@@ -763,7 +659,6 @@ function statusClass(st) {
 }
 
 function stageIcon(kind) {
-  // lightweight inline SVGs (no external libs)
   if (kind === "admin")
     return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6l8-4zm-1 12l6-6-1.4-1.4L11 11.2 8.4 8.6 7 10l4 4z"/></svg>`;
   if (kind === "restaurant")
@@ -776,7 +671,7 @@ function stageIcon(kind) {
 function stageProgress(status) {
   const st = String(status || "new");
   if (st === "canceled") return { canceled: true, idx: 0 };
-  let idx = 0; // 0 admin, 1 restaurant, 2 driver, 3 customer(done)
+  let idx = 0;
   if (st === "admin_accepted") idx = 1;
   else if (
     ["restaurant_ready", "accepted", "picked_up", "on_the_way"].includes(st)
@@ -936,7 +831,6 @@ async function loadMeAndOrders() {
     const ord = await api("/api/customer/orders");
     const newOrders = ord.orders || [];
 
-    // ✅ فحص لو حالة أي أوردر اتغيرت عشان نشغل الصوت
     if (LAST_ORDERS.length > 0) {
       newOrders.forEach((newOrder) => {
         const oldOrder = LAST_ORDERS.find((o) => o.id === newOrder.id);
@@ -944,7 +838,7 @@ async function loadMeAndOrders() {
           console.log(
             `Order ${newOrder.id} changed from ${oldOrder.status} to ${newOrder.status}`,
           );
-          beep(); // ضرب الجرس!
+          beep();
         }
       });
     }
@@ -980,9 +874,6 @@ async function tryAutoLogin() {
   await loadMeAndOrders();
 }
 
-/***********************
- * Notifications (in-app)
- ***********************/
 function showNotifications(show) {
   const m = el("notificationsModal");
   if (!m) return;
@@ -1038,9 +929,7 @@ async function refreshNotificationsBadge() {
       if (lastUnreadCount !== null && unread > lastUnreadCount) beep();
       lastUnreadCount = unread;
     } catch (_e) {}
-  } catch (_e) {
-    // silent
-  }
+  } catch (_e) {}
 }
 
 function renderNotifications(items) {
@@ -1069,9 +958,6 @@ function renderNotifications(items) {
     .join("");
 }
 
-/***********************
- * Web Push (real push notifications)
- ***********************/
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
@@ -1125,7 +1011,6 @@ async function refreshPushUI() {
 
   btn.style.display = "inline-flex";
 
-  // Must be HTTPS (or localhost) for Push
   const isLocal =
     location.hostname === "localhost" || location.hostname === "127.0.0.1";
   const isHttps = location.protocol === "https:";
@@ -1212,7 +1097,6 @@ async function disablePush() {
   const sub = await reg.pushManager.getSubscription();
   if (!sub) return;
 
-  // Remove server-side first (best effort)
   try {
     await api("/api/customer/push/unsubscribe", {
       method: "POST",
@@ -1242,7 +1126,6 @@ async function openNotifications() {
   try {
     const res = await api("/api/customer/notifications");
     renderNotifications(res.notifications || []);
-    // Mark as seen
     await api("/api/customer/notifications/seen", {
       method: "POST",
       body: "{}",
@@ -1320,8 +1203,9 @@ el("signupForm").addEventListener("submit", async (e) => {
     el("signupHint").textContent = i18n[lang].errors.needLast;
     return;
   }
-  if (!email && !phone) {
-    el("signupHint").textContent = i18n[lang].errors.needEmailOrPhone;
+  // التعديل: التأكد من أن البريد الإلكتروني موجود وصحيح (يحتوي على @)
+  if (!email || !email.includes("@")) {
+    el("signupHint").textContent = i18n[lang].errors.needEmail;
     return;
   }
   if (!pass || pass.length < 6) {
@@ -1337,7 +1221,6 @@ el("signupForm").addEventListener("submit", async (e) => {
     return;
   }
 
-  // Company policy acceptance
   const policyEnabled = !!(PUBLIC && PUBLIC.companyPolicyEnabled);
   const policyRequired =
     policyEnabled && PUBLIC.companyPolicyRequireAccept !== false;
@@ -1380,12 +1263,6 @@ el("signupForm").addEventListener("submit", async (e) => {
 
 el("logoutBtn").addEventListener("click", () => {
   clearSession();
-
-  // السطر ده بيفصل جلسة جوجل عشان متهنجش معاك لما تدخل تاني
-  try {
-    if (window.google) window.google.accounts.id.disableAutoSelect();
-  } catch (e) {}
-
   stopNotifPoll();
   setNotifBadge(0);
   showAuth();
@@ -1422,7 +1299,6 @@ el("pushToggleBtn")?.addEventListener("click", async () => {
 });
 
 el("supportBtn")?.addEventListener("click", async () => {
-  // Only for logged in users
   if (!getToken()) {
     alert(
       lang === "ar"
@@ -1474,7 +1350,6 @@ el("refreshOrders").addEventListener("click", async () => {
   }
 });
 
-// Order actions (cancel / contact)
 el("ordersList").addEventListener("click", async (e) => {
   const btn = e.target.closest("button");
   if (!btn) return;
@@ -1532,9 +1407,6 @@ el("ordersList").addEventListener("click", async (e) => {
   }
 });
 
-/***********************
- * Rating (Customer → Order)
- ***********************/
 let RATING_ORDER_ID = null;
 let RATING_STARS = 0;
 
@@ -1610,9 +1482,6 @@ async function submitRating() {
   }
 }
 
-/***********************
- * Driver chat (Customer ↔ Driver)
- ***********************/
 let DRIVER_CHAT_ORDER_ID = null;
 let DRIVER_CHAT_POLL = null;
 
@@ -1714,7 +1583,6 @@ function openDriverChat(orderId) {
   }, 3500);
 }
 
-// Support chat
 let SUPPORT_POLL = null;
 function showSupport(show) {
   const m = el("supportModal");
@@ -1818,11 +1686,9 @@ if ("serviceWorker" in navigator) {
 
 // Init
 (async function init() {
-  // Theme
   const savedTheme = localStorage.getItem(THEME_KEY) || "light";
   applyTheme(savedTheme);
 
-  // Sound
   updateSoundBtn();
   document.addEventListener("pointerdown", unlockAudio, {
     once: true,
@@ -1840,21 +1706,9 @@ if ("serviceWorker" in navigator) {
     capture: true,
   });
 
-  // Public config (support phone, etc.)
   await loadPublicConfig();
-
-  // Google Sign-In (if enabled)
-  await initGoogleAuth();
-
-  // Lang
   setLang(lang);
-
-  // Push button state (if enabled)
   await refreshPushUI();
-
-  // Default tab
   setTab("login");
-
-  // Auto-login
   tryAutoLogin();
 })();

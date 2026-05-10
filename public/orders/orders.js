@@ -811,7 +811,16 @@ async function api(path, opts = {}) {
     { "Content-Type": "application/json" },
     opts.headers || {},
   );
-  if (token) headers.Authorization = `Bearer ${token}`;
+
+  // التعديل هنا: منع إرسال التوكن القديم في طلبات تسجيل الدخول وإنشاء الحساب
+  if (
+    token &&
+    !path.includes("/api/customer/login") &&
+    !path.includes("/api/customer/signup")
+  ) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
   const res = await fetch(path, { ...opts, headers });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {

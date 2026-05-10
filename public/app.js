@@ -413,10 +413,8 @@ function loadTheme() {
     applyTheme(saved);
     return;
   }
-  const prefersDark =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
-  applyTheme(prefersDark ? "dark" : "light");
+  // تم إلغاء فحص نظام الموبايل وفرض الوايت مود كافتراضي
+  applyTheme("light");
 }
 function toggleTheme() {
   const isDark = document.documentElement.getAttribute("data-theme") === "dark";

@@ -1143,6 +1143,9 @@ el("themeToggle").addEventListener("click", toggleTheme);
 
 el("tabLogin").addEventListener("click", () => setTab("login"));
 el("tabSignup").addEventListener("click", () => setTab("signup"));
+el("guestBtn")?.addEventListener("click", () => {
+  window.location.href = "/";
+});
 
 el("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();

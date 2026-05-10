@@ -3081,11 +3081,12 @@ app.post(
 );
 
 app.post(
-  "/api/orders",
+  "/api/customer/login",
+  loginSlowdown,
+  loginLimiter,
   validate([
-    body("customer.name").optional().customSanitizer(stripDangerous),
-    // ... باقي الكود كما هو
-    body("phone").optional().trim().isLength({ max: 25 }),
+    body("email").optional({ checkFalsy: true }).normalizeEmail(),
+    body("phone").optional({ checkFalsy: true }).trim().isLength({ max: 25 }),
     body("password").optional().isLength({ max: 128 }),
   ]),
   (req, res) => {

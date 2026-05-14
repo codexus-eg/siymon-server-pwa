@@ -3274,6 +3274,37 @@ app.post(
 );
 
 app.get("/api/customer/me", requireCustomer, (req, res) => {
+  app.delete("/api/customer/me", requireCustomer, (req, res) => {
+    const data = loadCustomers();
+    const idx = data.customers.findIndex(
+      (c) => String(c.id) === String(req.customerId),
+    );
+    if (idx < 0) return res.status(404).json({ error: "Not found" });
+
+    // 1. مسح العميل من قاعدة البيانات
+    data.customers.splice(idx, 1);
+    saveCustomers(data);
+
+    // 2. إبطال توكنات تسجيل الدخول الخاصة به
+    const rtData = loadRefreshTokens();
+    rtData.tokens = (rtData.tokens || []).filter(
+      (t) =>
+        !(
+          t.userType === "customer" &&
+          String(t.userId) === String(req.customerId)
+        ),
+    );
+    saveRefreshTokens(rtData);
+
+    // 3. مسح اشتراكات الإشعارات الخاصة به (Web Push)
+    const pushData = loadPushSubscriptions();
+    pushData.subscriptions = (pushData.subscriptions || []).filter(
+      (s) => String(s.customerId) !== String(req.customerId),
+    );
+    savePushSubscriptions(pushData);
+
+    res.json({ ok: true, deleted: true });
+  });
   const data = loadCustomers();
   const found = data.customers.find(
     (c) => String(c.id) === String(req.customerId),

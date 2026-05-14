@@ -1117,7 +1117,23 @@ async function disablePush() {
     await sub.unsubscribe();
   } catch (_e) {}
 }
+// أكواد حذف الحساب
+el("btnDeleteAccount")?.addEventListener("click", async () => {
+  const confirmDelete = confirm(
+    "هل أنت متأكد من حذف حسابك نهائياً؟ سيتم مسح كافة بياناتك ولا يمكن التراجع عن هذا الإجراء.",
+  );
+  if (!confirmDelete) return;
 
+  try {
+    // إرسال طلب الحذف للسيرفر
+    await api("/api/customer/me", { method: "DELETE" });
+    alert("تم حذف حسابك وبياناتك بنجاح.");
+    clearSession(); // مسح الجلسة من المتصفح
+    window.location.reload(); // إعادة التحميل للرجوع للرئيسية
+  } catch (err) {
+    alert("حدث خطأ أثناء الحذف: " + err.message);
+  }
+});
 async function openNotifications() {
   if (!getToken()) {
     alert(

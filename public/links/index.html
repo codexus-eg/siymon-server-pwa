@@ -24,7 +24,7 @@
         background-color: #0a0a14;
         color: white;
         overflow-x: hidden;
-        touch-action: manipulation;
+        touch-action: pan-y;
       }
 
       .glow-circle {
@@ -150,13 +150,24 @@
         height: 24px;
       }
 
+      /* تنسيق زر الإدارة الجديد */
+      .admin-trigger {
+        display: inline-block;
+        margin-top: 50px;
+        padding: 20px 40px;
+        color: #6b7280;
+        font-size: 14px;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
       /* لوحة الإدارة */
       .admin-overlay {
         position: fixed;
         inset: 0;
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(15px);
-        z-index: 999999;
+        z-index: 9999999;
         display: none;
         align-items: center;
         justify-content: center;
@@ -226,9 +237,14 @@
       .btn-secondary:hover {
         border-color: #f97316;
       }
+
+      /* CSS Magic: لو الرابط انتهى بـ #admin، اعرض لوحة التحكم فوراً */
+      #adminOverlay:target {
+        display: flex !important;
+      }
     </style>
   </head>
-  <body onload="alert('تم تحديث الصفحة بنجاح! النسخة رقم 10')">
+  <body>
     <div class="glow-circle glow-1"></div>
     <div class="glow-circle glow-2"></div>
 
@@ -255,12 +271,7 @@
       <p id="subtitleEl" class="subtitle">مرحباً بكم في صفحة روابطنا</p>
 
       <div class="links-wrapper" id="linksContainer">
-        <a
-          id="link-instagram"
-          href="https://instagram.com"
-          target="_blank"
-          class="glass-btn"
-        >
+        <a id="link-instagram" href="#" target="_blank" class="glass-btn">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -275,27 +286,88 @@
           </svg>
           <span>انستجرام (Instagram)</span>
         </a>
+        <a id="link-facebook" href="#" target="_blank" class="glass-btn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+            ></path>
+          </svg>
+          <span>فيسبوك (Facebook)</span>
+        </a>
+        <a id="link-tiktok" href="#" target="_blank" class="glass-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.88 2.89 2.89 0 0 1-2.88-2.88 2.89 2.89 0 0 1 2.88-2.88c.28 0 .56.04.82.1v-3.5a6.37 6.37 0 0 0-.82-.05A6.34 6.34 0 0 0 3.15 15.7 6.34 6.34 0 0 0 9.49 22a6.34 6.34 0 0 0 6.34-6.34V9.37a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.01-.8z"
+            />
+          </svg>
+          <span>تيك توك (TikTok)</span>
+        </a>
+        <a id="link-youtube" href="#" target="_blank" class="glass-btn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.13C5.12 19.56 12 19.56 12 19.56s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"
+            ></path>
+            <polygon
+              points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"
+            ></polygon>
+          </svg>
+          <span>يوتيوب (YouTube)</span>
+        </a>
+        <a id="link-playstore" href="#" target="_blank" class="glass-btn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon points="3 22 21 12 3 2 3 22"></polygon>
+          </svg>
+          <span>متجر بلاي (Android)</span>
+        </a>
+        <a id="link-appstore" href="#" target="_blank" class="glass-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+            />
+          </svg>
+          <span>آب ستور (iOS)</span>
+        </a>
+        <a id="link-website" href="#" target="_blank" class="glass-btn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path
+              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+            ></path>
+          </svg>
+          <span>الموقع الإلكتروني</span>
+        </a>
       </div>
 
-      <button
-        onclick="testAdminClick()"
-        style="
-          position: relative;
-          z-index: 9999999;
-          margin-top: 50px;
-          padding: 15px 30px;
-          background-color: #ea580c;
-          color: white;
-          font-size: 18px;
-          font-weight: bold;
-          border-radius: 12px;
-          border: none;
-          cursor: pointer;
-          box-shadow: 0 4px 15px rgba(234, 88, 12, 0.4);
-        "
-      >
-        إعدادات الصفحة (اضغط 3 مرات)
-      </button>
+      <a href="#adminOverlay" class="admin-trigger">© siymon</a>
     </div>
 
     <div id="adminOverlay" class="admin-overlay">
@@ -306,18 +378,41 @@
           <button onclick="checkAdmin()" class="admin-btn btn-primary">
             دخول
           </button>
-          <button onclick="closeAdmin()" class="admin-btn btn-secondary">
-            إغلاق
-          </button>
+          <a
+            href="#"
+            class="admin-btn btn-secondary"
+            style="display: block; text-align: center; text-decoration: none"
+            >إغلاق</a
+          >
         </div>
         <div id="adminDashboard" style="display: none">
           <h2>إدارة الصفحة</h2>
           <label>صورة البروفايل</label>
           <input type="file" id="profileUpload" accept="image/*" />
+
           <label>الاسم</label>
           <input type="text" id="adminName" />
+          <label>الوصف</label>
+          <input type="text" id="adminDesc" />
+
+          <label>Instagram</label>
+          <input type="url" id="adminInsta" />
+          <label>Facebook</label>
+          <input type="url" id="adminFb" />
+          <label>TikTok</label>
+          <input type="url" id="adminTiktok" />
+          <label>YouTube</label>
+          <input type="url" id="adminYt" />
+          <label>Google Play</label>
+          <input type="url" id="adminPlay" />
+          <label>App Store</label>
+          <input type="url" id="adminApple" />
           <label>الموقع الإلكتروني</label>
           <input type="url" id="adminWeb" />
+
+          <label>تغيير الرقم السري (اختياري)</label>
+          <input type="password" id="adminNewPass" placeholder="رقم سري جديد" />
+
           <button
             onclick="saveAdmin()"
             id="saveBtn"
@@ -325,42 +420,25 @@
           >
             حفظ التغييرات
           </button>
-          <button onclick="closeAdmin()" class="admin-btn btn-secondary">
-            إغلاق
-          </button>
+          <a
+            href="#"
+            onclick="closeDashboard()"
+            class="admin-btn btn-secondary"
+            style="
+              display: block;
+              text-align: center;
+              text-decoration: none;
+              margin-top: 10px;
+            "
+            >إغلاق</a
+          >
         </div>
       </div>
     </div>
 
     <script>
-      // سكريبت الضغطات القاطع
-      let clicks = 0;
-      let timer;
-      function testAdminClick() {
-        clicks++;
-        clearTimeout(timer);
-
-        // هيطلعلك رسالة مع كل ضغطة عشان تتأكد إنه شغال
-        alert("تم تسجيل الضغطة رقم: " + clicks);
-
-        if (clicks >= 3) {
-          clicks = 0;
-          document.getElementById("adminOverlay").style.display = "flex";
-        } else {
-          timer = setTimeout(() => {
-            clicks = 0;
-          }, 2000);
-        }
-      }
-
-      function closeAdmin() {
-        document.getElementById("adminOverlay").style.display = "none";
-        document.getElementById("adminLogin").style.display = "block";
-        document.getElementById("adminDashboard").style.display = "none";
-      }
-
-      // جلب البيانات
       let serverData = {};
+
       async function loadData() {
         try {
           const res = await fetch("/api/social");
@@ -369,13 +447,155 @@
             initPage();
           }
         } catch (e) {
-          console.error(e);
+          console.error("السيرفر لم يستجب بعد:", e);
         }
       }
+
       function initPage() {
         if (serverData.name)
           document.getElementById("titleEl").textContent = serverData.name;
+        if (serverData.desc)
+          document.getElementById("subtitleEl").textContent = serverData.desc;
+
+        const links = [
+          "instagram",
+          "facebook",
+          "tiktok",
+          "youtube",
+          "playstore",
+          "appstore",
+          "website",
+        ];
+        links.forEach((id) => {
+          const el = document.getElementById(`link-${id}`);
+          if (serverData[id]) {
+            el.href = serverData[id];
+            el.style.display = "flex";
+          } else if (serverData[id] === "") {
+            el.style.display = "none";
+          }
+        });
+
+        if (serverData.profileImg) {
+          const img = document.getElementById("profileImg");
+          img.src = serverData.profileImg;
+          img.style.display = "block";
+          document.getElementById("profilePlaceholder").style.display = "none";
+        }
       }
+
+      function checkAdmin() {
+        const pass = document.getElementById("adminPass").value;
+        if (!pass) return alert("أدخل الرقم السري");
+
+        document.getElementById("adminLogin").style.display = "none";
+        document.getElementById("adminDashboard").style.display = "block";
+
+        document.getElementById("adminName").value =
+          serverData.name || document.getElementById("titleEl").textContent;
+        document.getElementById("adminDesc").value =
+          serverData.desc || document.getElementById("subtitleEl").textContent;
+        document.getElementById("adminInsta").value =
+          serverData.instagram || "https://instagram.com";
+        document.getElementById("adminFb").value =
+          serverData.facebook || "https://facebook.com";
+        document.getElementById("adminTiktok").value =
+          serverData.tiktok || "https://tiktok.com";
+        document.getElementById("adminYt").value =
+          serverData.youtube || "https://youtube.com";
+        document.getElementById("adminPlay").value =
+          serverData.playstore || "https://play.google.com";
+        document.getElementById("adminApple").value =
+          serverData.appstore || "https://apps.apple.com";
+        document.getElementById("adminWeb").value =
+          serverData.website || "https://siymon7.com";
+      }
+
+      async function saveAdmin() {
+        const btn = document.getElementById("saveBtn");
+        btn.textContent = "جاري الحفظ...";
+        btn.disabled = true;
+
+        const payload = {
+          adminPass: document.getElementById("adminPass").value,
+          name: document.getElementById("adminName").value,
+          desc: document.getElementById("adminDesc").value,
+          instagram: document.getElementById("adminInsta").value,
+          facebook: document.getElementById("adminFb").value,
+          tiktok: document.getElementById("adminTiktok").value,
+          youtube: document.getElementById("adminYt").value,
+          playstore: document.getElementById("adminPlay").value,
+          appstore: document.getElementById("adminApple").value,
+          website: document.getElementById("adminWeb").value,
+          profileImg: serverData.profileImg,
+        };
+
+        const newPass = document.getElementById("adminNewPass").value;
+        if (newPass) payload.newPassword = newPass;
+
+        try {
+          const res = await fetch("/api/social", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const result = await res.json();
+
+          if (res.ok) {
+            alert("تم الحفظ بنجاح!");
+            loadData();
+            window.location.href = "#"; // يغلق اللوحة بعد الحفظ
+            document.getElementById("adminLogin").style.display = "block";
+            document.getElementById("adminDashboard").style.display = "none";
+            document.getElementById("adminPass").value = "";
+            document.getElementById("adminNewPass").value = "";
+          } else {
+            alert(result.error || "فشل الحفظ");
+          }
+        } catch (e) {
+          alert("حدث خطأ في الاتصال بالسيرفر");
+        } finally {
+          btn.textContent = "حفظ التغييرات";
+          btn.disabled = false;
+        }
+      }
+
+      function closeDashboard() {
+        document.getElementById("adminLogin").style.display = "block";
+        document.getElementById("adminDashboard").style.display = "none";
+        document.getElementById("adminPass").value = "";
+        document.getElementById("adminNewPass").value = "";
+      }
+
+      document
+        .getElementById("profileUpload")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = function (ev) {
+            const img = new Image();
+            img.onload = function () {
+              const canvas = document.createElement("canvas");
+              const MAX_WIDTH = 400;
+              const scaleSize = MAX_WIDTH / img.width;
+              canvas.width = MAX_WIDTH;
+              canvas.height = img.height * scaleSize;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+
+              serverData.profileImg = dataUrl;
+              document.getElementById("profileImg").src = dataUrl;
+              document.getElementById("profileImg").style.display = "block";
+              document.getElementById("profilePlaceholder").style.display =
+                "none";
+            };
+            img.src = ev.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+
       loadData();
     </script>
   </body>

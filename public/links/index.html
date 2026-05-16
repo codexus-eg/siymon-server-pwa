@@ -160,10 +160,10 @@
         font-size: 14px;
         color: #4b5563;
         cursor: pointer;
-        padding: 15px 30px; /* تملأ مساحة أكبر ليسهل الضغط بالإصبع */
+        padding: 15px 40px;
         user-select: none;
         -webkit-user-select: none;
-        touch-action: manipulation; /* تمنع المتصفح من عمل زووم عند الضغط المتكرر */
+        touch-action: manipulation;
       }
 
       /* لوحة الإدارة */
@@ -404,7 +404,9 @@
         </a>
       </div>
 
-      <p class="admin-trigger" id="adminTrigger">© siymon</p>
+      <p class="admin-trigger" id="adminTrigger" onclick="adminTap()">
+        © siymon
+      </p>
     </div>
 
     <div class="admin-overlay" id="adminOverlay">
@@ -509,28 +511,23 @@
         }
       }
 
-      // الكود المطور لتسجيل الـ 3 ضغطات بدون مشاكل الموبايل
-      let tapCount = 0,
-        tapTimer;
-      const trigger = document.getElementById("adminTrigger");
-
-      function handleTap(e) {
-        if (e) e.preventDefault();
+      // الطريقة الجديدة والمباشرة لتسجيل الـ 3 ضغطات
+      let tapCount = 0;
+      let tapTimer;
+      function adminTap() {
         tapCount++;
         clearTimeout(tapTimer);
-        tapTimer = setTimeout(() => {
-          tapCount = 0;
-        }, 1000); // زيادة الوقت لثانية كاملة ليسهل الضغط
 
         if (tapCount >= 3) {
           tapCount = 0;
           document.getElementById("adminOverlay").classList.add("active");
+        } else {
+          // لو مكملش الـ 3 ضغطات في خلال ثانية، العداد يصفر
+          tapTimer = setTimeout(() => {
+            tapCount = 0;
+          }, 1000);
         }
       }
-
-      // الاستماع لحدث اللمس والضغط معاً لضمان الاستجابة السريعة
-      trigger.addEventListener("touchstart", handleTap, { passive: false });
-      trigger.addEventListener("click", handleTap);
 
       function checkAdmin() {
         const pass = document.getElementById("adminPass").value;

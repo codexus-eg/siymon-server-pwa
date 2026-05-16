@@ -11,240 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
-    <style>
-      * {
-        box-sizing: border-box;
-        font-family: "Tajawal", sans-serif;
-      }
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        background-color: #0a0a14;
-        color: white;
-        overflow-x: hidden;
-        touch-action: pan-y;
-      }
-
-      .glow-circle {
-        position: fixed;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.3;
-        animation: pulse-glow 4s ease-in-out infinite alternate;
-        z-index: 0;
-        pointer-events: none;
-      }
-      .glow-1 {
-        width: 300px;
-        height: 300px;
-        background: #ff8c00;
-        top: -10%;
-        left: -10%;
-      }
-      .glow-2 {
-        width: 250px;
-        height: 250px;
-        background: #ff4500;
-        bottom: -10%;
-        right: -10%;
-        animation-delay: 2s;
-      }
-      @keyframes pulse-glow {
-        0% {
-          opacity: 0.2;
-          transform: scale(1);
-        }
-        100% {
-          opacity: 0.4;
-          transform: scale(1.1);
-        }
-      }
-
-      .container {
-        position: relative;
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 20px;
-        min-height: 100vh;
-        max-width: 500px;
-        margin: 0 auto;
-        text-align: center;
-      }
-
-      .profile-img-container {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: 3px solid rgba(255, 140, 0, 0.6);
-        overflow: hidden;
-        box-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #ea580c, #7c2d12);
-      }
-      .profile-img-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .profile-placeholder svg {
-        width: 48px;
-        height: 48px;
-        color: white;
-      }
-
-      h1 {
-        font-size: 28px;
-        font-weight: 800;
-        margin: 0;
-        background: linear-gradient(to right, #fb923c, #fed7aa);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-      p.subtitle {
-        font-size: 16px;
-        color: #9ca3af;
-        margin-top: 8px;
-        margin-bottom: 30px;
-      }
-
-      .links-wrapper {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-      .glass-btn {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 16px 24px;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        color: white;
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-      .glass-btn:hover {
-        background: rgba(255, 140, 0, 0.15);
-        border-color: rgba(255, 140, 0, 0.5);
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(255, 140, 0, 0.2);
-      }
-      .glass-btn svg {
-        width: 24px;
-        height: 24px;
-      }
-
-      .admin-trigger {
-        display: inline-block;
-        margin-top: 50px;
-        padding: 20px 40px;
-        color: #6b7280;
-        font-size: 14px;
-        text-decoration: none;
-        -webkit-tap-highlight-color: transparent;
-        cursor: pointer;
-      }
-
-      .admin-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(15px);
-        z-index: 9999999;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-      }
-      .admin-panel {
-        background: #111827;
-        border: 1px solid #ea580c;
-        border-radius: 16px;
-        padding: 30px;
-        width: 100%;
-        max-width: 400px;
-        max-height: 85vh;
-        overflow-y: auto;
-        text-align: right;
-        box-shadow: 0 0 40px rgba(234, 88, 12, 0.2);
-      }
-      .admin-panel h2 {
-        color: #fb923c;
-        text-align: center;
-        margin-top: 0;
-      }
-      .admin-panel label {
-        display: block;
-        font-size: 14px;
-        color: #9ca3af;
-        margin-bottom: 5px;
-        margin-top: 15px;
-      }
-      .admin-panel input {
-        width: 100%;
-        padding: 12px;
-        border-radius: 10px;
-        background: rgba(0, 0, 0, 0.5);
-        border: 1px solid #374151;
-        color: white;
-        font-family: "Tajawal", sans-serif;
-      }
-      .admin-panel input:focus {
-        outline: none;
-        border-color: #f97316;
-      }
-      .admin-btn {
-        width: 100%;
-        padding: 12px;
-        border-radius: 10px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.3s;
-        margin-top: 15px;
-        border: none;
-        font-family: "Tajawal", sans-serif;
-        font-size: 16px;
-        display: block;
-        text-align: center;
-        text-decoration: none;
-      }
-      .btn-primary {
-        background: #ea580c;
-        color: white;
-      }
-      .btn-primary:hover {
-        background: #c2410c;
-      }
-      .btn-secondary {
-        background: transparent;
-        border: 1px solid #374151;
-        color: white;
-      }
-      .btn-secondary:hover {
-        border-color: #f97316;
-      }
-
-      /* CSS Magic */
-      #adminOverlay:target {
-        display: flex !important;
-      }
-    </style>
+    <link rel="stylesheet" href="links.css?v=1" />
   </head>
   <body>
     <div class="glow-circle glow-1"></div>
@@ -279,8 +46,6 @@
             fill="none"
             stroke="currentColor"
             stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
           >
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -294,8 +59,6 @@
             fill="none"
             stroke="currentColor"
             stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
           >
             <path
               d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
@@ -317,8 +80,6 @@
             fill="none"
             stroke="currentColor"
             stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
           >
             <path
               d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.13C5.12 19.56 12 19.56 12 19.56s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"
@@ -335,8 +96,6 @@
             fill="none"
             stroke="currentColor"
             stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
           >
             <polygon points="3 22 21 12 3 2 3 22"></polygon>
           </svg>
@@ -356,8 +115,6 @@
             fill="none"
             stroke="currentColor"
             stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
           >
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -369,7 +126,7 @@
         </a>
       </div>
 
-      <a href="#" id="adminSecretTrigger" class="admin-trigger">© siymon</a>
+      <div id="adminSecretBtn" class="admin-trigger">© siymon</div>
     </div>
 
     <div id="adminOverlay" class="admin-overlay">
@@ -377,15 +134,18 @@
         <div id="adminLogin">
           <h2>لوحة المشرف</h2>
           <input type="password" id="adminPass" placeholder="الرقم السري" />
-          <button
-            type="button"
-            onclick="checkAdmin()"
-            class="admin-btn btn-primary"
-          >
+          <button type="button" id="loginBtn" class="admin-btn btn-primary">
             دخول
           </button>
-          <a href="#" class="admin-btn btn-secondary">إغلاق</a>
+          <button
+            type="button"
+            id="closeLoginBtn"
+            class="admin-btn btn-secondary"
+          >
+            إغلاق
+          </button>
         </div>
+
         <div id="adminDashboard" style="display: none">
           <h2>إدارة الصفحة</h2>
           <label>صورة البروفايل</label>
@@ -414,206 +174,21 @@
           <label>تغيير الرقم السري (اختياري)</label>
           <input type="password" id="adminNewPass" placeholder="رقم سري جديد" />
 
-          <button
-            type="button"
-            onclick="saveAdmin()"
-            id="saveBtn"
-            class="admin-btn btn-primary"
-          >
+          <button type="button" id="saveBtn" class="admin-btn btn-primary">
             حفظ التغييرات
           </button>
-          <a
-            href="#"
-            onclick="closeDashboard()"
+          <button
+            type="button"
+            id="closeDashBtn"
             class="admin-btn btn-secondary"
             style="margin-top: 10px"
-            >إغلاق</a
           >
+            إغلاق
+          </button>
         </div>
       </div>
     </div>
 
-    <script>
-      let serverData = {};
-
-      // 1. كود الـ 3 ضغطات
-      let clickCount = 0;
-      let clickTimer;
-      document
-        .getElementById("adminSecretTrigger")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          clickCount++;
-          clearTimeout(clickTimer);
-          if (clickCount >= 3) {
-            clickCount = 0;
-            window.location.href = "#adminOverlay"; // يفتح اللوحة
-          } else {
-            clickTimer = setTimeout(() => {
-              clickCount = 0;
-            }, 1000);
-          }
-        });
-
-      // 2. تحميل البيانات
-      async function loadData() {
-        try {
-          const res = await fetch("/api/social");
-          if (res.ok) {
-            serverData = await res.json();
-            initPage();
-          }
-        } catch (e) {
-          console.error(e);
-        }
-      }
-
-      function initPage() {
-        if (serverData.name)
-          document.getElementById("titleEl").textContent = serverData.name;
-        if (serverData.desc)
-          document.getElementById("subtitleEl").textContent = serverData.desc;
-
-        const links = [
-          "instagram",
-          "facebook",
-          "tiktok",
-          "youtube",
-          "playstore",
-          "appstore",
-          "website",
-        ];
-        links.forEach((id) => {
-          const el = document.getElementById(`link-${id}`);
-          if (serverData[id]) {
-            el.href = serverData[id];
-            el.style.display = "flex";
-          } else if (serverData[id] === "") {
-            el.style.display = "none";
-          }
-        });
-
-        if (serverData.profileImg) {
-          const img = document.getElementById("profileImg");
-          img.src = serverData.profileImg;
-          img.style.display = "block";
-          document.getElementById("profilePlaceholder").style.display = "none";
-        }
-      }
-
-      // 3. الدخول الآمن للوحة (صلحنا مشكلة عدم الاستجابة هنا)
-      function checkAdmin() {
-        try {
-          const pass = document.getElementById("adminPass").value;
-          if (!pass) return alert("أدخل الرقم السري");
-
-          // إخفاء تسجيل الدخول وإظهار الداشبورد
-          document.getElementById("adminLogin").style.display = "none";
-          document.getElementById("adminDashboard").style.display = "block";
-
-          // تعبئة البيانات في الحقول بشكل آمن (لو فاضية يحط مسافة عشان ميعملش إيرور)
-          document.getElementById("adminName").value = serverData.name || "";
-          document.getElementById("adminDesc").value = serverData.desc || "";
-          document.getElementById("adminInsta").value =
-            serverData.instagram || "";
-          document.getElementById("adminFb").value = serverData.facebook || "";
-          document.getElementById("adminTiktok").value =
-            serverData.tiktok || "";
-          document.getElementById("adminYt").value = serverData.youtube || "";
-          document.getElementById("adminPlay").value =
-            serverData.playstore || "";
-          document.getElementById("adminApple").value =
-            serverData.appstore || "";
-          document.getElementById("adminWeb").value = serverData.website || "";
-        } catch (error) {
-          alert("حدث خطأ أثناء فتح اللوحة، يرجى تحديث الصفحة.");
-        }
-      }
-
-      // 4. حفظ البيانات وإغلاق الداشبورد
-      async function saveAdmin() {
-        const btn = document.getElementById("saveBtn");
-        btn.textContent = "جاري الحفظ...";
-        btn.disabled = true;
-
-        const payload = {
-          adminPass: document.getElementById("adminPass").value,
-          name: document.getElementById("adminName").value,
-          desc: document.getElementById("adminDesc").value,
-          instagram: document.getElementById("adminInsta").value,
-          facebook: document.getElementById("adminFb").value,
-          tiktok: document.getElementById("adminTiktok").value,
-          youtube: document.getElementById("adminYt").value,
-          playstore: document.getElementById("adminPlay").value,
-          appstore: document.getElementById("adminApple").value,
-          website: document.getElementById("adminWeb").value,
-          profileImg: serverData.profileImg,
-        };
-
-        const newPass = document.getElementById("adminNewPass").value;
-        if (newPass) payload.newPassword = newPass;
-
-        try {
-          const res = await fetch("/api/social", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-          const result = await res.json();
-
-          if (res.ok) {
-            alert("تم الحفظ بنجاح!");
-            loadData();
-            closeDashboard();
-            window.location.href = "#"; // يغلق اللوحة
-          } else {
-            alert(result.error || "الرقم السري غير صحيح أو فشل الحفظ");
-          }
-        } catch (e) {
-          alert("حدث خطأ في الاتصال بالسيرفر");
-        } finally {
-          btn.textContent = "حفظ التغييرات";
-          btn.disabled = false;
-        }
-      }
-
-      function closeDashboard() {
-        document.getElementById("adminLogin").style.display = "block";
-        document.getElementById("adminDashboard").style.display = "none";
-        document.getElementById("adminPass").value = "";
-        document.getElementById("adminNewPass").value = "";
-      }
-
-      // 5. رفع الصورة وضغطها
-      document
-        .getElementById("profileUpload")
-        .addEventListener("change", function (e) {
-          const file = e.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = function (ev) {
-            const img = new Image();
-            img.onload = function () {
-              const canvas = document.createElement("canvas");
-              const MAX_WIDTH = 400;
-              const scaleSize = MAX_WIDTH / img.width;
-              canvas.width = MAX_WIDTH;
-              canvas.height = img.height * scaleSize;
-              const ctx = canvas.getContext("2d");
-              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-              serverData.profileImg = canvas.toDataURL("image/jpeg", 0.7);
-              document.getElementById("profileImg").src = serverData.profileImg;
-              document.getElementById("profileImg").style.display = "block";
-              document.getElementById("profilePlaceholder").style.display =
-                "none";
-            };
-            img.src = ev.target.result;
-          };
-          reader.readAsDataURL(file);
-        });
-
-      loadData();
-    </script>
+    <script src="links.js?v=1"></script>
   </body>
 </html>

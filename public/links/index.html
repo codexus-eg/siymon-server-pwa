@@ -2,7 +2,10 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>روابطنا - siymon</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
@@ -151,13 +154,19 @@
         height: 24px;
       }
 
-      /* لوحة الإدارة */
+      /* زرار تشغيل لوحة التحكم السري */
       .admin-trigger {
         margin-top: 50px;
-        font-size: 12px;
+        font-size: 14px;
         color: #4b5563;
-        cursor: default;
+        cursor: pointer;
+        padding: 15px 30px; /* تملأ مساحة أكبر ليسهل الضغط بالإصبع */
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation; /* تمنع المتصفح من عمل زووم عند الضغط المتكرر */
       }
+
+      /* لوحة الإدارة */
       .admin-overlay {
         position: fixed;
         inset: 0;
@@ -463,10 +472,7 @@
             initPage();
           }
         } catch (e) {
-          console.error(
-            "السيرفر لم يستجب بعد، سيتم إبقاء القيم الافتراضية:",
-            e,
-          );
+          console.error("السيرفر لم يستجب بعد:", e);
         }
       }
 
@@ -491,7 +497,7 @@
             el.href = serverData[id];
             el.style.display = "flex";
           } else if (serverData[id] === "") {
-            el.style.display = "none"; // لو تم مسحه من لوحة التحكم، اخفيه
+            el.style.display = "none";
           }
         });
 
@@ -503,19 +509,28 @@
         }
       }
 
+      // الكود المطور لتسجيل الـ 3 ضغطات بدون مشاكل الموبايل
       let tapCount = 0,
         tapTimer;
-      document.getElementById("adminTrigger").addEventListener("click", () => {
+      const trigger = document.getElementById("adminTrigger");
+
+      function handleTap(e) {
+        if (e) e.preventDefault();
         tapCount++;
         clearTimeout(tapTimer);
         tapTimer = setTimeout(() => {
           tapCount = 0;
-        }, 800);
+        }, 1000); // زيادة الوقت لثانية كاملة ليسهل الضغط
+
         if (tapCount >= 3) {
           tapCount = 0;
           document.getElementById("adminOverlay").classList.add("active");
         }
-      });
+      }
+
+      // الاستماع لحدث اللمس والضغط معاً لضمان الاستجابة السريعة
+      trigger.addEventListener("touchstart", handleTap, { passive: false });
+      trigger.addEventListener("click", handleTap);
 
       function checkAdmin() {
         const pass = document.getElementById("adminPass").value;

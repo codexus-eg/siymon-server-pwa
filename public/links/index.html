@@ -1,66 +1,52 @@
 <!doctype html>
-<html lang="ar" dir="rtl" class="h-full">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>روابطنا - siymon</title>
-    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
     <style>
+      /* الإعدادات الأساسية */
       * {
+        box-sizing: border-box;
         font-family: "Tajawal", sans-serif;
       }
-      html,
-      body {
-        height: 100%;
+      body,
+      html {
         margin: 0;
-        box-sizing: border-box;
+        padding: 0;
+        min-height: 100vh;
+        background-color: #0a0a14;
+        color: white;
+        overflow-x: hidden;
       }
 
-      .glass-btn {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-        display: none; /* مخفي افتراضياً لحد ما نتأكد إن فيه رابط */
-      }
-      .glass-btn::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(
-          45deg,
-          transparent,
-          rgba(255, 140, 0, 0.1),
-          transparent
-        );
-        transform: rotate(45deg) translateX(-100%);
-        transition: transform 0.6s;
-      }
-      .glass-btn:hover::before {
-        transform: rotate(45deg) translateX(100%);
-      }
-      .glass-btn:hover {
-        background: rgba(255, 140, 0, 0.15);
-        border-color: rgba(255, 140, 0, 0.5);
-        transform: translateY(-3px);
-        box-shadow: 0 10px 40px rgba(255, 140, 0, 0.2);
-      }
+      /* خلفيات متحركة */
       .glow-circle {
-        position: absolute;
+        position: fixed;
         border-radius: 50%;
         filter: blur(80px);
         opacity: 0.3;
         animation: pulse-glow 4s ease-in-out infinite alternate;
+        z-index: 1;
+      }
+      .glow-1 {
+        width: 300px;
+        height: 300px;
+        background: #ff8c00;
+        top: -10%;
+        left: -10%;
+      }
+      .glow-2 {
+        width: 250px;
+        height: 250px;
+        background: #ff4500;
+        bottom: -10%;
+        right: -10%;
+        animation-delay: 2s;
       }
       @keyframes pulse-glow {
         0% {
@@ -72,21 +58,23 @@
           transform: scale(1.1);
         }
       }
-      @keyframes float-in {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-in {
-        animation: float-in 0.6s ease forwards;
-        opacity: 0;
+
+      /* الحاوية الرئيسية */
+      .container {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        min-height: 100vh;
+        max-width: 500px;
+        margin: 0 auto;
+        text-align: center;
       }
 
+      /* صورة البروفايل */
       .profile-img-container {
         width: 120px;
         height: 120px;
@@ -94,15 +82,82 @@
         border: 3px solid rgba(255, 140, 0, 0.6);
         overflow: hidden;
         box-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
-        position: relative;
-        cursor: pointer;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ea580c, #7c2d12);
       }
       .profile-img-container img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
+      .profile-placeholder svg {
+        width: 48px;
+        height: 48px;
+        color: white;
+      }
 
+      /* النصوص */
+      h1 {
+        font-size: 28px;
+        font-weight: 800;
+        margin: 0;
+        background: linear-gradient(to right, #fb923c, #fed7aa);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      p.subtitle {
+        font-size: 16px;
+        color: #9ca3af;
+        margin-top: 8px;
+        margin-bottom: 30px;
+      }
+
+      /* أزرار الروابط (تأثير الزجاج) */
+      .links-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .glass-btn {
+        display: none;
+        align-items: center;
+        gap: 15px;
+        padding: 16px 24px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .glass-btn:hover {
+        background: rgba(255, 140, 0, 0.15);
+        border-color: rgba(255, 140, 0, 0.5);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(255, 140, 0, 0.2);
+      }
+      .glass-btn svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* لوحة الإدارة */
+      .admin-trigger {
+        margin-top: 50px;
+        font-size: 12px;
+        color: #4b5563;
+        cursor: default;
+      }
       .admin-overlay {
         position: fixed;
         inset: 0;
@@ -112,6 +167,7 @@
         display: none;
         align-items: center;
         justify-content: center;
+        padding: 20px;
       }
       .admin-overlay.active {
         display: flex;
@@ -120,322 +176,242 @@
         background: rgba(20, 20, 30, 0.95);
         border: 1px solid rgba(255, 140, 0, 0.3);
         border-radius: 16px;
-        padding: 2rem;
-        width: 90%;
+        padding: 30px;
+        width: 100%;
         max-width: 400px;
-        max-height: 80%;
+        max-height: 85vh;
         overflow-y: auto;
+        text-align: right;
+      }
+      .admin-panel h2 {
+        color: #fb923c;
+        text-align: center;
+        margin-top: 0;
+      }
+      .admin-panel label {
+        display: block;
+        font-size: 14px;
+        color: #9ca3af;
+        margin-bottom: 5px;
+        margin-top: 15px;
+      }
+      .admin-panel input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid #374151;
+        color: white;
+        font-family: "Tajawal", sans-serif;
+      }
+      .admin-panel input:focus {
+        outline: none;
+        border-color: #f97316;
+      }
+      .admin-btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 15px;
+        border: none;
+        font-family: "Tajawal", sans-serif;
+        font-size: 16px;
+      }
+      .btn-primary {
+        background: #ea580c;
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #c2410c;
+      }
+      .btn-secondary {
+        background: transparent;
+        border: 1px solid #374151;
+        color: white;
+      }
+      .btn-secondary:hover {
+        border-color: #f97316;
       }
     </style>
   </head>
-  <body class="h-full bg-[#0a0a14] text-white overflow-auto">
-    <div
-      class="glow-circle"
-      style="
-        width: 300px;
-        height: 300px;
-        background: #ff8c00;
-        top: 10%;
-        left: -5%;
-      "
-    ></div>
-    <div
-      class="glow-circle"
-      style="
-        width: 250px;
-        height: 250px;
-        background: #ff4500;
-        bottom: 10%;
-        right: -5%;
-        animation-delay: 2s;
-      "
-    ></div>
+  <body>
+    <div class="glow-circle glow-1"></div>
+    <div class="glow-circle glow-2"></div>
 
-    <div
-      id="main-container"
-      class="relative z-10 flex flex-col items-center px-4 py-12 min-h-full"
-    >
-      <div class="animate-in" style="animation-delay: 0.1s">
-        <div class="profile-img-container mx-auto" id="profileContainer">
-          <img id="profileImg" src="" alt="Profile" style="display: none" />
-          <div
-            id="profilePlaceholder"
-            class="w-full h-full bg-gradient-to-br from-orange-600 to-orange-900 flex items-center justify-center"
+    <div class="container">
+      <div class="profile-img-container" id="profileContainer">
+        <img id="profileImg" src="" alt="Profile" style="display: none" />
+        <div id="profilePlaceholder" class="profile-placeholder">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <i
-              data-lucide="user"
-              style="width: 48px; height: 48px; color: white"
-            ></i>
-          </div>
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
         </div>
       </div>
 
-      <h1
-        id="titleEl"
-        class="text-3xl font-bold mt-6 animate-in bg-gradient-to-r from-orange-400 to-orange-200 bg-clip-text text-transparent"
-        style="animation-delay: 0.2s"
-      >
-        جاري التحميل...
-      </h1>
-      <p
-        id="subtitleEl"
-        class="text-gray-400 mt-2 animate-in text-lg"
-        style="animation-delay: 0.3s"
-      ></p>
+      <h1 id="titleEl">جاري التحميل...</h1>
+      <p id="subtitleEl" class="subtitle"></p>
 
-      <div class="w-full max-w-md mt-8 space-y-4" id="linksContainer">
-        <a
-          id="link-instagram"
-          href="#"
-          target="_blank"
-          class="glass-btn items-center gap-4 px-6 py-4 rounded-2xl w-full animate-in"
-          style="animation-delay: 0.4s"
-        >
+      <div class="links-wrapper" id="linksContainer">
+        <a id="link-instagram" href="#" target="_blank" class="glass-btn">
           <svg
-            width="24"
-            height="24"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <rect x="2" y="2" width="20" height="20" rx="5" />
-            <circle cx="12" cy="12" r="5" />
-            <circle
-              cx="17.5"
-              cy="6.5"
-              r="1.5"
-              fill="currentColor"
-              stroke="none"
-            />
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
           </svg>
-          <span class="text-lg font-medium">Instagram</span>
+          <span>انستجرام (Instagram)</span>
         </a>
-        <a
-          id="link-facebook"
-          href="#"
-          target="_blank"
-          class="glass-btn items-center gap-4 px-6 py-4 rounded-2xl w-full animate-in"
-          style="animation-delay: 0.5s"
-        >
+        <a id="link-facebook" href="#" target="_blank" class="glass-btn">
           <svg
-            width="24"
-            height="24"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
             <path
               d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
-            />
+            ></path>
           </svg>
-          <span class="text-lg font-medium">Facebook</span>
+          <span>فيسبوك (Facebook)</span>
         </a>
-        <a
-          id="link-tiktok"
-          href="#"
-          target="_blank"
-          class="glass-btn items-center gap-4 px-6 py-4 rounded-2xl w-full animate-in"
-          style="animation-delay: 0.6s"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <a id="link-tiktok" href="#" target="_blank" class="glass-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
             <path
               d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.88 2.89 2.89 0 0 1-2.88-2.88 2.89 2.89 0 0 1 2.88-2.88c.28 0 .56.04.82.1v-3.5a6.37 6.37 0 0 0-.82-.05A6.34 6.34 0 0 0 3.15 15.7 6.34 6.34 0 0 0 9.49 22a6.34 6.34 0 0 0 6.34-6.34V9.37a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.01-.8z"
             />
           </svg>
-          <span class="text-lg font-medium">TikTok</span>
+          <span>تيك توك (TikTok)</span>
         </a>
-        <a
-          id="link-youtube"
-          href="#"
-          target="_blank"
-          class="glass-btn items-center gap-4 px-6 py-4 rounded-2xl w-full animate-in"
-          style="animation-delay: 0.7s"
-        >
+        <a id="link-youtube" href="#" target="_blank" class="glass-btn">
           <svg
-            width="24"
-            height="24"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
             <path
               d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.13C5.12 19.56 12 19.56 12 19.56s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"
-            />
-            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+            ></path>
+            <polygon
+              points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"
+            ></polygon>
           </svg>
-          <span class="text-lg font-medium">YouTube</span>
+          <span>يوتيوب (YouTube)</span>
         </a>
-        <a
-          id="link-playstore"
-          href="#"
-          target="_blank"
-          class="glass-btn items-center gap-4 px-6 py-4 rounded-2xl w-full animate-in"
-          style="animation-delay: 0.8s"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M3.61 1.81L13.42 12 3.61 22.19c-.36-.21-.61-.6-.61-1.05V2.86c0-.45.25-.84.61-1.05zM14.85 13.44l2.62 1.53-3.45 3.45-2.62-1.53 3.45-3.45zM21.4 11.13l-2.97 1.73-2.97-1.73L18.43 8.4l2.97 2.73zM14.85 10.56l-3.45-3.45 2.62-1.53 3.45 3.45-2.62 1.53z"
-            />
+        <a id="link-playstore" href="#" target="_blank" class="glass-btn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon points="3 22 21 12 3 2 3 22"></polygon>
           </svg>
-          <span class="text-lg font-medium">Google Play</span>
+          <span>متجر بلاي (Android)</span>
         </a>
-        <a
-          id="link-appstore"
-          href="#"
-          target="_blank"
-          class="glass-btn items-center gap-4 px-6 py-4 rounded-2xl w-full animate-in"
-          style="animation-delay: 0.9s"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <a id="link-appstore" href="#" target="_blank" class="glass-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
             <path
               d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
             />
           </svg>
-          <span class="text-lg font-medium">App Store</span>
+          <span>آب ستور (iOS)</span>
         </a>
-        <a
-          id="link-website"
-          href="#"
-          target="_blank"
-          class="glass-btn items-center gap-4 px-6 py-4 rounded-2xl w-full animate-in"
-          style="animation-delay: 1s"
-        >
-          <i data-lucide="globe" style="width: 24px; height: 24px"></i>
-          <span class="text-lg font-medium">موقعي</span>
+        <a id="link-website" href="#" target="_blank" class="glass-btn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path
+              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+            ></path>
+          </svg>
+          <span>الموقع الإلكتروني</span>
         </a>
       </div>
 
-      <p class="text-gray-600 text-xs mt-12 cursor-default" id="adminTrigger">
-        © siymon
-      </p>
+      <p class="admin-trigger" id="adminTrigger">© siymon</p>
     </div>
 
     <div class="admin-overlay" id="adminOverlay">
       <div class="admin-panel">
         <div id="adminLogin">
-          <h2 class="text-xl font-bold text-orange-400 mb-4 text-center">
-            لوحة المشرف
-          </h2>
-          <input
-            type="password"
-            id="adminPass"
-            placeholder="الرقم السري"
-            class="w-full px-4 py-3 rounded-xl bg-black/50 border border-gray-700 text-white mb-4 focus:border-orange-500 focus:outline-none"
-          />
-          <button
-            onclick="checkAdmin()"
-            class="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-500 font-bold transition-all"
-          >
+          <h2>لوحة المشرف</h2>
+          <input type="password" id="adminPass" placeholder="الرقم السري" />
+          <button onclick="checkAdmin()" class="admin-btn btn-primary">
             دخول
           </button>
-          <button
-            onclick="closeAdmin()"
-            class="w-full py-3 rounded-xl mt-2 border border-gray-700 hover:border-orange-500 transition-all"
-          >
+          <button onclick="closeAdmin()" class="admin-btn btn-secondary">
             إغلاق
           </button>
         </div>
         <div id="adminDashboard" style="display: none">
-          <h2 class="text-xl font-bold text-orange-400 mb-4 text-center">
-            إدارة الصفحة
-          </h2>
-          <label class="block text-sm text-gray-400 mb-1">صورة البروفايل</label>
-          <input
-            type="file"
-            id="profileUpload"
-            accept="image/*"
-            class="w-full mb-4 text-sm text-gray-400 file:mr-2 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-orange-600 file:text-white file:cursor-pointer"
-          />
-          <label class="block text-sm text-gray-400 mb-1">صورة الخلفية</label>
-          <input
-            type="file"
-            id="bgUpload"
-            accept="image/*"
-            class="w-full mb-4 text-sm text-gray-400 file:mr-2 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-orange-600 file:text-white file:cursor-pointer"
-          />
+          <h2>إدارة الصفحة</h2>
+          <label>صورة البروفايل</label>
+          <input type="file" id="profileUpload" accept="image/*" />
 
-          <label class="block text-sm text-gray-400 mb-1">الاسم</label>
-          <input
-            type="text"
-            id="adminName"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-3"
-          />
-          <label class="block text-sm text-gray-400 mb-1">الوصف</label>
-          <input
-            type="text"
-            id="adminDesc"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-3"
-          />
+          <label>الاسم</label>
+          <input type="text" id="adminName" />
 
-          <label class="block text-sm text-gray-400 mb-1">Instagram</label>
-          <input
-            type="url"
-            id="adminInsta"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-3"
-          />
-          <label class="block text-sm text-gray-400 mb-1">Facebook</label>
-          <input
-            type="url"
-            id="adminFb"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-3"
-          />
-          <label class="block text-sm text-gray-400 mb-1">TikTok</label>
-          <input
-            type="url"
-            id="adminTiktok"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-3"
-          />
-          <label class="block text-sm text-gray-400 mb-1">YouTube</label>
-          <input
-            type="url"
-            id="adminYt"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-3"
-          />
-          <label class="block text-sm text-gray-400 mb-1">Google Play</label>
-          <input
-            type="url"
-            id="adminPlay"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-3"
-          />
-          <label class="block text-sm text-gray-400 mb-1">App Store</label>
-          <input
-            type="url"
-            id="adminApple"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-3"
-          />
-          <label class="block text-sm text-gray-400 mb-1"
-            >الموقع الإلكتروني</label
-          >
-          <input
-            type="url"
-            id="adminWeb"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-3"
-          />
+          <label>الوصف</label>
+          <input type="text" id="adminDesc" />
 
-          <label class="block text-sm text-gray-400 mb-1"
-            >تغيير الرقم السري</label
-          >
-          <input
-            type="password"
-            id="adminNewPass"
-            placeholder="رقم سري جديد (اختياري)"
-            class="w-full px-4 py-2 rounded-xl bg-black/50 border border-gray-700 text-white mb-4"
-          />
+          <label>Instagram</label>
+          <input type="url" id="adminInsta" />
+          <label>Facebook</label>
+          <input type="url" id="adminFb" />
+          <label>TikTok</label>
+          <input type="url" id="adminTiktok" />
+          <label>YouTube</label>
+          <input type="url" id="adminYt" />
+          <label>Google Play</label>
+          <input type="url" id="adminPlay" />
+          <label>App Store</label>
+          <input type="url" id="adminApple" />
+          <label>الموقع الإلكتروني</label>
+          <input type="url" id="adminWeb" />
+
+          <label>تغيير الرقم السري (اختياري)</label>
+          <input type="password" id="adminNewPass" placeholder="رقم سري جديد" />
 
           <button
             onclick="saveAdmin()"
             id="saveBtn"
-            class="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-500 font-bold transition-all mb-2"
+            class="admin-btn btn-primary"
           >
             حفظ التغييرات
           </button>
-          <button
-            onclick="closeAdmin()"
-            class="w-full py-3 rounded-xl border border-gray-700 hover:border-orange-500 transition-all"
-          >
+          <button onclick="closeAdmin()" class="admin-btn btn-secondary">
             إغلاق
           </button>
         </div>
@@ -443,9 +419,8 @@
     </div>
 
     <script>
-      let serverData = {}; // متغیر لتخزين البيانات القادمة من السيرفر
+      let serverData = {};
 
-      // جلب البيانات من السيرفر
       async function loadData() {
         try {
           const res = await fetch("/api/social");
@@ -456,7 +431,6 @@
         }
       }
 
-      // عرض البيانات في الصفحة
       function initPage() {
         if (serverData.name)
           document.getElementById("titleEl").textContent = serverData.name;
@@ -476,9 +450,9 @@
           const el = document.getElementById(`link-${id}`);
           if (serverData[id]) {
             el.href = serverData[id];
-            el.style.display = "flex"; // إظهار الزر لو فيه رابط
+            el.style.display = "flex";
           } else {
-            el.style.display = "none"; // إخفاء الزر لو مفيش رابط
+            el.style.display = "none";
           }
         });
 
@@ -488,14 +462,8 @@
           img.style.display = "block";
           document.getElementById("profilePlaceholder").style.display = "none";
         }
-        if (serverData.bgImg) {
-          document.body.style.backgroundImage = `url(${serverData.bgImg})`;
-          document.body.style.backgroundSize = "cover";
-          document.body.style.backgroundPosition = "center fixed";
-        }
       }
 
-      // فتح لوحة الإدارة (بـ 3 ضغطات)
       let tapCount = 0,
         tapTimer;
       document.getElementById("adminTrigger").addEventListener("click", () => {
@@ -517,7 +485,6 @@
         document.getElementById("adminLogin").style.display = "none";
         document.getElementById("adminDashboard").style.display = "block";
 
-        // تعبئة البيانات في الفورم
         document.getElementById("adminName").value = serverData.name || "";
         document.getElementById("adminDesc").value = serverData.desc || "";
         document.getElementById("adminInsta").value =
@@ -546,8 +513,7 @@
           playstore: document.getElementById("adminPlay").value,
           appstore: document.getElementById("adminApple").value,
           website: document.getElementById("adminWeb").value,
-          profileImg: serverData.profileImg, // بناخد الصور زي ما هي
-          bgImg: serverData.bgImg,
+          profileImg: serverData.profileImg,
         };
 
         const newPass = document.getElementById("adminNewPass").value;
@@ -563,7 +529,7 @@
 
           if (res.ok) {
             alert("تم الحفظ بنجاح!");
-            loadData(); // إعادة جلب البيانات
+            loadData();
             closeAdmin();
           } else {
             alert(result.error || "فشل الحفظ");
@@ -585,40 +551,38 @@
         document.getElementById("adminNewPass").value = "";
       }
 
-      // رفع الصور (بتتحول لـ Base64 وبتتحفظ مؤقتاً في المتغير لحد ما تدوس حفظ)
       document
         .getElementById("profileUpload")
         .addEventListener("change", function (e) {
           const file = e.target.files[0];
           if (!file) return;
+
+          // ضغط الصورة قبل الحفظ عشان مساحة السيرفر
           const reader = new FileReader();
           reader.onload = function (ev) {
-            serverData.profileImg = ev.target.result;
-            document.getElementById("profileImg").src = ev.target.result;
-            document.getElementById("profileImg").style.display = "block";
-            document.getElementById("profilePlaceholder").style.display =
-              "none";
+            const img = new Image();
+            img.onload = function () {
+              const canvas = document.createElement("canvas");
+              const MAX_WIDTH = 400;
+              const scaleSize = MAX_WIDTH / img.width;
+              canvas.width = MAX_WIDTH;
+              canvas.height = img.height * scaleSize;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+
+              serverData.profileImg = dataUrl;
+              document.getElementById("profileImg").src = dataUrl;
+              document.getElementById("profileImg").style.display = "block";
+              document.getElementById("profilePlaceholder").style.display =
+                "none";
+            };
+            img.src = ev.target.result;
           };
           reader.readAsDataURL(file);
         });
 
-      document
-        .getElementById("bgUpload")
-        .addEventListener("change", function (e) {
-          const file = e.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = function (ev) {
-            serverData.bgImg = ev.target.result;
-            document.body.style.backgroundImage = `url(${ev.target.result})`;
-            document.body.style.backgroundSize = "cover";
-            document.body.style.backgroundPosition = "center fixed";
-          };
-          reader.readAsDataURL(file);
-        });
-
-      lucide.createIcons();
-      loadData(); // تشغيل الجلب أول ما الصفحة تفتح
+      loadData();
     </script>
   </body>
 </html>

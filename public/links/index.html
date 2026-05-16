@@ -2,10 +2,7 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>روابطنا - siymon</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
@@ -119,7 +116,7 @@
         margin-bottom: 30px;
       }
 
-      /* أزرار الروابط (تأثير الزجاج) */
+      /* أزرار الروابط */
       .links-wrapper {
         width: 100%;
         display: flex;
@@ -160,10 +157,8 @@
         font-size: 14px;
         color: #4b5563;
         cursor: pointer;
-        padding: 15px 40px;
+        padding: 20px;
         user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
       }
 
       /* لوحة الإدارة */
@@ -404,9 +399,7 @@
         </a>
       </div>
 
-      <p class="admin-trigger" id="adminTrigger" onclick="adminTap()">
-        © siymon
-      </p>
+      <p class="admin-trigger" id="adminTrigger">© siymon</p>
     </div>
 
     <div class="admin-overlay" id="adminOverlay">
@@ -511,23 +504,23 @@
         }
       }
 
-      // الطريقة الجديدة والمباشرة لتسجيل الـ 3 ضغطات
+      // ==========================================
+      // الكود الأصلي بتاعك اللي كان شغال بالمللي
+      // ==========================================
       let tapCount = 0;
       let tapTimer;
-      function adminTap() {
+      document.getElementById("adminTrigger").addEventListener("click", () => {
         tapCount++;
         clearTimeout(tapTimer);
-
+        tapTimer = setTimeout(() => {
+          tapCount = 0;
+        }, 800);
         if (tapCount >= 3) {
           tapCount = 0;
           document.getElementById("adminOverlay").classList.add("active");
-        } else {
-          // لو مكملش الـ 3 ضغطات في خلال ثانية، العداد يصفر
-          tapTimer = setTimeout(() => {
-            tapCount = 0;
-          }, 1000);
         }
-      }
+      });
+      // ==========================================
 
       function checkAdmin() {
         const pass = document.getElementById("adminPass").value;

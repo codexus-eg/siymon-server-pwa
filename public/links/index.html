@@ -124,7 +124,7 @@
         gap: 15px;
       }
       .glass-btn {
-        display: none;
+        display: flex;
         align-items: center;
         gap: 15px;
         padding: 16px 24px;
@@ -260,11 +260,16 @@
         </div>
       </div>
 
-      <h1 id="titleEl">جاري التحميل...</h1>
-      <p id="subtitleEl" class="subtitle"></p>
+      <h1 id="titleEl">siymon</h1>
+      <p id="subtitleEl" class="subtitle">مرحباً بكم في صفحة روابطنا</p>
 
       <div class="links-wrapper" id="linksContainer">
-        <a id="link-instagram" href="#" target="_blank" class="glass-btn">
+        <a
+          id="link-instagram"
+          href="https://instagram.com"
+          target="_blank"
+          class="glass-btn"
+        >
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -279,7 +284,12 @@
           </svg>
           <span>انستجرام (Instagram)</span>
         </a>
-        <a id="link-facebook" href="#" target="_blank" class="glass-btn">
+        <a
+          id="link-facebook"
+          href="https://facebook.com"
+          target="_blank"
+          class="glass-btn"
+        >
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -294,7 +304,12 @@
           </svg>
           <span>فيسبوك (Facebook)</span>
         </a>
-        <a id="link-tiktok" href="#" target="_blank" class="glass-btn">
+        <a
+          id="link-tiktok"
+          href="https://tiktok.com"
+          target="_blank"
+          class="glass-btn"
+        >
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path
               d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.88 2.89 2.89 0 0 1-2.88-2.88 2.89 2.89 0 0 1 2.88-2.88c.28 0 .56.04.82.1v-3.5a6.37 6.37 0 0 0-.82-.05A6.34 6.34 0 0 0 3.15 15.7 6.34 6.34 0 0 0 9.49 22a6.34 6.34 0 0 0 6.34-6.34V9.37a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.01-.8z"
@@ -302,7 +317,12 @@
           </svg>
           <span>تيك توك (TikTok)</span>
         </a>
-        <a id="link-youtube" href="#" target="_blank" class="glass-btn">
+        <a
+          id="link-youtube"
+          href="https://youtube.com"
+          target="_blank"
+          class="glass-btn"
+        >
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -320,7 +340,12 @@
           </svg>
           <span>يوتيوب (YouTube)</span>
         </a>
-        <a id="link-playstore" href="#" target="_blank" class="glass-btn">
+        <a
+          id="link-playstore"
+          href="https://play.google.com"
+          target="_blank"
+          class="glass-btn"
+        >
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -333,7 +358,12 @@
           </svg>
           <span>متجر بلاي (Android)</span>
         </a>
-        <a id="link-appstore" href="#" target="_blank" class="glass-btn">
+        <a
+          id="link-appstore"
+          href="https://apps.apple.com"
+          target="_blank"
+          class="glass-btn"
+        >
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path
               d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
@@ -341,7 +371,12 @@
           </svg>
           <span>آب ستور (iOS)</span>
         </a>
-        <a id="link-website" href="#" target="_blank" class="glass-btn">
+        <a
+          id="link-website"
+          href="https://siymon7.com"
+          target="_blank"
+          class="glass-btn"
+        >
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -382,7 +417,6 @@
 
           <label>الاسم</label>
           <input type="text" id="adminName" />
-
           <label>الوصف</label>
           <input type="text" id="adminDesc" />
 
@@ -424,10 +458,15 @@
       async function loadData() {
         try {
           const res = await fetch("/api/social");
-          serverData = await res.json();
-          initPage();
+          if (res.ok) {
+            serverData = await res.json();
+            initPage();
+          }
         } catch (e) {
-          console.error("فشل جلب البيانات:", e);
+          console.error(
+            "السيرفر لم يستجب بعد، سيتم إبقاء القيم الافتراضية:",
+            e,
+          );
         }
       }
 
@@ -451,8 +490,8 @@
           if (serverData[id]) {
             el.href = serverData[id];
             el.style.display = "flex";
-          } else {
-            el.style.display = "none";
+          } else if (serverData[id] === "") {
+            el.style.display = "none"; // لو تم مسحه من لوحة التحكم، اخفيه
           }
         });
 
@@ -485,16 +524,24 @@
         document.getElementById("adminLogin").style.display = "none";
         document.getElementById("adminDashboard").style.display = "block";
 
-        document.getElementById("adminName").value = serverData.name || "";
-        document.getElementById("adminDesc").value = serverData.desc || "";
+        document.getElementById("adminName").value =
+          serverData.name || document.getElementById("titleEl").textContent;
+        document.getElementById("adminDesc").value =
+          serverData.desc || document.getElementById("subtitleEl").textContent;
         document.getElementById("adminInsta").value =
-          serverData.instagram || "";
-        document.getElementById("adminFb").value = serverData.facebook || "";
-        document.getElementById("adminTiktok").value = serverData.tiktok || "";
-        document.getElementById("adminYt").value = serverData.youtube || "";
-        document.getElementById("adminPlay").value = serverData.playstore || "";
-        document.getElementById("adminApple").value = serverData.appstore || "";
-        document.getElementById("adminWeb").value = serverData.website || "";
+          serverData.instagram || "https://instagram.com";
+        document.getElementById("adminFb").value =
+          serverData.facebook || "https://facebook.com";
+        document.getElementById("adminTiktok").value =
+          serverData.tiktok || "https://tiktok.com";
+        document.getElementById("adminYt").value =
+          serverData.youtube || "https://youtube.com";
+        document.getElementById("adminPlay").value =
+          serverData.playstore || "https://play.google.com";
+        document.getElementById("adminApple").value =
+          serverData.appstore || "https://apps.apple.com";
+        document.getElementById("adminWeb").value =
+          serverData.website || "https://siymon7.com";
       }
 
       async function saveAdmin() {
@@ -533,7 +580,6 @@
             closeAdmin();
           } else {
             alert(result.error || "فشل الحفظ");
-            document.getElementById("adminPass").style.borderColor = "#ef4444";
           }
         } catch (e) {
           alert("حدث خطأ في الاتصال بالسيرفر");
@@ -556,8 +602,6 @@
         .addEventListener("change", function (e) {
           const file = e.target.files[0];
           if (!file) return;
-
-          // ضغط الصورة قبل الحفظ عشان مساحة السيرفر
           const reader = new FileReader();
           reader.onload = function (ev) {
             const img = new Image();

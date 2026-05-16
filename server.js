@@ -6598,6 +6598,77 @@ app.use(
   }),
 );
 
+// ==========================================
+// Social Links API (صفحة الروابط)
+// ==========================================
+const SOCIAL_FILE = path.join(DATA_DIR, "social.json");
+
+function loadSocial() {
+  if (!fs.existsSync(SOCIAL_FILE)) {
+    const def = {
+      name: "siymon",
+      desc: "أفضل مطعم في برشيد",
+      instagram: "",
+      facebook: "",
+      tiktok: "",
+      youtube: "",
+      playstore: "",
+      appstore: "",
+      website: "",
+      profileImg: "",
+      bgImg: "",
+      password: "123", // الرقم السري الافتراضي للوحة التحكم
+    };
+    fs.writeFileSync(SOCIAL_FILE, JSON.stringify(def, null, 2));
+    return def;
+  }
+  return JSON.parse(fs.readFileSync(SOCIAL_FILE, "utf-8"));
+}
+
+function saveSocial(data) {
+  fs.writeFileSync(SOCIAL_FILE, JSON.stringify(data, null, 2));
+}
+
+// جلب البيانات للزوار
+app.get("/api/social", (req, res) => {
+  const data = loadSocial();
+  const { password, ...publicData } = data; // بنخفي الرقم السري عن الزوار
+  res.json(publicData);
+});
+
+// حفظ البيانات (بواسطة المشرف)
+// زودنا الحجم لـ 10 ميجا عشان يقبل رفع الصور
+app.post("/api/social", express.json({ limit: "10mb" }), (req, res) => {
+  const data = loadSocial();
+  if (req.body.adminPass !== data.password) {
+    return res.status(401).json({ error: "الرقم السري غير صحيح!" });
+  }
+
+  const fields = [
+    "name",
+    "desc",
+    "instagram",
+    "facebook",
+    "tiktok",
+    "youtube",
+    "playstore",
+    "appstore",
+    "website",
+    "profileImg",
+    "bgImg",
+  ];
+  fields.forEach((f) => {
+    if (req.body[f] !== undefined) data[f] = req.body[f];
+  });
+
+  if (req.body.newPassword) {
+    data.password = req.body.newPassword;
+  }
+
+  saveSocial(data);
+  res.json({ ok: true });
+});
+
 app.get("/", (req, res) => res.sendFile(path.join(PUBLIC_DIR, "index.html")));
 app.get("/admin", (req, res) => res.redirect("/admin/index.html"));
 

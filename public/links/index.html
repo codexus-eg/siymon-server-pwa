@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <style>
-      /* الإعدادات الأساسية ومنع الزوم */
+      /* الإعدادات الأساسية */
       * {
         box-sizing: border-box;
         font-family: "Tajawal", sans-serif;
@@ -25,10 +25,10 @@
         background-color: #0a0a14;
         color: white;
         overflow-x: hidden;
-        touch-action: pan-y; /* يسمح بالاسكرول فقط ويمنع الزوم التلقائي في الموبايل */
+        touch-action: pan-y;
       }
 
-      /* خلفيات متحركة */
+      /* خلفيات متحركة (هنا تم حل مشكلة حجب الضغطات) */
       .glow-circle {
         position: fixed;
         border-radius: 50%;
@@ -36,6 +36,7 @@
         opacity: 0.3;
         animation: pulse-glow 4s ease-in-out infinite alternate;
         z-index: 1;
+        pointer-events: none; /* الكود السحري لمنع الدائرة من سرقة الضغطات */
       }
       .glow-1 {
         width: 300px;
@@ -155,16 +156,18 @@
         height: 24px;
       }
 
-      /* زرار تشغيل لوحة التحكم السري */
+      /* زرار تشغيل لوحة التحكم السري (تم تحويله لزرار حقيقي) */
       .admin-trigger {
         margin-top: 50px;
         font-size: 14px;
         color: #4b5563;
         cursor: pointer;
-        padding: 20px;
+        padding: 15px 40px;
+        background: transparent;
+        border: none;
+        outline: none;
         user-select: none;
         -webkit-user-select: none;
-        touch-action: none; /* يمنع الزوم نهائياً عند لمس الكلمة دي في الموبايل */
       }
 
       /* لوحة الإدارة */
@@ -405,9 +408,9 @@
         </a>
       </div>
 
-      <p class="admin-trigger" id="adminTrigger" onclick="adminTap()">
+      <button type="button" class="admin-trigger" id="adminTrigger">
         © siymon
-      </p>
+      </button>
     </div>
 
     <div class="admin-overlay" id="adminOverlay">
@@ -512,10 +515,29 @@
         }
       }
 
-      // تعديل الدالة لتعمل من ضغطة واحدة مباشرة للتيست وتخطي أي مشاكل
-      function adminTap() {
-        document.getElementById("adminOverlay").classList.add("active");
-      }
+      // ==========================================
+      // كود الـ 3 ضغطات السريع والمضمون
+      // ==========================================
+      let tapCount = 0;
+      let tapTimer;
+      document
+        .getElementById("adminTrigger")
+        .addEventListener("click", function (e) {
+          e.preventDefault(); // يمنع أي أكشن تاني من المتصفح
+          tapCount++;
+          clearTimeout(tapTimer);
+
+          // مديينك ثانية كاملة تضغط فيها براحتك
+          tapTimer = setTimeout(() => {
+            tapCount = 0;
+          }, 1000);
+
+          if (tapCount >= 3) {
+            tapCount = 0;
+            document.getElementById("adminOverlay").classList.add("active");
+            document.getElementById("adminPass").focus(); // بيفتحلك الكيبورد عشان تكتب الباسورد فوراً
+          }
+        });
 
       function checkAdmin() {
         const pass = document.getElementById("adminPass").value;

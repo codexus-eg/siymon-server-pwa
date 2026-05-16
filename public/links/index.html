@@ -2,14 +2,17 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>روابطنا - siymon</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
     <style>
-      /* الإعدادات الأساسية */
+      /* الإعدادات الأساسية ومنع الزوم */
       * {
         box-sizing: border-box;
         font-family: "Tajawal", sans-serif;
@@ -22,6 +25,7 @@
         background-color: #0a0a14;
         color: white;
         overflow-x: hidden;
+        touch-action: pan-y; /* يسمح بالاسكرول فقط ويمنع الزوم التلقائي في الموبايل */
       }
 
       /* خلفيات متحركة */
@@ -159,6 +163,8 @@
         cursor: pointer;
         padding: 20px;
         user-select: none;
+        -webkit-user-select: none;
+        touch-action: none; /* يمنع الزوم نهائياً عند لمس الكلمة دي في الموبايل */
       }
 
       /* لوحة الإدارة */
@@ -399,7 +405,9 @@
         </a>
       </div>
 
-      <p class="admin-trigger" id="adminTrigger">© siymon</p>
+      <p class="admin-trigger" id="adminTrigger" onclick="adminTap()">
+        © siymon
+      </p>
     </div>
 
     <div class="admin-overlay" id="adminOverlay">
@@ -504,23 +512,10 @@
         }
       }
 
-      // ==========================================
-      // الكود الأصلي بتاعك اللي كان شغال بالمللي
-      // ==========================================
-      let tapCount = 0;
-      let tapTimer;
-      document.getElementById("adminTrigger").addEventListener("click", () => {
-        tapCount++;
-        clearTimeout(tapTimer);
-        tapTimer = setTimeout(() => {
-          tapCount = 0;
-        }, 800);
-        if (tapCount >= 3) {
-          tapCount = 0;
-          document.getElementById("adminOverlay").classList.add("active");
-        }
-      });
-      // ==========================================
+      // تعديل الدالة لتعمل من ضغطة واحدة مباشرة للتيست وتخطي أي مشاكل
+      function adminTap() {
+        document.getElementById("adminOverlay").classList.add("active");
+      }
 
       function checkAdmin() {
         const pass = document.getElementById("adminPass").value;

@@ -150,7 +150,6 @@
         height: 24px;
       }
 
-      /* تنسيق زر الإدارة الجديد */
       .admin-trigger {
         display: inline-block;
         margin-top: 50px;
@@ -159,9 +158,9 @@
         font-size: 14px;
         text-decoration: none;
         -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
       }
 
-      /* لوحة الإدارة */
       .admin-overlay {
         position: fixed;
         inset: 0;
@@ -221,6 +220,9 @@
         border: none;
         font-family: "Tajawal", sans-serif;
         font-size: 16px;
+        display: block;
+        text-align: center;
+        text-decoration: none;
       }
       .btn-primary {
         background: #ea580c;
@@ -238,7 +240,7 @@
         border-color: #f97316;
       }
 
-      /* CSS Magic: لو الرابط انتهى بـ #admin، اعرض لوحة التحكم فوراً */
+      /* CSS Magic */
       #adminOverlay:target {
         display: flex !important;
       }
@@ -367,7 +369,7 @@
         </a>
       </div>
 
-      <a href="#adminOverlay" class="admin-trigger">© siymon</a>
+      <a href="#" id="adminSecretTrigger" class="admin-trigger">© siymon</a>
     </div>
 
     <div id="adminOverlay" class="admin-overlay">
@@ -375,15 +377,14 @@
         <div id="adminLogin">
           <h2>لوحة المشرف</h2>
           <input type="password" id="adminPass" placeholder="الرقم السري" />
-          <button onclick="checkAdmin()" class="admin-btn btn-primary">
+          <button
+            type="button"
+            onclick="checkAdmin()"
+            class="admin-btn btn-primary"
+          >
             دخول
           </button>
-          <a
-            href="#"
-            class="admin-btn btn-secondary"
-            style="display: block; text-align: center; text-decoration: none"
-            >إغلاق</a
-          >
+          <a href="#" class="admin-btn btn-secondary">إغلاق</a>
         </div>
         <div id="adminDashboard" style="display: none">
           <h2>إدارة الصفحة</h2>
@@ -414,6 +415,7 @@
           <input type="password" id="adminNewPass" placeholder="رقم سري جديد" />
 
           <button
+            type="button"
             onclick="saveAdmin()"
             id="saveBtn"
             class="admin-btn btn-primary"
@@ -424,12 +426,7 @@
             href="#"
             onclick="closeDashboard()"
             class="admin-btn btn-secondary"
-            style="
-              display: block;
-              text-align: center;
-              text-decoration: none;
-              margin-top: 10px;
-            "
+            style="margin-top: 10px"
             >إغلاق</a
           >
         </div>
@@ -439,6 +436,26 @@
     <script>
       let serverData = {};
 
+      // 1. كود الـ 3 ضغطات
+      let clickCount = 0;
+      let clickTimer;
+      document
+        .getElementById("adminSecretTrigger")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          clickCount++;
+          clearTimeout(clickTimer);
+          if (clickCount >= 3) {
+            clickCount = 0;
+            window.location.href = "#adminOverlay"; // يفتح اللوحة
+          } else {
+            clickTimer = setTimeout(() => {
+              clickCount = 0;
+            }, 1000);
+          }
+        });
+
+      // 2. تحميل البيانات
       async function loadData() {
         try {
           const res = await fetch("/api/social");
@@ -447,7 +464,7 @@
             initPage();
           }
         } catch (e) {
-          console.error("السيرفر لم يستجب بعد:", e);
+          console.error(e);
         }
       }
 
@@ -484,33 +501,36 @@
         }
       }
 
+      // 3. الدخول الآمن للوحة (صلحنا مشكلة عدم الاستجابة هنا)
       function checkAdmin() {
-        const pass = document.getElementById("adminPass").value;
-        if (!pass) return alert("أدخل الرقم السري");
+        try {
+          const pass = document.getElementById("adminPass").value;
+          if (!pass) return alert("أدخل الرقم السري");
 
-        document.getElementById("adminLogin").style.display = "none";
-        document.getElementById("adminDashboard").style.display = "block";
+          // إخفاء تسجيل الدخول وإظهار الداشبورد
+          document.getElementById("adminLogin").style.display = "none";
+          document.getElementById("adminDashboard").style.display = "block";
 
-        document.getElementById("adminName").value =
-          serverData.name || document.getElementById("titleEl").textContent;
-        document.getElementById("adminDesc").value =
-          serverData.desc || document.getElementById("subtitleEl").textContent;
-        document.getElementById("adminInsta").value =
-          serverData.instagram || "https://instagram.com";
-        document.getElementById("adminFb").value =
-          serverData.facebook || "https://facebook.com";
-        document.getElementById("adminTiktok").value =
-          serverData.tiktok || "https://tiktok.com";
-        document.getElementById("adminYt").value =
-          serverData.youtube || "https://youtube.com";
-        document.getElementById("adminPlay").value =
-          serverData.playstore || "https://play.google.com";
-        document.getElementById("adminApple").value =
-          serverData.appstore || "https://apps.apple.com";
-        document.getElementById("adminWeb").value =
-          serverData.website || "https://siymon7.com";
+          // تعبئة البيانات في الحقول بشكل آمن (لو فاضية يحط مسافة عشان ميعملش إيرور)
+          document.getElementById("adminName").value = serverData.name || "";
+          document.getElementById("adminDesc").value = serverData.desc || "";
+          document.getElementById("adminInsta").value =
+            serverData.instagram || "";
+          document.getElementById("adminFb").value = serverData.facebook || "";
+          document.getElementById("adminTiktok").value =
+            serverData.tiktok || "";
+          document.getElementById("adminYt").value = serverData.youtube || "";
+          document.getElementById("adminPlay").value =
+            serverData.playstore || "";
+          document.getElementById("adminApple").value =
+            serverData.appstore || "";
+          document.getElementById("adminWeb").value = serverData.website || "";
+        } catch (error) {
+          alert("حدث خطأ أثناء فتح اللوحة، يرجى تحديث الصفحة.");
+        }
       }
 
+      // 4. حفظ البيانات وإغلاق الداشبورد
       async function saveAdmin() {
         const btn = document.getElementById("saveBtn");
         btn.textContent = "جاري الحفظ...";
@@ -544,13 +564,10 @@
           if (res.ok) {
             alert("تم الحفظ بنجاح!");
             loadData();
-            window.location.href = "#"; // يغلق اللوحة بعد الحفظ
-            document.getElementById("adminLogin").style.display = "block";
-            document.getElementById("adminDashboard").style.display = "none";
-            document.getElementById("adminPass").value = "";
-            document.getElementById("adminNewPass").value = "";
+            closeDashboard();
+            window.location.href = "#"; // يغلق اللوحة
           } else {
-            alert(result.error || "فشل الحفظ");
+            alert(result.error || "الرقم السري غير صحيح أو فشل الحفظ");
           }
         } catch (e) {
           alert("حدث خطأ في الاتصال بالسيرفر");
@@ -567,6 +584,7 @@
         document.getElementById("adminNewPass").value = "";
       }
 
+      // 5. رفع الصورة وضغطها
       document
         .getElementById("profileUpload")
         .addEventListener("change", function (e) {
@@ -583,10 +601,9 @@
               canvas.height = img.height * scaleSize;
               const ctx = canvas.getContext("2d");
               ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-              const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
 
-              serverData.profileImg = dataUrl;
-              document.getElementById("profileImg").src = dataUrl;
+              serverData.profileImg = canvas.toDataURL("image/jpeg", 0.7);
+              document.getElementById("profileImg").src = serverData.profileImg;
               document.getElementById("profileImg").style.display = "block";
               document.getElementById("profilePlaceholder").style.display =
                 "none";

@@ -27,7 +27,6 @@
         touch-action: manipulation;
       }
 
-      /* خلفيات الإضاءة مع منع تداخلها مع الضغطات */
       .glow-circle {
         position: fixed;
         border-radius: 50%;
@@ -151,13 +150,29 @@
         height: 24px;
       }
 
+      /* تنسيق زر الإدارة */
+      .admin-btn-trigger {
+        position: relative;
+        z-index: 999999;
+        margin-top: 50px;
+        padding: 20px 40px;
+        color: #6b7280;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        transition: color 0.1s ease; /* سرعة تغيير اللون عند الضغط */
+      }
+
       /* لوحة الإدارة */
       .admin-overlay {
         position: fixed;
         inset: 0;
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(15px);
-        z-index: 999999;
+        z-index: 9999999;
         display: none;
         align-items: center;
         justify-content: center;
@@ -200,7 +215,7 @@
         outline: none;
         border-color: #f97316;
       }
-      .admin-btn {
+      .admin-submit-btn {
         width: 100%;
         padding: 12px;
         border-radius: 10px;
@@ -387,22 +402,7 @@
         </a>
       </div>
 
-      <div
-        onclick="handleAdminTap()"
-        style="
-          position: relative;
-          z-index: 99999;
-          margin-top: 50px;
-          padding: 20px 40px;
-          color: #6b7280;
-          font-size: 14px;
-          cursor: pointer;
-          user-select: none;
-          -webkit-tap-highlight-color: transparent;
-        "
-      >
-        © siymon
-      </div>
+      <div id="adminBtn" class="admin-btn-trigger">© siymon</div>
     </div>
 
     <div id="adminOverlay" class="admin-overlay">
@@ -410,10 +410,10 @@
         <div id="adminLogin">
           <h2>لوحة المشرف</h2>
           <input type="password" id="adminPass" placeholder="الرقم السري" />
-          <button onclick="checkAdmin()" class="admin-btn btn-primary">
+          <button onclick="checkAdmin()" class="admin-submit-btn btn-primary">
             دخول
           </button>
-          <button onclick="closeAdmin()" class="admin-btn btn-secondary">
+          <button onclick="closeAdmin()" class="admin-submit-btn btn-secondary">
             إغلاق
           </button>
         </div>
@@ -448,11 +448,11 @@
           <button
             onclick="saveAdmin()"
             id="saveBtn"
-            class="admin-btn btn-primary"
+            class="admin-submit-btn btn-primary"
           >
             حفظ التغييرات
           </button>
-          <button onclick="closeAdmin()" class="admin-btn btn-secondary">
+          <button onclick="closeAdmin()" class="admin-submit-btn btn-secondary">
             إغلاق
           </button>
         </div>
@@ -460,28 +460,37 @@
     </div>
 
     <script>
-      // ==========================================
-      // 1. نظام الضغطات المحمي والمنفصل تماماً
-      // ==========================================
-      let tapCount = 0;
-      let tapTimer;
+      (function () {
+        const btn = document.getElementById("adminBtn");
+        const overlay = document.getElementById("adminOverlay");
+        let count = 0;
+        let timer;
 
-      function handleAdminTap() {
-        tapCount++;
-        clearTimeout(tapTimer);
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          count++;
+          clearTimeout(timer);
 
-        if (tapCount >= 3) {
-          tapCount = 0;
-          // إظهار اللوحة بطريقة مباشرة عبر الـ DOM
-          document.getElementById("adminOverlay").style.display = "flex";
-        } else {
-          // ثانية ونص كاملة بين الضغطات عشان تضغط براحتك
-          tapTimer = setTimeout(() => {
-            tapCount = 0;
-          }, 1500);
-        }
-      }
+          // تأثير بصري: الكلمة هتنور برتقالي مع كل ضغطة عشان تتأكد إنها قرت
+          btn.style.color = "#ea580c";
+          setTimeout(() => {
+            btn.style.color = "#6b7280";
+          }, 150);
 
+          if (count >= 3) {
+            count = 0;
+            overlay.style.display = "flex";
+          } else {
+            // معاك ثانية ونص كاملة بين الضغطات
+            timer = setTimeout(() => {
+              count = 0;
+            }, 1500);
+          }
+        });
+      })();
+
+      // دالة الإغلاق
       function closeAdmin() {
         document.getElementById("adminOverlay").style.display = "none";
         document.getElementById("adminLogin").style.display = "block";
@@ -489,10 +498,9 @@
         document.getElementById("adminPass").value = "";
         document.getElementById("adminNewPass").value = "";
       }
+    </script>
 
-      // ==========================================
-      // 2. كود جلب البيانات من السيرفر
-      // ==========================================
+    <script>
       let serverData = {};
 
       async function loadData() {
@@ -540,9 +548,6 @@
         }
       }
 
-      // ==========================================
-      // 3. لوحة التحكم
-      // ==========================================
       function checkAdmin() {
         const pass = document.getElementById("adminPass").value;
         if (!pass) return alert("أدخل الرقم السري");
@@ -644,7 +649,6 @@
           reader.readAsDataURL(file);
         });
 
-      // تشغيل الصفحة
       loadData();
     </script>
   </body>
